@@ -1417,6 +1417,7 @@
       footprints.push(entry);
       refreshMarkers();
       markLatest(entry);
+      renderFeed();
       focusOn(entry.lat, entry.lon, FULL_VIEW_DISTANCE);
       showToast(activeType === 'memory' ? '纪念足迹已经留在地球上。' : '你的今日足迹已经留在地球上。');
       messageInput.value = '';
@@ -1531,6 +1532,8 @@
           });
           refreshMarkers();
           renderFeed();
+          /* 显示最新的 live 足迹 */
+          ensureLatestVisible();
         }
       } catch (err) {
         console.warn('数据库加载失败，使用演示数据：', err);
@@ -1541,6 +1544,20 @@
     markLatest(footprints.find(item => item.type === 'memory') || footprints[0], { beam: false });
     focusOn(24, 35, FULL_VIEW_DISTANCE);
     loadFootprintsFromDB();
+
+    /* 让最新的 live 足迹也可见 */
+    function ensureLatestVisible() {
+      const latestLive = footprints
+        .filter(item => item.type === 'live')
+        .sort((a, b) => {
+          const aTime = a.id.startsWith('fp-') ? parseInt(a.id.replace('fp-', '')) : 0;
+          const bTime = b.id.startsWith('fp-') ? parseInt(b.id.replace('fp-', '')) : 0;
+          return bTime - aTime;
+        })[0];
+      if (latestLive) {
+        markLatest(latestLive);
+      }
+    }
     setInterval(() => {
       const isReading = storyModal.classList.contains('show');
       const recentlyTouched = performance.now() - lastUserInteraction < 15000;
