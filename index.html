@@ -177,7 +177,6 @@
       border-bottom: 0;
     }
 
-    .section.locator,
     #nameInput,
     .privacy {
       display: none;
@@ -701,12 +700,21 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
     /* ===== Supabase 配置 ===== */
     const SUPABASE_URL = 'https://txaruompovbolumogggm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4YXJ1b21wb3Zib2x1bW9nZ2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzc4NjQsImV4cCI6MjA5Njk1Mzg2NH0.fyUp-xgE5PC5jxP6pptRU8PGaX25nE_lNWy5dkn4m9k';
-    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+    let supabase = null;
+    try {
+      if (typeof supabaseJs !== 'undefined') {
+        supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
+      } else if (typeof window.supabase !== 'undefined') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch (e) {
+      console.warn('Supabase 初始化失败:', e);
+    }
 
     const container = document.getElementById('globe');
     const cityLabelLayer = document.getElementById('cityLabelLayer');
