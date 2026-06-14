@@ -701,7 +701,13 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    /* ===== Supabase 配置 ===== */
+    const SUPABASE_URL = 'https://txaruompovbolumogggm.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4YXJ1b21wb3Zib2x1bW9nZ2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzc4NjQsImV4cCI6MjA5Njk1Mzg2NH0.fyUp-xgE5PC5jxP6pptRU8PGaX25nE_lNWy5dkn4m9k';
+    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
     const container = document.getElementById('globe');
     const cityLabelLayer = document.getElementById('cityLabelLayer');
     const feed = document.getElementById('feed');
@@ -1342,7 +1348,7 @@
       });
     });
 
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
       event.preventDefault();
       const message = messageInput.value.trim();
       if (!message) {
@@ -1373,6 +1379,32 @@
           ? ['亲友留下这颗纪念星', '故事被交给地球保存', '未来每次被点开，名字都会再次亮起']
           : ['第一次确认自己的本命坐标', '留下今日存在证据', '等待未来某一天重新打开']
       };
+
+      /* 保存到 Supabase 数据库 */
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('footprints').insert({
+            type: entry.type,
+            name: entry.name,
+            city: entry.city,
+            country: entry.country,
+            lat: entry.lat,
+            lon: entry.lon,
+            mood: entry.mood,
+            message: entry.message,
+            story: entry.story,
+            photo: entry.photo,
+            origin: entry.origin,
+            capsule: entry.capsule,
+            guardians: entry.guardians,
+            trail: entry.trail,
+            hidden: entry.hidden
+          });
+          if (error) throw error;
+        } catch (err) {
+          console.warn('数据库保存失败，足迹仅在本地显示：', err);
+        }
+      }
 
       footprints.push(entry);
       refreshMarkers();
@@ -1455,9 +1487,52 @@
     }
 
     window.addEventListener('resize', resize);
+
+    /* ===== 从 Supabase 加载真实足迹 ===== */
+    async function loadFootprintsFromDB() {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase
+          .from('footprints')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(200);
+        if (error) throw error;
+        if (data && data.length > 0) {
+          /* 清除旧的演示数据，用真实数据替换 */
+          footprints.length = 0;
+          data.forEach(row => {
+            footprints.push({
+              id: `fp-${row.id}`,
+              type: row.type || 'live',
+              name: row.name || 'Anonymous',
+              city: row.city || '',
+              country: row.country || '',
+              lat: row.lat || 0,
+              lon: row.lon || 0,
+              mood: row.mood || '',
+              message: row.message || '',
+              story: row.story || row.message || '',
+              photo: row.photo || samplePhotos[Math.floor(Math.random() * samplePhotos.length)],
+              origin: row.origin || false,
+              capsule: row.capsule || '',
+              guardians: row.guardians || 0,
+              trail: Array.isArray(row.trail) ? row.trail : [],
+              hidden: row.hidden || false
+            });
+          });
+          refreshMarkers();
+          renderFeed();
+        }
+      } catch (err) {
+        console.warn('数据库加载失败，使用演示数据：', err);
+      }
+    }
+
     refreshMarkers();
     markLatest(footprints.find(item => item.type === 'memory') || footprints[0], { beam: false });
     focusOn(24, 35, FULL_VIEW_DISTANCE);
+    loadFootprintsFromDB();
     setInterval(() => {
       const isReading = storyModal.classList.contains('show');
       const recentlyTouched = performance.now() - lastUserInteraction < 15000;
