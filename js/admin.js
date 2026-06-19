@@ -97,6 +97,37 @@ document.addEventListener('DOMContentLoaded', async () => {
       msgEl.style.display = 'block'
     }
   })
+  
+  // Navigation form submit
+  document.getElementById('nav-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = {
+      label: form.label.value,
+      url: form.url.value,
+      order_index: parseInt(form.order_index.value) || 0,
+      is_visible: form.is_visible.checked
+    }
+    const editId = form.dataset.editId
+    if (editId) data.id = editId
+    
+    try {
+      await saveNavItem(data)
+      alert('保存成功！')
+      form.reset()
+      form.dataset.editId = ''
+      document.getElementById('nav-form-title').textContent = '添加导航项'
+      document.getElementById('nav-cancel-btn').style.display = 'none'
+      await renderNavTable()
+    } catch (err) {
+      alert('保存失败: ' + err.message)
+    }
+  })
+  
+  // Load nav table when nav tab is clicked
+  document.querySelector('.admin-tab[data-panel="navigation"]')?.addEventListener('click', () => {
+    renderNavTable()
+  })
 })
 
 async function renderStats() {
@@ -308,8 +339,60 @@ function resetUploadPreview() {
   if (input) input.value = ''
 }
 
+// Navigation management
+async function renderNavTable() {
+  const items = await loadNavigation()
+  const tbody = document.getElementById('nav-table-body')
+  if (!tbody) return
+  tbody.innerHTML = items.map(item => `
+    <tr>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;">${escapeHtml(item.label)}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;color:#6b7280;">${escapeHtml(item.url)}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;color:#6b7280;">${item.order_index}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.8rem;">
+        <span style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:500;${item.is_visible ? 'background:#d1fae5;color:#065f46;' : 'background:#fee2e2;color:#991b1b;'}">${item.is_visible ? '显示' : '隐藏'}</span>
+      </td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;">
+        <button onclick="editNavItem('${item.id}')" style="background:#1a3a5c;color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:4px;font-size:0.75rem;cursor:pointer;margin-right:0.3rem;">编辑</button>
+        <button onclick="deleteNavItemAndRefresh('${item.id}')" style="background:#ef4444;color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:4px;font-size:0.75rem;cursor:pointer;">删除</button>
+      </td>
+    </tr>
+  `).join('')
+}
+
+async function editNavItem(id) {
+  const items = await loadNavigation()
+  const item = items.find(i => i.id === id)
+  if (!item) return
+  const form = document.getElementById('nav-form')
+  form.label.value = item.label || ''
+  form.url.value = item.url || ''
+  form.order_index.value = item.order_index || 0
+  form.is_visible.checked = item.is_visible
+  form.dataset.editId = item.id
+  document.getElementById('nav-form-title').textContent = '编辑导航项'
+  document.getElementById('nav-cancel-btn').style.display = 'inline-block'
+}
+
+function cancelNavEdit() {
+  const form = document.getElementById('nav-form')
+  form.reset()
+  form.dataset.editId = ''
+  document.getElementById('nav-form-title').textContent = '添加导航项'
+  document.getElementById('nav-cancel-btn').style.display = 'none'
+}
+
+async function deleteNavItemAndRefresh(id) {
+  if (!confirm('确定删除此导航项？')) return
+  await deleteNavItem(id)
+  await renderNavTable()
+}
+
 window.editWork = editWork
 window.deleteWorkAndRefresh = deleteWorkAndRefresh
 window.approveAndRefresh = approveAndRefresh
 window.deleteCommentAndRefresh = deleteCommentAndRefresh
 window.resetUploadPreview = resetUploadPreview
+window.editNavItem = editNavItem
+window.deleteNavItemAndRefresh = deleteNavItemAndRefresh
+window.cancelNavEdit = cancelNavEdit

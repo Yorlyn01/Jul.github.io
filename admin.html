@@ -52,6 +52,7 @@
         <button class="admin-tab" data-panel="comments">留言管理</button>
         <button class="admin-tab" data-panel="views">浏览记录</button>
         <button class="admin-tab" data-panel="password">修改密码</button>
+        <button class="admin-tab" data-panel="navigation">导航菜单</button>
       </nav>
       <div style="margin-top:auto;padding-top:2rem;font-size:0.75rem;color:rgba(255,255,255,0.4);">
         <span id="admin-email">Admin</span>
@@ -91,7 +92,7 @@
                 <div class="upload-zone-text">
                   <div style="font-size:1.5rem;margin-bottom:0.3rem;">📎</div>
                   <div>点击选择或拖放图片/视频</div>
-                  <small style="color:#6b7280;">支持 JPG, PNG, GIF, MP4, WebM 等格式</small>
+                  <small style="color:#6b7280;">支持 JPG, PNG, GIF, MP4, WebM 等格式 · 最大 300MB</small>
                 </div>
                 <input type="file" id="media-input" accept="image/*,video/*" style="display:none;">
               </div>
@@ -160,6 +161,32 @@
             <div id="password-msg" style="margin-bottom:1rem;font-size:0.85rem;display:none;"></div>
             <button type="submit">保存新密码</button>
           </form>
+        </div>
+      </div>
+      
+      <!-- Navigation -->
+      <div id="navigation" class="admin-panel">
+        <div class="form-card" style="max-width:560px;">
+          <h3 id="nav-form-title">添加导航项</h3>
+          <form id="nav-form">
+            <div class="form-group"><label>显示文字</label><input type="text" name="label" placeholder="如：首页 / 关于我" required></div>
+            <div class="form-group"><label>链接地址</label><input type="text" name="url" placeholder="如：index.html / about.html" required></div>
+            <div class="form-group"><label>排序</label><input type="number" name="order_index" value="0" placeholder="数字越小越靠前"></div>
+            <div class="form-group">
+              <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                <input type="checkbox" name="is_visible" checked style="width:auto;">
+                显示在导航中
+              </label>
+            </div>
+            <button type="submit">保存</button>
+            <button type="button" onclick="cancelNavEdit()" id="nav-cancel-btn" style="background:#6b7280;margin-left:0.5rem;display:none;">取消</button>
+          </form>
+        </div>
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th>文字</th><th>链接</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody id="nav-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+          </table>
         </div>
       </div>
     </main>
