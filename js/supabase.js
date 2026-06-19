@@ -54,7 +54,12 @@ async function updateAdminPassword(newPassword) {
 // Upload media file to Supabase Storage
 async function uploadMedia(file, path) {
   const sb = await getSupabase()
-  const filePath = path || `${Date.now()}-${file.name}`
+  // Sanitize filename: remove non-ASCII chars and spaces
+  const safeName = (file.name || 'file')
+    .replace(/[^\x00-\x7F]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-zA-Z0-9.\-_]/g, '')
+  const filePath = path || `${Date.now()}-${safeName}`
   const { data, error } = await sb.storage
     .from('media')
     .upload(filePath, file, { cacheControl: '3600', upsert: false })
