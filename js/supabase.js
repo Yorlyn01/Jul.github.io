@@ -39,6 +39,18 @@ function adminLogout() {
   location.href = 'admin-login.html'
 }
 
+// Update admin password
+async function updateAdminPassword(newPassword) {
+  const sb = await getSupabase()
+  const { data, error } = await sb.auth.updateUser({ password: newPassword })
+  if (error) throw error
+  // Update stored session with new tokens
+  if (data.session) {
+    localStorage.setItem('admin_session', JSON.stringify(data.session))
+  }
+  return data
+}
+
 // Log page view
 async function logPageView(pagePath) {
   try {
@@ -56,4 +68,5 @@ window.getSupabase = getSupabase
 window.adminLogin = adminLogin
 window.getAdminSession = getAdminSession
 window.adminLogout = adminLogout
+window.updateAdminPassword = updateAdminPassword
 window.logPageView = logPageView

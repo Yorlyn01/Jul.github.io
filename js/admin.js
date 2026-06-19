@@ -53,6 +53,45 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert('保存失败: ' + err.message)
     }
   })
+  
+  // Password form submit
+  document.getElementById('password-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const form = e.target
+    const newPassword = form.new_password.value
+    const confirmPassword = form.confirm_password.value
+    const msgEl = document.getElementById('password-msg')
+    
+    if (newPassword !== confirmPassword) {
+      msgEl.textContent = '两次输入的密码不一致'
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+      return
+    }
+    
+    if (newPassword.length < 6) {
+      msgEl.textContent = '密码至少需要 6 个字符'
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+      return
+    }
+    
+    try {
+      await updateAdminPassword(newPassword)
+      msgEl.textContent = '密码修改成功！请重新登录。'
+      msgEl.style.color = '#059669'
+      msgEl.style.display = 'block'
+      form.reset()
+      // Auto logout after 2 seconds
+      setTimeout(() => {
+        adminLogout()
+      }, 2000)
+    } catch (err) {
+      msgEl.textContent = '修改失败: ' + (err.message || '未知错误')
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+    }
+  })
 })
 
 async function renderStats() {
