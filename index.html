@@ -10,55 +10,48 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <!-- Left Panel -->
     <aside class="left-panel">
-      <div>
-        <a href="index.html" class="brand">yorlyn.com</a>
-      </div>
-      
+      <div><a href="index.html" class="brand">yorlyn.com</a></div>
       <div class="hero-section">
         <p class="hello-label fade-in">Hello</p>
         <h1 class="hero-title fade-in fade-in-delay-1">I'm Yorlyn</h1>
         <p class="hero-subtitle fade-in fade-in-delay-2">A Creative Developer & Designer<br>From Shanghai.</p>
         <a href="contact.html" class="btn-outline fade-in fade-in-delay-3">Hire Me</a>
-        
         <div class="social-links">
-          <a href="#" title="GitHub" target="_blank">Gh</a>
-          <a href="#" title="Twitter" target="_blank">Tw</a>
-          <a href="#" title="Dribbble" target="_blank">Dr</a>
-          <a href="#" title="Email" target="_blank">@</a>
+          <a href="#" title="GitHub">Gh</a>
+          <a href="#" title="Twitter">Tw</a>
+          <a href="#" title="Dribbble">Dr</a>
+          <a href="#" title="Email">@</a>
         </div>
       </div>
-      
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">
-        &copy; 2024 Yorlyn. All rights reserved.
-      </div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">&copy; 2024 Yorlyn. All rights reserved.</div>
     </aside>
-    
-    <!-- Right Content -->
+
     <main class="right-content">
       <div class="hero-image-area">
         <img src="images/hero.jpg" alt="Portfolio Hero" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ecf1,#f0f4f8);color:#1a3a5c;font-size:3rem;font-weight:700;">
-          YORLYN
-        </div>
-        <div class="play-btn" title="View Video"></div>
+        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ecf1,#f0f4f8);color:#1a3a5c;font-size:3rem;font-weight:700;">YORLYN</div>
+        <div class="play-btn" title="View Video" onclick="location.href='portfolio.html'"></div>
       </div>
-      
+
       <div class="intro-bar">
         <p class="intro-text">
           我致力于创造能够启发人心的创新解决方案，在品牌、UI/UX 与 Web 开发之间架起桥梁，通过热情与专注的设计打造可用且精致的产品。每一天，我都在用代码和设计记录生活的痕迹。
         </p>
-        <a href="about.html" class="btn-dark">View Resume</a>
+        <a href="portfolio.html" class="btn-dark">View Portfolio</a>
+        <a href="admin-login.html" style="margin-left:0.8rem;font-size:0.75rem;color:#6b7280;text-decoration:none;">⚙ 管理后台</a>
+      </div>
+
+      <div class="intro-bar" style="border-top:1px solid #e5e7eb;">
+        <h3 style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;">最新作品</h3>
+        <div id="latest-work-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <p style="color:#6b7280;font-size:0.85rem;">加载中...</p>
+        </div>
       </div>
     </main>
-    
-    <!-- Side Navigation -->
+
     <nav class="side-nav">
-      <div class="side-nav-toggle">
-        <span></span>
-        <span></span>
-      </div>
+      <div class="side-nav-toggle"><span></span><span></span></div>
       <div class="nav-links">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About Me</a>
@@ -67,13 +60,39 @@
       </div>
     </nav>
   </div>
-  
-  <!-- Mobile Nav -->
+
   <nav class="mobile-nav">
     <a href="index.html" class="active">Home</a>
     <a href="about.html">About</a>
     <a href="portfolio.html">Work</a>
     <a href="contact.html">Contact</a>
   </nav>
+  
+  <script src="js/supabase.js"></script>
+  <script src="js/works.js"></script>
+  <script>
+    // Load latest 3 works for preview
+    async function loadLatestWorks() {
+      const works = await loadWorks({ status: 'published' })
+      const container = document.getElementById('latest-work-preview')
+      if (!container) return
+      const latest = works.slice(0, 3)
+      if (!latest.length) {
+        container.innerHTML = '<p style="color:#6b7280;font-size:0.85rem;grid-column:1/-1;">暂无作品，请访问作品集页面。</p>'
+        return
+      }
+      container.innerHTML = latest.map(w => `
+        <a href="work-detail.html?id=${w.id}" style="text-decoration:none;color:inherit;">
+          <div style="border-radius:8px;overflow:hidden;background:#f0f2f5;aspect-ratio:4/3;position:relative;">
+            ${w.image_url ? `<img src="${w.image_url}" style="width:100%;height:100%;object-fit:cover;" alt="${w.title}">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a3a5c,#2a5280);color:#fff;font-weight:700;">${w.title ? w.title.substring(0,2) : 'W'}</div>`}
+          </div>
+          <div style="margin-top:0.5rem;font-size:0.85rem;font-weight:600;color:#1a1a2e;">${w.title}</div>
+          <div style="font-size:0.75rem;color:#6b7280;">${w.category || '作品'}</div>
+        </a>
+      `).join('')
+    }
+    loadLatestWorks()
+    logPageView('/')
+  </script>
 </body>
 </html>

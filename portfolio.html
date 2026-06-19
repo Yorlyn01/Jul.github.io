@@ -34,57 +34,11 @@
 
         <p class="text-content">
           以下是我参与的一些项目，涵盖 Web 开发、UI 设计、品牌视觉与创意实验。
-          每一个项目都代表着一段探索与学习的旅程。
+          每一个项目都代表着一段探索与学习的旅程。点击作品可以查看详情、留言和点赞。
         </p>
 
-        <div class="portfolio-grid">
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a3a5c,#2a5280);color:#fff;font-size:2rem;font-weight:700;">01</div>
-            <div class="portfolio-overlay">
-              <h3>我来过 | We Were Here</h3>
-              <p>3D 地球 + 足迹打卡系统</p>
-            </div>
-          </div>
-
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ecf1,#d0d8e0);color:#1a3a5c;font-size:2rem;font-weight:700;">02</div>
-            <div class="portfolio-overlay">
-              <h3>品牌设计项目</h3>
-              <p>Visual Identity & Logo</p>
-            </div>
-          </div>
-
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f0e6d8,#e8d8c8);color:#1a3a5c;font-size:2rem;font-weight:700;">03</div>
-            <div class="portfolio-overlay">
-              <h3>移动端应用</h3>
-              <p>UI/UX Design & Prototype</p>
-            </div>
-          </div>
-
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d8e8f0,#c8d8e8);color:#1a3a5c;font-size:2rem;font-weight:700;">04</div>
-            <div class="portfolio-overlay">
-              <h3>数据可视化</h3>
-              <p>Interactive Dashboard</p>
-            </div>
-          </div>
-
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f0d8e0,#e8c8d8);color:#1a3a5c;font-size:2rem;font-weight:700;">05</div>
-            <div class="portfolio-overlay">
-              <h3>创意实验</h3>
-              <p>Generative Art & Shader</p>
-            </div>
-          </div>
-
-          <div class="portfolio-item">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d8f0e0,#c8e8d0);color:#1a3a5c;font-size:2rem;font-weight:700;">06</div>
-            <div class="portfolio-overlay">
-              <h3>开源工具</h3>
-              <p>Developer Tools</p>
-            </div>
-          </div>
+        <div class="portfolio-grid" id="portfolio-grid">
+          <p style="color:#6b7280;padding:2rem 0;grid-column:1/-1;">加载作品中...</p>
         </div>
       </div>
     </main>
@@ -106,5 +60,12 @@
     <a href="portfolio.html" class="active">Work</a>
     <a href="contact.html">Contact</a>
   </nav>
+  
+  <script src="js/supabase.js"></script>
+  <script src="js/works.js"></script>
+  <script>
+    renderWorks('#portfolio-grid', { status: 'published' })
+    logPageView('/portfolio')
+  </script>
 </body>
 </html>

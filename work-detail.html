@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品详情 — Yorlyn</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .work-detail-page { padding:3rem;max-width:800px;margin:0 auto; }
+    .work-detail-header { margin-bottom:2rem; }
+    .work-detail-header h1 { font-size:2rem;margin-bottom:0.5rem; }
+    .work-detail-meta { display:flex;gap:1rem;color:#6b7280;font-size:0.85rem;margin-bottom:1rem; }
+    .work-detail-meta span { background:#f1f5f9;padding:0.2rem 0.7rem;border-radius:20px; }
+    .work-detail-image { width:100%;aspect-ratio:16/9;background:#f0f2f5;border-radius:8px;overflow:hidden;margin-bottom:2rem; }
+    .work-detail-image img { width:100%;height:100%;object-fit:cover; }
+    .work-detail-content { font-size:0.95rem;line-height:1.8;color:#4b5563;margin-bottom:2rem; }
+    .work-actions { display:flex;gap:1rem;margin-bottom:3rem; }
+    .work-actions button { padding:0.7rem 1.5rem;border-radius:6px;border:none;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s; }
+    .btn-like { background:#fef2f2;color:#dc2626; }
+    .btn-like:hover { background:#fecaca; }
+    .btn-like.liked { background:#dc2626;color:#fff; }
+    .btn-back { background:#f1f5f9;color:#1a3a5c; }
+    .btn-back:hover { background:#e2e8f0; }
+    
+    .comment-section { border-top:1px solid #e5e7eb;padding-top:2rem; }
+    .comment-section h2 { font-size:1.2rem;margin-bottom:1.5rem; }
+    .comment-form { background:#f8fafc;padding:1.5rem;border-radius:8px;margin-bottom:2rem; }
+    .comment-form .form-row { display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem; }
+    .comment-form input, .comment-form textarea { padding:0.7rem;border:1px solid #e5e7eb;font-size:0.9rem;outline:none; }
+    .comment-form input:focus, .comment-form textarea:focus { border-color:#1a3a5c; }
+    .comment-form textarea { width:100%;min-height:100px;resize:vertical; }
+    .comment-form button { background:#1a3a5c;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer; }
+    .comment-list { display:grid;gap:1rem; }
+    .comment-item { padding:1rem 0;border-bottom:1px solid #e5e7eb; }
+    .comment-item-header { display:flex;justify-content:space-between;margin-bottom:0.3rem; }
+    .comment-item-header strong { font-size:0.9rem; }
+    .comment-item-header time { font-size:0.75rem;color:#9ca3af; }
+    .comment-item p { font-size:0.85rem;color:#4b5563;line-height:1.6; }
+    .comment-success { background:#d1fae5;color:#065f46;padding:0.8rem 1rem;border-radius:6px;font-size:0.85rem;margin-bottom:1rem;display:none; }
+    .comment-pending { background:#fef3c7;color:#92400e;padding:0.8rem 1rem;border-radius:6px;font-size:0.85rem;margin-bottom:1rem;display:none; }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper" style="flex-direction:column;">
+    <main class="right-content" style="width:100%;margin-left:0;min-height:100vh;">
+      <div class="work-detail-page" id="work-detail">
+        <div class="work-detail-header">
+          <div class="work-detail-meta" id="work-tags">
+            <span>加载中...</span>
+          </div>
+          <h1 id="work-title">加载中...</h1>
+        </div>
+        
+        <div class="work-detail-image" id="work-image">
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f2f5;color:#1a3a5c;font-size:2rem;font-weight:700;">YORLYN</div>
+        </div>
+        
+        <div class="work-detail-content" id="work-description">
+          加载中...
+        </div>
+        
+        <div class="work-actions">
+          <button class="btn-like" id="like-btn" onclick="handleLike()">
+            <span>♥</span> 点赞 <span id="like-count">0</span>
+          </button>
+          <button class="btn-back" onclick="location.href='portfolio.html'">← 返回作品集</button>
+        </div>
+        
+        <div class="comment-section">
+          <h2>留言板</h2>
+          <div class="comment-success" id="comment-success">留言提交成功！管理员审核通过后将显示。</div>
+          <div class="comment-pending" id="comment-pending">正在提交...</div>
+          <form class="comment-form" id="comment-form">
+            <div class="form-row">
+              <input type="text" id="comment-name" placeholder="你的名字" required>
+              <input type="email" id="comment-email" placeholder="邮箱（不公开）" required>
+            </div>
+            <textarea id="comment-content" placeholder="写下你的留言..." required></textarea>
+            <button type="submit">提交留言</button>
+          </form>
+          <div class="comment-list" id="comment-list">
+            <p style="color:#6b7280;font-size:0.85rem;">加载留言中...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="js/supabase.js"></script>
+  <script src="js/works.js"></script>
+  <script src="js/comments.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search)
+    const workId = urlParams.get('id')
+    
+    if (!workId) {
+      location.href = 'portfolio.html'
+    }
+    
+    let currentWork = null
+    
+    async function loadWorkDetail() {
+      const sb = await getSupabase()
+      const { data, error } = await sb.from('works').select('*').eq('id', workId).single()
+      if (error || !data) {
+        document.getElementById('work-title').textContent = '作品未找到'
+        return
+      }
+      currentWork = data
+      document.getElementById('work-title').textContent = data.title || 'Untitled'
+      document.getElementById('work-description').textContent = data.description || ''
+      document.getElementById('like-count').textContent = data.likes_count || 0
+      
+      if (data.image_url) {
+        document.getElementById('work-image').innerHTML = `<img src="${data.image_url}" alt="${data.title}">`
+      }
+      
+      const tagsHtml = [data.category, ...(data.tags || [])].filter(Boolean).map(t => `<span>${t}</span>`).join('')
+      document.getElementById('work-tags').innerHTML = tagsHtml || '<span>未分类</span>'
+      
+      await loadAndRenderComments()
+    }
+    
+    async function loadAndRenderComments() {
+      const comments = await loadComments(workId)
+      renderComments(document.getElementById('comment-list'), comments)
+    }
+    
+    async function handleLike() {
+      const btn = document.getElementById('like-btn')
+      btn.classList.add('liked')
+      const count = document.getElementById('like-count')
+      count.textContent = parseInt(count.textContent) + 1
+      await likeWork(workId)
+    }
+    
+    document.getElementById('comment-form').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const pending = document.getElementById('comment-pending')
+      const success = document.getElementById('comment-success')
+      pending.style.display = 'block'
+      success.style.display = 'none'
+      
+      try {
+        await submitComment({
+          work_id: workId,
+          name: document.getElementById('comment-name').value,
+          email: document.getElementById('comment-email').value,
+          content: document.getElementById('comment-content').value
+        })
+        pending.style.display = 'none'
+        success.style.display = 'block'
+        e.target.reset()
+      } catch (err) {
+        pending.style.display = 'none'
+        alert('提交失败: ' + err.message)
+      }
+    })
+    
+    loadWorkDetail()
+    logPageView('/work-detail/' + workId)
+  </script>
+</body>
+</html>

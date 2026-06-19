@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Yorlyn</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-wrapper { display:flex;min-height:100vh; }
+    .admin-sidebar { width:240px;background:#0f172a;color:#fff;padding:1.5rem;position:fixed;left:0;top:0;bottom:0; }
+    .admin-sidebar h2 { font-size:1.1rem;margin-bottom:2rem; }
+    .admin-sidebar nav { display:flex;flex-direction:column;gap:0.3rem; }
+    .admin-sidebar nav button { background:transparent;color:rgba(255,255,255,0.6);border:none;padding:0.7rem 1rem;text-align:left;cursor:pointer;font-size:0.85rem;border-radius:6px;transition:all 0.2s; }
+    .admin-sidebar nav button:hover, .admin-sidebar nav button.active { background:rgba(255,255,255,0.1);color:#fff; }
+    .admin-main { margin-left:240px;flex:1;padding:2rem;background:#f8fafc;min-height:100vh; }
+    .admin-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem; }
+    .admin-header h1 { font-size:1.4rem; }
+    .admin-header .logout { background:#ef4444;color:#fff;border:none;padding:0.5rem 1rem;border-radius:4px;font-size:0.8rem;cursor:pointer; }
+    .stats-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem; }
+    .admin-panel { display:none; }
+    .admin-panel.active { display:block; }
+    .data-table { width:100%;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb; }
+    .data-table th { background:#f1f5f9;padding:0.8rem;font-size:0.8rem;font-weight:600;text-align:left;text-transform:uppercase;color:#64748b; }
+    .data-table td { padding:0.8rem;font-size:0.85rem;border-bottom:1px solid #e5e7eb; }
+    .form-card { background:#fff;padding:2rem;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:2rem; }
+    .form-card h3 { margin-bottom:1.5rem;font-size:1.1rem; }
+    .form-card .form-group { margin-bottom:1rem; }
+    .form-card label { display:block;font-size:0.8rem;font-weight:500;color:#1a1a2e;margin-bottom:0.4rem;text-transform:uppercase; }
+    .form-card input, .form-card textarea { width:100%;padding:0.7rem 0.9rem;border:1px solid #e5e7eb;font-size:0.9rem;outline:none; }
+    .form-card input:focus, .form-card textarea:focus { border-color:#1a3a5c; }
+    .form-card textarea { min-height:80px;resize:vertical; }
+    .form-card button { background:#1a3a5c;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <aside class="admin-sidebar">
+      <h2>Yorlyn 管理后台</h2>
+      <nav>
+        <button class="admin-tab active" data-panel="overview">数据概览</button>
+        <button class="admin-tab" data-panel="works">作品管理</button>
+        <button class="admin-tab" data-panel="comments">留言管理</button>
+        <button class="admin-tab" data-panel="views">浏览记录</button>
+      </nav>
+      <div style="margin-top:auto;padding-top:2rem;font-size:0.75rem;color:rgba(255,255,255,0.4);">
+        <span id="admin-email">Admin</span>
+      </div>
+    </aside>
+    
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Dashboard</h1>
+        <button class="logout" onclick="adminLogout()">退出登录</button>
+      </div>
+      
+      <!-- Overview -->
+      <div id="overview" class="admin-panel active">
+        <div class="stats-grid" id="stats-grid">
+          <div style="padding:2rem;text-align:center;color:#6b7280;">加载中...</div>
+        </div>
+        <h3 style="margin-bottom:1rem;font-size:1.1rem;">最近留言</h3>
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th>用户</th><th>作品</th><th>内容</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody id="comments-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Works -->
+      <div id="works" class="admin-panel">
+        <div class="form-card">
+          <h3 id="form-title">添加作品</h3>
+          <form id="work-form">
+            <div class="form-group"><label>作品名称</label><input type="text" name="title" placeholder="输入作品名称" required></div>
+            <div class="form-group"><label>描述</label><textarea name="description" placeholder="作品描述..."></textarea></div>
+            <div class="form-group"><label>图片 URL</label><input type="url" name="image_url" placeholder="https://example.com/image.jpg"></div>
+            <div class="form-group"><label>分类</label><input type="text" name="category" placeholder="Web / UI / Brand"></div>
+            <div class="form-group"><label>标签 (逗号分隔)</label><input type="text" name="tags" placeholder="React, Design, 3D"></div>
+            <div class="form-group"><label>排序</label><input type="number" name="order_index" value="0" placeholder="0"></div>
+            <button type="submit">保存作品</button>
+          </form>
+        </div>
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th>名称</th><th>分类</th><th>点赞</th><th>操作</th></tr></thead>
+            <tbody id="works-table-body"><tr><td colspan="4" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Comments -->
+      <div id="comments" class="admin-panel">
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th>用户</th><th>作品</th><th>内容</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody id="comments-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Views -->
+      <div id="views" class="admin-panel">
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th>页面</th><th>时间</th></tr></thead>
+            <tbody id="views-table-body"><tr><td colspan="2" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="js/supabase.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/works.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
