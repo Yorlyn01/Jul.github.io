@@ -23,10 +23,10 @@
     "no_works": "暂无作品，请访问作品集页面。"
   },
   "about": {
-    "page_label": "About",
-    "page_title": "About Me",
-    "subtitle": "A little bit about who I am and what I do.",
-    "see_work": "See My Work",
+    "page_label": "日志",
+    "page_title": "每日日志",
+    "subtitle": "感言、图片与生活中的点滴。",
+    "see_work": "联系我",
     "section_about": "个人简介",
     "about_title": "设计与代码之间",
     "about_text": "我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，都承载着对用户体验的尊重与追求。",

@@ -23,10 +23,10 @@
     "no_works": "Aucun travail pour l'instant. Visitez la page du portfolio."
   },
   "about": {
-    "page_label": "À Propos",
-    "page_title": "À Propos",
-    "subtitle": "Un peu sur qui je suis et ce que je fais.",
-    "see_work": "Voir Mon Travail",
+    "page_label": "Journal",
+    "page_title": "Journal",
+    "subtitle": "Pensées, images & moments de la vie quotidienne.",
+    "see_work": "Contact",
     "section_about": "À Propos",
     "about_title": "Entre Design & Code",
     "about_text": "Je suis un créateur, développeur et designer passionné, axé sur le développement frontend web, le design UI/UX et les visuels de marque. Je crois que le bon design n'est pas seulement l'apparence, mais une façon de penser qui résout des problèmes. Chaque ligne de code, chaque pixel, porte le respect et la poursuite de l'expérience utilisateur.",

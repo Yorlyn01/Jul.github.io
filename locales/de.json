@@ -23,10 +23,10 @@
     "no_works": "Noch keine Arbeiten. Besuche die Portfolio-Seite."
   },
   "about": {
-    "page_label": "Über",
-    "page_title": "Über Mich",
-    "subtitle": "Ein bisschen über mich und was ich tue.",
-    "see_work": "Meine Arbeit ansehen",
+    "page_label": "Tagebuch",
+    "page_title": "Tagebuch",
+    "subtitle": "Gedanken, Bilder & Momente aus dem Alltag.",
+    "see_work": "Kontakt",
     "section_about": "Über",
     "about_title": "Zwischen Design & Code",
     "about_text": "Ich bin ein leidenschaftlicher Schöpfer, Entwickler und Designer, fokussiert auf Web-Frontend-Entwicklung, UI/UX-Design und Markenvisuals. Ich glaube, gutes Design geht nicht nur um Erscheinung, sondern um eine Denkweise, die Probleme löst. Jede Codezeile, jedes Pixel, trägt Respekt und Streben nach Benutzererfahrung.",

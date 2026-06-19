@@ -23,10 +23,10 @@
     "no_works": "No works yet. Visit the portfolio page."
   },
   "about": {
-    "page_label": "About",
-    "page_title": "About Me",
-    "subtitle": "A little bit about who I am and what I do.",
-    "see_work": "See My Work",
+    "page_label": "Log",
+    "page_title": "Daily Log",
+    "subtitle": "Thoughts, images & moments from everyday life.",
+    "see_work": "Get in Touch",
     "section_about": "About",
     "about_title": "Between Design & Code",
     "about_text": "I am a passionate creator, developer and designer, focused on Web frontend development, UI/UX design and brand visuals. I believe good design is not just about appearance, but a way of thinking that solves problems. Every line of code, every pixel, carries respect and pursuit of user experience.",
