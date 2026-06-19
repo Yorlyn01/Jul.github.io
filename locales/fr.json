@@ -77,7 +77,11 @@
     "login_btn": "Connexion",
     "register_btn": "Inscription",
     "no_comments": "Aucun commentaire",
-    "comment_success": "Commentaire envoyé ! Il sera affiché après approbation."
+    "comment_success": "Commentaire envoyé ! Il sera affiché après approbation.",
+    "log_launch": {
+      "title": "Site web Yorlyn lancé aujourd'hui",
+      "content": "C'est ma première entrée de blog. Merci à l'IA et à la puissance de la technologie. Dès aujourd'hui, ce petit coin enregistrera mes pensées et créations quotidiennes."
+    }
   },
   "portfolio": {
     "page_label": "Travail",

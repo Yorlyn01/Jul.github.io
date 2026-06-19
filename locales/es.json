@@ -77,7 +77,11 @@
     "login_btn": "Iniciar Sesión",
     "register_btn": "Registrarse",
     "no_comments": "Aún no hay comentarios",
-    "comment_success": "Comentario enviado. Se mostrará después de la aprobación."
+    "comment_success": "Comentario enviado. Se mostrará después de la aprobación.",
+    "log_launch": {
+      "title": "Sitio web Yorlyn lanzado hoy",
+      "content": "Esta es mi primera entrada de blog. Gracias a la IA y al poder de la tecnología. Desde hoy, este pequeño rincón registrará mis pensamientos y creaciones diarias."
+    }
   },
   "portfolio": {
     "page_label": "Trabajo",

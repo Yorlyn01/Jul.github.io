@@ -77,7 +77,11 @@
     "login_btn": "로그인",
     "register_btn": "회원가입",
     "no_comments": "아직 댓글이 없습니다",
-    "comment_success": "댓글이 제출되었습니다! 승인 후 표시됩니다."
+    "comment_success": "댓글이 제출되었습니다! 승인 후 표시됩니다.",
+    "log_launch": {
+      "title": "오늘 Yorlyn 웹사이트 런칭",
+      "content": "이것은 제 첫 번째 블로그 글입니다. AI와 기술의 힘에 감사드립니다. 오늘부터 이 작은 공간에서 제 일상의 생각과 창작을 기록하겠습니다."
+    }
   },
   "portfolio": {
     "page_label": "Work",

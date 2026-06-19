@@ -77,7 +77,11 @@
     "login_btn": "Anmelden",
     "register_btn": "Registrieren",
     "no_comments": "Noch keine Kommentare",
-    "comment_success": "Kommentar eingereicht! Er wird nach Genehmigung angezeigt."
+    "comment_success": "Kommentar eingereicht! Er wird nach Genehmigung angezeigt.",
+    "log_launch": {
+      "title": "Yorlyn-Website heute gestartet",
+      "content": "Dies ist mein erster Blog-Eintrag. Danke an KI und die Kraft der Technologie. Ab heute wird diese kleine Ecke meine täglichen Gedanken und Kreationen aufzeichnen."
+    }
   },
   "portfolio": {
     "page_label": "Arbeit",
