@@ -441,13 +441,13 @@
           ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
           : ''
         
-        // i18n support: if i18n_key exists, use data-i18n with fallback
+        // i18n support: if i18n_key exists, use data-i18n with about. prefix + fallback
         const i18nKey = log.i18n_key ? log.i18n_key.trim() : ''
         const titleHtml = i18nKey
-          ? `<h3 class="log-title" data-i18n="${i18nKey}.title" data-i18n-fallback="${escapeHtml(log.title)}">${escapeHtml(log.title)}</h3>`
+          ? `<h3 class="log-title" data-i18n="about.${i18nKey}.title" data-i18n-fallback="${escapeHtml(log.title)}">${escapeHtml(log.title)}</h3>`
           : `<h3 class="log-title">${escapeHtml(log.title)}</h3>`
         const contentHtml = i18nKey
-          ? `<p class="log-text" data-i18n="${i18nKey}.content" data-i18n-fallback="${escapeHtml(log.content)}">${escapeHtml(log.content)}</p>`
+          ? `<p class="log-text" data-i18n="about.${i18nKey}.content" data-i18n-fallback="${escapeHtml(log.content)}">${escapeHtml(log.content)}</p>`
           : `<p class="log-text">${escapeHtml(log.content)}</p>`
         
         const html = `

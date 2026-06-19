@@ -78,11 +78,9 @@
     "register_btn": "注册",
     "no_comments": "暂无留言",
     "comment_success": "留言已提交，审核后显示！",
-    "log_entries": {
-      "example": {
-        "title": "示例日志",
-        "content": "这是示例日志内容。添加日志时填写 i18n_key 后，可在此处添加多语言翻译。"
-      }
+    "log_example": {
+      "title": "示例日志",
+      "content": "这是示例日志内容。添加日志时填写 i18n_key 后，可在此处添加多语言翻译。"
     }
   },
   "portfolio": {
