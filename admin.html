@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     .admin-wrapper { display:flex;min-height:100vh; }
-    .admin-sidebar { width:240px;background:#0f172a;color:#fff;padding:1.5rem;position:fixed;left:0;top:0;bottom:0; }
+    .admin-sidebar { width:240px;background:#0f172a;color:#fff;padding:1.5rem;position:fixed;left:0;top:0;bottom:0;z-index:300;transform:translateX(0);transition:transform 0.3s ease; }
     .admin-sidebar h2 { font-size:1.1rem;margin-bottom:2rem; }
     .admin-sidebar nav { display:flex;flex-direction:column;gap:0.3rem; }
     .admin-sidebar nav button { background:transparent;color:rgba(255,255,255,0.6);border:none;padding:0.7rem 1rem;text-align:left;cursor:pointer;font-size:0.85rem;border-radius:6px;transition:all 0.2s; }
@@ -17,11 +17,12 @@
     .admin-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem; }
     .admin-header h1 { font-size:1.4rem; }
     .admin-header .logout { background:#ef4444;color:#fff;border:none;padding:0.5rem 1rem;border-radius:4px;font-size:0.8rem;cursor:pointer; }
+    .admin-header .menu-toggle { display:none;background:#1a3a5c;color:#fff;border:none;padding:0.5rem 0.8rem;border-radius:4px;font-size:1rem;cursor:pointer; }
     .stats-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem; }
     .admin-panel { display:none; }
     .admin-panel.active { display:block; }
     .data-table { width:100%;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb; }
-    .data-table th { background:#f1f5f9;padding:0.8rem;font-size:0.8rem;font-weight:600;text-align:left;text-transform:uppercase;color:#64748b; }
+    .data-table th { background:#f1f5f9;padding:0.8rem;font-size:0.8rem;font-weight:600;text-align:left;text-transform:uppercase;color:#64748b;white-space:nowrap; }
     .data-table td { padding:0.8rem;font-size:0.85rem;border-bottom:1px solid #e5e7eb; }
     .form-card { background:#fff;padding:2rem;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:2rem; }
     .form-card h3 { margin-bottom:1.5rem;font-size:1.1rem; }
@@ -40,6 +41,27 @@
     .upload-progress { display:none;margin-top:0.5rem; }
     .upload-progress-bar-wrap { height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden; }
     .upload-progress-bar { height:100%;width:0%;background:#1a3a5c;transition:width 0.3s; }
+    .admin-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:250; }
+    .admin-overlay.active { display:block; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .admin-sidebar { transform:translateX(-100%); }
+      .admin-sidebar.open { transform:translateX(0); }
+      .admin-main { margin-left:0;padding:1rem; }
+      .admin-header .menu-toggle { display:block; }
+      .admin-header { margin-bottom:1.5rem; }
+      .admin-header h1 { font-size:1.1rem; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .form-card { padding:1.2rem; }
+      .form-card h3 { font-size:1rem; }
+      .form-card button { width:100%; }
+      .data-table { overflow-x:auto; }
+      .data-table table { min-width:600px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -62,7 +84,10 @@
     
     <main class="admin-main">
       <div class="admin-header">
-        <h1 data-i18n="admin.dashboard">Dashboard</h1>
+        <div style="display:flex;align-items:center;gap:0.8rem;">
+          <button class="menu-toggle" onclick="toggleAdminSidebar()" aria-label="Toggle menu">☰</button>
+          <h1 data-i18n="admin.dashboard">Dashboard</h1>
+        </div>
         <button class="logout" onclick="adminLogout()" data-i18n="admin.logout">退出登录</button>
       </div>
       
@@ -246,12 +271,28 @@
     </main>
   </div>
   
+  <div class="admin-overlay" id="admin-overlay" onclick="closeAdminSidebar()"></div>
+  
   <script src="js/supabase.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/stats.js"></script>
   <script src="js/works.js"></script>
   <script src="js/admin.js"></script>
   <script>
+    function toggleAdminSidebar() {
+      document.querySelector('.admin-sidebar').classList.toggle('open')
+      document.getElementById('admin-overlay').classList.toggle('active')
+    }
+    function closeAdminSidebar() {
+      document.querySelector('.admin-sidebar').classList.remove('open')
+      document.getElementById('admin-overlay').classList.remove('active')
+    }
+    // Close sidebar when a tab is clicked on mobile
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeAdminSidebar()
+      })
+    })
     initI18n()
   </script>
 </body>
