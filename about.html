@@ -394,6 +394,97 @@
       document.querySelectorAll('.log-comment-form input[name="name"]').forEach(input => input.value = '')
     }
 
+    // ===== Dynamic Log Loading =====
+    async function loadDynamicLogs() {
+      const sb = await getSupabase()
+      const { data, error } = await sb
+        .from('logs')
+        .select('*')
+        .eq('status', 'published')
+        .order('log_date', { ascending: false })
+      
+      if (error || !data || !data.length) {
+        console.log('No dynamic logs found or error:', error)
+        return
+      }
+      
+      const container = document.getElementById('log-list')
+      const monthNames = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+      
+      data.forEach(log => {
+        const entryId = log.id
+        const date = new Date(log.log_date + 'T00:00:00')
+        const day = String(date.getDate()).padStart(2, '0')
+        const monthYear = monthNames[date.getMonth()] + ' ' + date.getFullYear()
+        
+        // Render media
+        let mediaHtml = ''
+        const urls = log.media_urls || []
+        if (urls.length) {
+          const mediaItems = urls.map(url => {
+            const u = url.trim()
+            if (!u) return ''
+            if (/\.(mp4|webm|mov|avi|mkv)(\?|$)/i.test(u)) {
+              return `<video controls src="${u}"></video>`
+            } else {
+              return `<img src="${u}" alt="media">`
+            }
+          }).filter(Boolean)
+          if (mediaItems.length) {
+            mediaHtml = `<div class="log-media">${mediaItems.join('')}</div>`
+          }
+        }
+        
+        // Render tags
+        const tags = log.tags || []
+        const tagsHtml = tags.length
+          ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
+          : ''
+        
+        const html = `
+          <div class="log-entry" data-entry-id="${entryId}">
+            <div class="log-date">
+              <span class="day">${day}</span>
+              <span class="month-year">${monthYear}</span>
+            </div>
+            <div class="log-body">
+              <h3 class="log-title">${escapeHtml(log.title)}</h3>
+              <p class="log-text">${escapeHtml(log.content)}</p>
+              ${mediaHtml}
+              ${tagsHtml}
+              <div class="log-actions">
+                <button class="log-like-btn" onclick="toggleLogLike('${entryId}', this)">
+                  <span class="heart">♡</span>
+                  <span class="like-count">0</span>
+                </button>
+                <button class="log-comment-toggle" onclick="toggleLogComments('${entryId}')" data-i18n="about.comments">留言</button>
+              </div>
+              <div class="log-comment-section" id="comments-${entryId}">
+                <div class="log-comment-list" id="comment-list-${entryId}"></div>
+                <form class="log-comment-form" onsubmit="submitLogComment(event, '${entryId}')">
+                  <input type="text" name="name" placeholder="你的名字" required id="name-${entryId}">
+                  <input type="email" name="email" placeholder="Email（可选）">
+                  <textarea name="content" placeholder="写下你的留言..." required></textarea>
+                  <div style="display:flex;align-items:center;gap:0.8rem;">
+                    <button type="submit" data-i18n="about.submit_comment">发送留言</button>
+                    <span class="comment-msg" id="msg-${entryId}"></span>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        `
+        container.insertAdjacentHTML('beforeend', html)
+      })
+      
+      // Refresh likes and comments for newly added entries
+      await loadLogLikes()
+      await loadLogComments()
+    }
+    
+    // Call loadDynamicLogs after page init
+    loadDynamicLogs()
+
     // ===== Log Likes =====
     async function loadLogLikes() {
       const sb = await getSupabase()
