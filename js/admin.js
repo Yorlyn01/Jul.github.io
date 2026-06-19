@@ -155,11 +155,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       .map(u => u.trim())
       .filter(Boolean)
     
-    // Check if there's a pending file upload
-    const uploadedUrl = document.getElementById('log-media-urls')?.dataset.uploadedUrl
-    if (uploadedUrl) {
-      mediaUrls.push(uploadedUrl)
-    }
     data.media_urls = mediaUrls
     
     const editId = form.dataset.editId
@@ -494,9 +489,7 @@ async function deleteLogAndRefresh(id) {
 function setupLogFileUpload() {
   const zone = document.getElementById('log-upload-zone')
   const input = document.getElementById('log-media-input')
-  const preview = document.getElementById('log-upload-preview')
-  const previewImg = document.getElementById('log-preview-img')
-  const previewVideo = document.getElementById('log-preview-video')
+  const previewGrid = document.getElementById('log-upload-preview-grid')
   const progress = document.getElementById('log-upload-progress')
   const progressBar = document.getElementById('log-upload-progress-bar')
   const progressText = document.getElementById('log-upload-progress-text')
@@ -505,11 +498,19 @@ function setupLogFileUpload() {
   
   if (!zone || !input) return
   
+  // Store uploaded URLs
+  if (!window.logUploadedUrls) window.logUploadedUrls = []
+  
   zone.addEventListener('click', () => input.click())
   
   input.addEventListener('change', async (e) => {
-    const file = e.target.files[0]
-    if (file) await handleLogFileUpload(file)
+    const files = Array.from(e.target.files)
+    if (files.length) {
+      for (const file of files) {
+        await handleLogFileUpload(file)
+      }
+    }
+    input.value = '' // Reset so same files can be selected again
   })
   
   zone.addEventListener('dragover', (e) => {
@@ -520,49 +521,66 @@ function setupLogFileUpload() {
   zone.addEventListener('drop', async (e) => {
     e.preventDefault()
     zone.classList.remove('dragover')
-    const file = e.dataTransfer.files[0]
-    if (file) await handleLogFileUpload(file)
+    const files = Array.from(e.dataTransfer.files)
+    for (const file of files) {
+      await handleLogFileUpload(file)
+    }
   })
   
   async function handleLogFileUpload(file) {
-    preview.style.display = 'block'
+    const safeName = (file.name || 'file')
+      .replace(/[^\x00-\x7F]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/[^a-zA-Z0-9.\-_]/g, '')
+    
+    // Add preview item
+    const itemId = 'log-upload-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6)
+    const previewItem = document.createElement('div')
+    previewItem.className = 'upload-preview-item'
+    previewItem.id = itemId
+    previewItem.dataset.status = 'uploading'
+    
     const url = URL.createObjectURL(file)
     if (file.type.startsWith('image/')) {
-      previewImg.src = url
-      previewImg.style.display = 'block'
-      previewVideo.style.display = 'none'
+      previewItem.innerHTML = `<img src="${url}" alt="preview"><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
     } else if (file.type.startsWith('video/')) {
-      previewVideo.src = url
-      previewVideo.style.display = 'block'
-      previewImg.style.display = 'none'
+      previewItem.innerHTML = `<video src="${url}" muted></video><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
     } else {
-      preview.style.display = 'none'
+      previewItem.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#6b7280;">${file.name}</div><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
     }
+    
+    previewGrid.appendChild(previewItem)
+    previewGrid.style.display = 'flex'
     
     progress.style.display = 'block'
     progressBar.style.width = '30%'
-    progressText.textContent = '正在上传...'
+    progressText.textContent = `正在上传 ${safeName}...`
     msgEl.style.display = 'none'
     
     try {
-      const result = await uploadMedia(file, `logs/${Date.now()}-${file.name}`)
+      const result = await uploadMedia(file, `logs/${Date.now()}-${safeName}`)
       progressBar.style.width = '100%'
       progressText.textContent = '上传完成！'
       
-      // Append URL to textarea
+      // Store URL on the preview item
+      previewItem.dataset.url = result.publicUrl
+      previewItem.dataset.status = 'uploaded'
+      window.logUploadedUrls.push(result.publicUrl)
+      
+      // Update textarea
       if (urlTextarea) {
         const current = urlTextarea.value.trim()
         urlTextarea.value = current ? current + '\n' + result.publicUrl : result.publicUrl
       }
-      // Mark as uploaded
-      urlTextarea.dataset.uploadedUrl = result.publicUrl
       
-      msgEl.textContent = '文件上传成功，URL 已自动填入'
+      msgEl.textContent = '文件上传成功'
       msgEl.style.color = '#059669'
       msgEl.style.display = 'block'
       
-      setTimeout(() => { progress.style.display = 'none' }, 2000)
+      setTimeout(() => { progress.style.display = 'none' }, 1500)
     } catch (err) {
+      previewItem.dataset.status = 'error'
+      previewItem.style.borderColor = '#ef4444'
       progressBar.style.width = '0%'
       progressText.textContent = '上传失败'
       msgEl.textContent = '上传失败: ' + (err.message || '未知错误')
@@ -572,22 +590,37 @@ function setupLogFileUpload() {
   }
 }
 
+function removeLogPreview(itemId) {
+  const item = document.getElementById(itemId)
+  if (!item) return
+  const url = item.dataset.url
+  if (url && window.logUploadedUrls) {
+    window.logUploadedUrls = window.logUploadedUrls.filter(u => u !== url)
+  }
+  // Remove from textarea
+  const urlTextarea = document.getElementById('log-media-urls')
+  if (urlTextarea && url) {
+    const lines = urlTextarea.value.split('\n').filter(l => l.trim() !== url)
+    urlTextarea.value = lines.join('\n')
+  }
+  item.remove()
+  const grid = document.getElementById('log-upload-preview-grid')
+  if (grid && grid.children.length === 0) grid.style.display = 'none'
+}
+
 function resetLogUpload() {
-  const preview = document.getElementById('log-upload-preview')
-  const previewImg = document.getElementById('log-preview-img')
-  const previewVideo = document.getElementById('log-preview-video')
+  const grid = document.getElementById('log-upload-preview-grid')
   const progress = document.getElementById('log-upload-progress')
   const msgEl = document.getElementById('log-upload-msg')
   const input = document.getElementById('log-media-input')
   const urlTextarea = document.getElementById('log-media-urls')
   
-  if (preview) preview.style.display = 'none'
-  if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none' }
-  if (previewVideo) { previewVideo.src = ''; previewVideo.style.display = 'none' }
+  if (grid) { grid.innerHTML = ''; grid.style.display = 'none' }
   if (progress) progress.style.display = 'none'
   if (msgEl) msgEl.style.display = 'none'
   if (input) input.value = ''
-  if (urlTextarea) delete urlTextarea.dataset.uploadedUrl
+  if (urlTextarea) urlTextarea.value = ''
+  window.logUploadedUrls = []
 }
 
 window.setupLogFileUpload = setupLogFileUpload
@@ -596,3 +629,4 @@ window.editLog = editLog
 window.deleteLogAndRefresh = deleteLogAndRefresh
 window.cancelLogEdit = cancelLogEdit
 window.renderLogsTable = renderLogsTable
+window.removeLogPreview = removeLogPreview
