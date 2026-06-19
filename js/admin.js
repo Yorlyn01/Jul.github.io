@@ -134,6 +134,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLogsTable()
   })
   
+  // Log file upload handler
+  setupLogFileUpload()
+  
   // Log form submit
   document.getElementById('log-form')?.addEventListener('submit', async (e) => {
     e.preventDefault()
@@ -142,10 +145,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       log_date: form.log_date.value,
       title: form.title.value,
       content: form.content.value,
-      media_urls: form.media_urls.value,
       tags: form.tags.value,
       status: form.status.value
     }
+    
+    // Collect media URLs from textarea
+    let mediaUrls = form.media_urls.value
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean)
+    
+    // Check if there's a pending file upload
+    const uploadedUrl = document.getElementById('log-media-urls')?.dataset.uploadedUrl
+    if (uploadedUrl) {
+      mediaUrls.push(uploadedUrl)
+    }
+    data.media_urls = mediaUrls
+    
     const editId = form.dataset.editId
     if (editId) data.id = editId
     
@@ -156,6 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       form.dataset.editId = ''
       document.getElementById('log-form-title').textContent = '添加日志'
       document.getElementById('log-cancel-btn').style.display = 'none'
+      resetLogUpload()
       await renderLogsTable()
     } catch (err) {
       alert('保存失败: ' + err.message)
@@ -455,6 +472,7 @@ async function editLog(id) {
   form.dataset.editId = log.id
   document.getElementById('log-form-title').textContent = '编辑日志'
   document.getElementById('log-cancel-btn').style.display = 'inline-block'
+  resetLogUpload()
 }
 
 function cancelLogEdit() {
@@ -463,6 +481,7 @@ function cancelLogEdit() {
   form.dataset.editId = ''
   document.getElementById('log-form-title').textContent = '添加日志'
   document.getElementById('log-cancel-btn').style.display = 'none'
+  resetLogUpload()
 }
 
 async function deleteLogAndRefresh(id) {
@@ -471,6 +490,108 @@ async function deleteLogAndRefresh(id) {
   await renderLogsTable()
 }
 
+// ===== Log File Upload =====
+function setupLogFileUpload() {
+  const zone = document.getElementById('log-upload-zone')
+  const input = document.getElementById('log-media-input')
+  const preview = document.getElementById('log-upload-preview')
+  const previewImg = document.getElementById('log-preview-img')
+  const previewVideo = document.getElementById('log-preview-video')
+  const progress = document.getElementById('log-upload-progress')
+  const progressBar = document.getElementById('log-upload-progress-bar')
+  const progressText = document.getElementById('log-upload-progress-text')
+  const msgEl = document.getElementById('log-upload-msg')
+  const urlTextarea = document.getElementById('log-media-urls')
+  
+  if (!zone || !input) return
+  
+  zone.addEventListener('click', () => input.click())
+  
+  input.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (file) await handleLogFileUpload(file)
+  })
+  
+  zone.addEventListener('dragover', (e) => {
+    e.preventDefault()
+    zone.classList.add('dragover')
+  })
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'))
+  zone.addEventListener('drop', async (e) => {
+    e.preventDefault()
+    zone.classList.remove('dragover')
+    const file = e.dataTransfer.files[0]
+    if (file) await handleLogFileUpload(file)
+  })
+  
+  async function handleLogFileUpload(file) {
+    preview.style.display = 'block'
+    const url = URL.createObjectURL(file)
+    if (file.type.startsWith('image/')) {
+      previewImg.src = url
+      previewImg.style.display = 'block'
+      previewVideo.style.display = 'none'
+    } else if (file.type.startsWith('video/')) {
+      previewVideo.src = url
+      previewVideo.style.display = 'block'
+      previewImg.style.display = 'none'
+    } else {
+      preview.style.display = 'none'
+    }
+    
+    progress.style.display = 'block'
+    progressBar.style.width = '30%'
+    progressText.textContent = '正在上传...'
+    msgEl.style.display = 'none'
+    
+    try {
+      const result = await uploadMedia(file, `logs/${Date.now()}-${file.name}`)
+      progressBar.style.width = '100%'
+      progressText.textContent = '上传完成！'
+      
+      // Append URL to textarea
+      if (urlTextarea) {
+        const current = urlTextarea.value.trim()
+        urlTextarea.value = current ? current + '\n' + result.publicUrl : result.publicUrl
+      }
+      // Mark as uploaded
+      urlTextarea.dataset.uploadedUrl = result.publicUrl
+      
+      msgEl.textContent = '文件上传成功，URL 已自动填入'
+      msgEl.style.color = '#059669'
+      msgEl.style.display = 'block'
+      
+      setTimeout(() => { progress.style.display = 'none' }, 2000)
+    } catch (err) {
+      progressBar.style.width = '0%'
+      progressText.textContent = '上传失败'
+      msgEl.textContent = '上传失败: ' + (err.message || '未知错误')
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+    }
+  }
+}
+
+function resetLogUpload() {
+  const preview = document.getElementById('log-upload-preview')
+  const previewImg = document.getElementById('log-preview-img')
+  const previewVideo = document.getElementById('log-preview-video')
+  const progress = document.getElementById('log-upload-progress')
+  const msgEl = document.getElementById('log-upload-msg')
+  const input = document.getElementById('log-media-input')
+  const urlTextarea = document.getElementById('log-media-urls')
+  
+  if (preview) preview.style.display = 'none'
+  if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none' }
+  if (previewVideo) { previewVideo.src = ''; previewVideo.style.display = 'none' }
+  if (progress) progress.style.display = 'none'
+  if (msgEl) msgEl.style.display = 'none'
+  if (input) input.value = ''
+  if (urlTextarea) delete urlTextarea.dataset.uploadedUrl
+}
+
+window.setupLogFileUpload = setupLogFileUpload
+window.resetLogUpload = resetLogUpload
 window.editLog = editLog
 window.deleteLogAndRefresh = deleteLogAndRefresh
 window.cancelLogEdit = cancelLogEdit

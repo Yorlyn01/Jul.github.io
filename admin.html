@@ -142,8 +142,28 @@
             <div class="form-group"><label data-i18n="admin.log_title">标题</label><input type="text" name="title" placeholder="输入日志标题" required></div>
             <div class="form-group"><label data-i18n="admin.log_content">内容</label><textarea name="content" placeholder="写下今天的感言..." style="min-height:120px;" required></textarea></div>
             <div class="form-group">
-              <label data-i18n="admin.log_media">媒体链接 (每行一个 URL)</label>
-              <textarea name="media_urls" placeholder="https://example.com/image.jpg&#10;https://example.com/video.mp4" style="min-height:80px;font-family:monospace;font-size:0.8rem;"></textarea>
+              <label data-i18n="admin.media">媒体文件上传</label>
+              <div class="upload-zone" id="log-upload-zone">
+                <div class="upload-zone-text">
+                  <div style="font-size:1.5rem;margin-bottom:0.3rem;">📎</div>
+                  <div>点击选择或拖放图片/视频</div>
+                  <small style="color:#6b7280;">支持 JPG, PNG, GIF, MP4, WebM 等格式 · 最大 300MB</small>
+                </div>
+                <input type="file" id="log-media-input" accept="image/*,video/*" style="display:none;">
+              </div>
+              <div class="upload-preview" id="log-upload-preview" style="display:none;">
+                <img id="log-preview-img" style="display:none;max-width:200px;max-height:120px;border-radius:4px;border:1px solid #e5e7eb;">
+                <video id="log-preview-video" style="display:none;max-width:200px;max-height:120px;border-radius:4px;border:1px solid #e5e7eb;" controls muted></video>
+              </div>
+              <div class="upload-progress" id="log-upload-progress" style="display:none;">
+                <div class="upload-progress-bar-wrap"><div class="upload-progress-bar" id="log-upload-progress-bar" style="width:0%;height:100%;background:#1a3a5c;transition:width 0.3s;"></div></div>
+                <small id="log-upload-progress-text" style="color:#6b7280;font-size:0.75rem;">上传中...</small>
+              </div>
+              <div id="log-upload-msg" style="margin-top:0.5rem;font-size:0.8rem;display:none;"></div>
+            </div>
+            <div class="form-group">
+              <label data-i18n="admin.log_media">媒体链接 (每行一个 URL, 支持上传后自动填入)</label>
+              <textarea name="media_urls" id="log-media-urls" placeholder="https://example.com/image.jpg&#10;https://example.com/video.mp4" style="min-height:80px;font-family:monospace;font-size:0.8rem;"></textarea>
             </div>
             <div class="form-group"><label data-i18n="admin.tags">标签 (逗号分隔)</label><input type="text" name="tags" placeholder="日常, 设计, 摄影"></div>
             <button type="submit" data-i18n="admin.save_log">保存日志</button>
