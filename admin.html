@@ -31,6 +31,15 @@
     .form-card input:focus, .form-card textarea:focus { border-color:#1a3a5c; }
     .form-card textarea { min-height:80px;resize:vertical; }
     .form-card button { background:#1a3a5c;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer; }
+    .upload-zone { border:2px dashed #d1d5db;border-radius:8px;padding:1.5rem;text-align:center;cursor:pointer;transition:all 0.2s;background:#f9fafb; }
+    .upload-zone:hover { border-color:#1a3a5c;background:#f1f5f9; }
+    .upload-zone.dragover { border-color:#1a3a5c;background:#eff6ff; }
+    .upload-zone-text { pointer-events:none; }
+    .upload-preview { display:none;margin-top:0.5rem; }
+    .upload-preview img, .upload-preview video { max-width:200px;max-height:120px;border-radius:4px;border:1px solid #e5e7eb; }
+    .upload-progress { display:none;margin-top:0.5rem; }
+    .upload-progress-bar-wrap { height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden; }
+    .upload-progress-bar { height:100%;width:0%;background:#1a3a5c;transition:width 0.3s; }
   </style>
 </head>
 <body>
@@ -76,7 +85,30 @@
           <form id="work-form">
             <div class="form-group"><label>作品名称</label><input type="text" name="title" placeholder="输入作品名称" required></div>
             <div class="form-group"><label>描述</label><textarea name="description" placeholder="作品描述..."></textarea></div>
-            <div class="form-group"><label>图片 URL</label><input type="url" name="image_url" placeholder="https://example.com/image.jpg"></div>
+            <div class="form-group">
+              <label>媒体文件</label>
+              <div class="upload-zone" id="upload-zone">
+                <div class="upload-zone-text">
+                  <div style="font-size:1.5rem;margin-bottom:0.3rem;">📎</div>
+                  <div>点击选择或拖放图片/视频</div>
+                  <small style="color:#6b7280;">支持 JPG, PNG, GIF, MP4, WebM 等格式</small>
+                </div>
+                <input type="file" id="media-input" accept="image/*,video/*" style="display:none;">
+              </div>
+              <div class="upload-preview" id="upload-preview">
+                <img id="upload-preview-img" style="display:none;">
+                <video id="upload-preview-video" style="display:none;" controls muted></video>
+              </div>
+              <div class="upload-progress" id="upload-progress">
+                <div class="upload-progress-bar-wrap"><div class="upload-progress-bar" id="upload-progress-bar"></div></div>
+                <small id="upload-progress-text" style="color:#6b7280;font-size:0.75rem;">上传中...</small>
+              </div>
+              <div id="upload-msg" style="margin-top:0.5rem;font-size:0.8rem;display:none;"></div>
+            </div>
+            <div class="form-group" style="margin-top:0.5rem;">
+              <label>或输入 URL</label>
+              <input type="url" name="image_url" id="image-url-input" placeholder="https://example.com/image.jpg">
+            </div>
             <div class="form-group"><label>分类</label><input type="text" name="category" placeholder="Web / UI / Brand"></div>
             <div class="form-group"><label>标签 (逗号分隔)</label><input type="text" name="tags" placeholder="React, Design, 3D"></div>
             <div class="form-group"><label>排序</label><input type="number" name="order_index" value="0" placeholder="0"></div>

@@ -48,11 +48,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       form.reset()
       form.dataset.editId = ''
       document.getElementById('form-title').textContent = '添加作品'
+      // Reset upload preview
+      resetUploadPreview()
       await renderWorksTable()
     } catch (err) {
       alert('保存失败: ' + err.message)
     }
   })
+  
+  // File upload handling
+  setupFileUpload()
   
   // Password form submit
   document.getElementById('password-form')?.addEventListener('submit', async (e) => {
@@ -204,7 +209,107 @@ function escapeHtml(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
 }
 
+// File upload handling
+function setupFileUpload() {
+  const zone = document.getElementById('upload-zone')
+  const input = document.getElementById('media-input')
+  const preview = document.getElementById('upload-preview')
+  const previewImg = document.getElementById('upload-preview-img')
+  const previewVideo = document.getElementById('upload-preview-video')
+  const progress = document.getElementById('upload-progress')
+  const progressBar = document.getElementById('upload-progress-bar')
+  const progressText = document.getElementById('upload-progress-text')
+  const msgEl = document.getElementById('upload-msg')
+  const urlInput = document.getElementById('image-url-input')
+  
+  if (!zone || !input) return
+  
+  // Click to select file
+  zone.addEventListener('click', () => input.click())
+  
+  // File selected via input
+  input.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (file) await handleFileUpload(file)
+  })
+  
+  // Drag & drop
+  zone.addEventListener('dragover', (e) => {
+    e.preventDefault()
+    zone.classList.add('dragover')
+  })
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'))
+  zone.addEventListener('drop', async (e) => {
+    e.preventDefault()
+    zone.classList.remove('dragover')
+    const file = e.dataTransfer.files[0]
+    if (file) await handleFileUpload(file)
+  })
+  
+  async function handleFileUpload(file) {
+    // Show preview
+    preview.style.display = 'block'
+    const url = URL.createObjectURL(file)
+    if (file.type.startsWith('image/')) {
+      previewImg.src = url
+      previewImg.style.display = 'block'
+      previewVideo.style.display = 'none'
+    } else if (file.type.startsWith('video/')) {
+      previewVideo.src = url
+      previewVideo.style.display = 'block'
+      previewImg.style.display = 'none'
+    } else {
+      preview.style.display = 'none'
+    }
+    
+    // Show progress
+    progress.style.display = 'block'
+    progressBar.style.width = '30%'
+    progressText.textContent = '正在上传...'
+    msgEl.style.display = 'none'
+    
+    try {
+      const result = await uploadMedia(file, `works/${Date.now()}-${file.name}`)
+      progressBar.style.width = '100%'
+      progressText.textContent = '上传完成！'
+      
+      // Fill URL input
+      urlInput.value = result.publicUrl
+      
+      msgEl.textContent = '文件上传成功，URL 已自动填入'
+      msgEl.style.color = '#059669'
+      msgEl.style.display = 'block'
+      
+      // Hide progress after 2 seconds
+      setTimeout(() => { progress.style.display = 'none' }, 2000)
+    } catch (err) {
+      progressBar.style.width = '0%'
+      progressText.textContent = '上传失败'
+      msgEl.textContent = '上传失败: ' + (err.message || '未知错误')
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+    }
+  }
+}
+
+function resetUploadPreview() {
+  const preview = document.getElementById('upload-preview')
+  const previewImg = document.getElementById('upload-preview-img')
+  const previewVideo = document.getElementById('upload-preview-video')
+  const progress = document.getElementById('upload-progress')
+  const msgEl = document.getElementById('upload-msg')
+  const input = document.getElementById('media-input')
+  
+  if (preview) preview.style.display = 'none'
+  if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none' }
+  if (previewVideo) { previewVideo.src = ''; previewVideo.style.display = 'none' }
+  if (progress) progress.style.display = 'none'
+  if (msgEl) msgEl.style.display = 'none'
+  if (input) input.value = ''
+}
+
 window.editWork = editWork
 window.deleteWorkAndRefresh = deleteWorkAndRefresh
 window.approveAndRefresh = approveAndRefresh
 window.deleteCommentAndRefresh = deleteCommentAndRefresh
+window.resetUploadPreview = resetUploadPreview

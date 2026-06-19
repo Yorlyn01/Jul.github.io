@@ -51,6 +51,29 @@ async function updateAdminPassword(newPassword) {
   return data
 }
 
+// Upload media file to Supabase Storage
+async function uploadMedia(file, path) {
+  const sb = await getSupabase()
+  const filePath = path || `${Date.now()}-${file.name}`
+  const { data, error } = await sb.storage
+    .from('media')
+    .upload(filePath, file, { cacheControl: '3600', upsert: false })
+  if (error) throw error
+  // Get public URL
+  const { data: { publicUrl } } = sb.storage
+    .from('media')
+    .getPublicUrl(data.path)
+  return { publicUrl, path: data.path, filePath }
+}
+
+// Get public URL for a media file
+function getMediaUrl(path) {
+  const sb = supabaseClient
+  if (!sb) return null
+  const { data: { publicUrl } } = sb.storage.from('media').getPublicUrl(path)
+  return publicUrl
+}
+
 // Log page view
 async function logPageView(pagePath) {
   try {
@@ -69,4 +92,6 @@ window.adminLogin = adminLogin
 window.getAdminSession = getAdminSession
 window.adminLogout = adminLogout
 window.updateAdminPassword = updateAdminPassword
+window.uploadMedia = uploadMedia
+window.getMediaUrl = getMediaUrl
 window.logPageView = logPageView
