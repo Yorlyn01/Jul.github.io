@@ -28,7 +28,8 @@
     </aside>
 
     <main class="right-content">
-      <div class="content-page" style="max-width:600px;">
+      <div class="content-page" style="max-width:700px;">
+        <!-- Contact Section -->
         <p class="page-subtitle" data-i18n="contact.section_title">联系方式</p>
         <h2 class="page-title" data-i18n="contact.form_title">开始合作</h2>
 
@@ -85,6 +86,42 @@
             </div>
           </div>
         </div>
+
+        <!-- About Me Section (moved from about.html) -->
+        <div class="about-in-contact">
+          <p class="page-subtitle" data-i18n="about.section_about">关于我</p>
+          <h2 class="page-title" data-i18n="about.about_title">设计与代码之间</h2>
+
+          <p class="text-content" data-i18n="about.about_text">
+            我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。
+            我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，
+            都承载着对用户体验的尊重与追求。
+          </p>
+
+          <h3 class="section-title" data-i18n="about.section_work">工作经历</h3>
+          <p class="text-content">
+            <strong>2022 — 至今</strong> · <span data-i18n="about.job1_title">自由职业设计师 & 开发者</span><br>
+            <span data-i18n="about.job1_desc">为多个品牌和个人项目提供设计、开发与咨询服务。</span>
+          </p>
+          <p class="text-content">
+            <strong>2020 — 2022</strong> · <span data-i18n="about.job2_title">某互联网公司 · 前端工程师</span><br>
+            <span data-i18n="about.job2_desc">负责产品前端架构、组件库设计与用户体验优化。</span>
+          </p>
+
+          <h3 class="section-title" data-i18n="about.section_skills">技能栈</h3>
+          <p class="text-content">
+            <strong data-i18n="about.skills_design">设计</strong> — <span data-i18n="about.skills_design_list">Figma, Sketch, Adobe Illustrator, Photoshop</span><br>
+            <strong data-i18n="about.skills_frontend">前端</strong> — <span data-i18n="about.skills_frontend_list">HTML/CSS, JavaScript, React, Vue, Next.js, Three.js</span><br>
+            <strong data-i18n="about.skills_tools">工具</strong> — <span data-i18n="about.skills_tools_list">Git, VS Code, Webpack, Vite, Tailwind CSS</span><br>
+            <strong data-i18n="about.skills_other">其他</strong> — <span data-i18n="about.skills_other_list">Node.js, Python, Supabase, Vercel</span>
+          </p>
+
+          <h3 class="section-title" data-i18n="about.section_edu">教育背景</h3>
+          <p class="text-content">
+            <strong>2016 — 2020</strong> · <span data-i18n="about.edu_title">某大学 · 计算机科学与技术</span><br>
+            <span data-i18n="about.edu_desc">主修软件工程，辅修视觉设计。在校期间参与多个开源项目。</span>
+          </p>
+        </div>
       </div>
     </main>
 
@@ -92,7 +129,7 @@
       <div class="side-nav-toggle"><span></span><span></span></div>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
+        <a href="about.html">Daily Log</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="contact.html" class="active">Contact</a>
       </div>
@@ -101,7 +138,7 @@
 
   <nav class="mobile-nav">
     <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+    <a href="about.html">Log</a>
     <a href="portfolio.html">Work</a>
     <a href="contact.html" class="active">Contact</a>
   </nav>
@@ -110,6 +147,7 @@
   <script src="js/i18n.js"></script>
   <script>
     initI18n()
+    logPageView('/contact')
   </script>
 </body>
 </html>

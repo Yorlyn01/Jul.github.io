@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="about.page_title">About Me — Yorlyn</title>
-  <meta name="description" content="关于 Yorlyn — 设计师与开发者的自我介绍。">
+  <title data-i18n="about.page_title">Daily Log — Yorlyn</title>
+  <meta name="description" content="Yorlyn 的每日日志 — 感言、图片、视频与日常记录。">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -13,10 +13,10 @@
     <aside class="left-panel">
       <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
       <div class="hero-section">
-        <p class="hello-label" data-i18n="about.page_label">About</p>
-        <h1 class="hero-title" data-i18n="about.page_title">About Me</h1>
-        <p class="hero-subtitle" data-i18n="about.subtitle">A little bit about who I am<br>and what I do.</p>
-        <a href="portfolio.html" class="btn-outline" data-i18n="about.see_work">See My Work</a>
+        <p class="hello-label" data-i18n="about.page_label">Log</p>
+        <h1 class="hero-title" data-i18n="about.page_title">Daily Log</h1>
+        <p class="hero-subtitle" data-i18n="about.subtitle">Thoughts, images &amp; moments<br>from everyday life.</p>
+        <a href="contact.html" class="btn-outline" data-i18n="about.see_work">Get in Touch</a>
         <div class="social-links">
           <a href="#" title="GitHub">Gh</a>
           <a href="#" title="Twitter">Tw</a>
@@ -28,39 +28,90 @@
     </aside>
 
     <main class="right-content">
-      <div class="content-page">
-        <p class="page-subtitle" data-i18n="about.section_about">个人简介</p>
-        <h2 class="page-title" data-i18n="about.about_title">设计与代码之间</h2>
+      <div class="log-list" id="log-list">
+        <!-- Static log entries -->
+        <div class="log-entry">
+          <div class="log-date">
+            <span class="day">15</span>
+            <span class="month-year">JAN 2026</span>
+          </div>
+          <div class="log-body">
+            <h3 class="log-title">新的开始</h3>
+            <p class="log-text">
+              今天重新设计了个人网站，把关于页面的内容移到了联系页面，这里变成了我的每日日志。我想用更简单的方式记录日常 — 一些随想、随手拍的照片、或者看到的好东西。希望这个角落能留住时间的痕迹。
+            </p>
+            <div class="log-media">
+              <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" alt="Workspace">
+            </div>
+            <div class="log-tags">
+              <span class="log-tag">#日常</span>
+              <span class="log-tag">#设计</span>
+            </div>
+          </div>
+        </div>
 
-        <p class="text-content" data-i18n="about.about_text">
-          我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。
-          我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，
-          都承载着对用户体验的尊重与追求。
-        </p>
+        <div class="log-entry">
+          <div class="log-date">
+            <span class="day">12</span>
+            <span class="month-year">JAN 2026</span>
+          </div>
+          <div class="log-body">
+            <h3 class="log-title">关于极简</h3>
+            <p class="log-text">
+              最近越来越喜欢极简的设计。不是空白，而是恰到好处的留白。每一个元素都有它存在的理由，不多也不少。在设计中做减法，往往比做加法更难。要敢于删掉那些"看起来不错但没什么用"的东西。
+            </p>
+            <div class="log-tags">
+              <span class="log-tag">#随想</span>
+              <span class="log-tag">#极简</span>
+            </div>
+          </div>
+        </div>
 
-        <h3 class="section-title" data-i18n="about.section_work">工作经历</h3>
-        <p class="text-content">
-          <strong>2022 — 至今</strong> · <span data-i18n="about.job1_title">自由职业设计师 & 开发者</span><br>
-          <span data-i18n="about.job1_desc">为多个品牌和个人项目提供设计、开发与咨询服务。</span>
-        </p>
-        <p class="text-content">
-          <strong>2020 — 2022</strong> · <span data-i18n="about.job2_title">某互联网公司 · 前端工程师</span><br>
-          <span data-i18n="about.job2_desc">负责产品前端架构、组件库设计与用户体验优化。</span>
-        </p>
+        <div class="log-entry">
+          <div class="log-date">
+            <span class="day">08</span>
+            <span class="month-year">JAN 2026</span>
+          </div>
+          <div class="log-body">
+            <h3 class="log-title">雨天的上海</h3>
+            <p class="log-text">
+              连续下了三天雨。雨中的城市有一种特别的氛围，灰色的天空反而让街道上的灯光更加温暖。路过一家咖啡馆，透过玻璃窗看到里面昏黄的灯光和读书的人，那一刻觉得生活很美好。
+            </p>
+            <div class="log-media">
+              <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=400&h=500&fit=crop" alt="Rainy city">
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=500&fit=crop" alt="Coffee">
+            </div>
+            <div class="log-tags">
+              <span class="log-tag">#上海</span>
+              <span class="log-tag">#雨天</span>
+              <span class="log-tag">#摄影</span>
+            </div>
+          </div>
+        </div>
 
-        <h3 class="section-title" data-i18n="about.section_skills">技能栈</h3>
-        <p class="text-content">
-          <strong data-i18n="about.skills_design">设计</strong> — <span data-i18n="about.skills_design_list">Figma, Sketch, Adobe Illustrator, Photoshop</span><br>
-          <strong data-i18n="about.skills_frontend">前端</strong> — <span data-i18n="about.skills_frontend_list">HTML/CSS, JavaScript, React, Vue, Next.js, Three.js</span><br>
-          <strong data-i18n="about.skills_tools">工具</strong> — <span data-i18n="about.skills_tools_list">Git, VS Code, Webpack, Vite, Tailwind CSS</span><br>
-          <strong data-i18n="about.skills_other">其他</strong> — <span data-i18n="about.skills_other_list">Node.js, Python, Supabase, Vercel</span>
-        </p>
-
-        <h3 class="section-title" data-i18n="about.section_edu">教育背景</h3>
-        <p class="text-content">
-          <strong>2016 — 2020</strong> · <span data-i18n="about.edu_title">某大学 · 计算机科学与技术</span><br>
-          <span data-i18n="about.edu_desc">主修软件工程，辅修视觉设计。在校期间参与多个开源项目。</span>
-        </p>
+        <div class="log-entry">
+          <div class="log-date">
+            <span class="day">05</span>
+            <span class="month-year">JAN 2026</span>
+          </div>
+          <div class="log-body">
+            <h3 class="log-title">一段短片</h3>
+            <p class="log-text">
+              用 Three.js 做的一个视觉实验。关于光影、时间和流动的概念。虽然只是几行代码，但看到它动起来的时候，还是会有那种创造的满足感。
+            </p>
+            <div class="log-media single">
+              <video controls poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=340&fit=crop">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                您的浏览器不支持视频播放。
+              </video>
+            </div>
+            <div class="log-tags">
+              <span class="log-tag">#Three.js</span>
+              <span class="log-tag">#视觉实验</span>
+              <span class="log-tag">#代码</span>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -68,7 +119,7 @@
       <div class="side-nav-toggle"><span></span><span></span></div>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html" class="active">About Me</a>
+        <a href="about.html" class="active">Daily Log</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="contact.html">Contact</a>
       </div>
@@ -77,7 +128,7 @@
 
   <nav class="mobile-nav">
     <a href="index.html">Home</a>
-    <a href="about.html" class="active">About</a>
+    <a href="about.html" class="active">Log</a>
     <a href="portfolio.html">Work</a>
     <a href="contact.html">Contact</a>
   </nav>
@@ -86,6 +137,7 @@
   <script src="js/i18n.js"></script>
   <script>
     initI18n()
+    logPageView('/about')
   </script>
 </body>
 </html>
