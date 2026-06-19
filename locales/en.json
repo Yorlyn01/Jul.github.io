@@ -81,6 +81,10 @@
     "log_example": {
       "title": "Example Log",
       "content": "This is example log content. After setting i18n_key when adding a log, you can add translations here."
+    },
+    "log_launch": {
+      "title": "Yorlyn Website Launched Today",
+      "content": "This is my first log entry. Thanks to AI and the power of technology. From today on, this little corner will record my daily thoughts and creations."
     }
   },
   "portfolio": {
