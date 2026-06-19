@@ -120,19 +120,20 @@ function injectLangSwitcher() {
   
   div.innerHTML = `
     <style>
-      .lang-switcher { position:fixed; top:1rem; right:1rem; z-index:9999; font-family:Inter,sans-serif; }
-      .lang-switcher .lang-current { display:flex; align-items:center; gap:0.4rem; background:rgba(255,255,255,0.9); backdrop-filter:blur(4px); padding:0.4rem 0.9rem; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1); border:1px solid rgba(0,0,0,0.05); cursor:pointer; font-size:0.8rem; font-weight:600; color:#1a1a2e; transition:all 0.2s; }
-      .lang-switcher .lang-current:hover { box-shadow:0 4px 12px rgba(0,0,0,0.15); }
-      .lang-switcher .lang-current .arrow { font-size:0.6rem; transition:transform 0.2s; }
-      .lang-switcher.open .lang-current .arrow { transform:rotate(180deg); }
-      .lang-switcher .lang-dropdown { position:absolute; top:calc(100% + 0.4rem); right:0; background:#fff; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.12); border:1px solid rgba(0,0,0,0.05); padding:0.4rem; min-width:140px; display:none; overflow:hidden; }
+      .lang-switcher { position:fixed; bottom:1rem; right:1rem; z-index:9999; font-family:Inter,sans-serif; opacity:0.4; transition:opacity 0.3s ease; }
+      .lang-switcher:hover { opacity:1; }
+      .lang-switcher .lang-current { display:flex; align-items:center; gap:0.4rem; background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); padding:0.4rem 0.9rem; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1); border:1px solid rgba(0,0,0,0.05); cursor:pointer; font-size:0.8rem; font-weight:600; color:#1a1a2e; transition:all 0.2s; }
+      .lang-switcher:hover .lang-current { box-shadow:0 4px 12px rgba(0,0,0,0.15); background:rgba(255,255,255,0.95); }
+      .lang-switcher .lang-current .arrow { font-size:0.6rem; transition:transform 0.2s; opacity:0; transition:opacity 0.2s, transform 0.2s; }
+      .lang-switcher:hover .lang-current .arrow { opacity:1; }
+      .lang-switcher.open .lang-current .arrow { transform:rotate(180deg); opacity:1; }
+      .lang-switcher .lang-dropdown { position:absolute; bottom:calc(100% + 0.4rem); right:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(8px); border-radius:12px; box-shadow:0 -8px 24px rgba(0,0,0,0.12); border:1px solid rgba(0,0,0,0.05); padding:0.4rem; min-width:140px; display:none; overflow:hidden; }
       .lang-switcher.open .lang-dropdown { display:block; }
       .lang-switcher .lang-option { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0.7rem; border-radius:8px; cursor:pointer; font-size:0.8rem; color:#4b5563; transition:all 0.15s; }
       .lang-switcher .lang-option:hover { background:#f1f5f9; }
       .lang-switcher .lang-option.active { background:#1a3a5c; color:#fff; }
       .lang-switcher .lang-flag { font-size:1rem; line-height:1; }
       .lang-switcher .lang-label { white-space:nowrap; }
-      @media (max-width:768px) { .lang-switcher { top:0.5rem; right:0.5rem; } }
     </style>
     <div class="lang-current" onclick="toggleLangDropdown()">
       <span class="lang-current-flag">🇨🇳</span>
