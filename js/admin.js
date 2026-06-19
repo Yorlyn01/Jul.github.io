@@ -470,6 +470,12 @@ async function editLog(id) {
   document.getElementById('log-form-title').textContent = '编辑日志'
   document.getElementById('log-cancel-btn').style.display = 'inline-block'
   resetLogUpload()
+  // Load existing media as preview items
+  if (Array.isArray(log.media_urls) && log.media_urls.length) {
+    for (const url of log.media_urls) {
+      if (url && url.trim()) addLogPreviewFromUrl(url.trim())
+    }
+  }
 }
 
 function cancelLogEdit() {
@@ -592,6 +598,32 @@ function setupLogFileUpload() {
   }
 }
 
+
+function addLogPreviewFromUrl(url) {
+  if (!url) return
+  const previewGrid = document.getElementById('log-upload-preview-grid')
+  if (!previewGrid) return
+  const itemId = 'log-existing-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6)
+  const previewItem = document.createElement('div')
+  previewItem.className = 'upload-preview-item'
+  previewItem.id = itemId
+  previewItem.dataset.status = 'uploaded'
+  previewItem.dataset.url = url
+  const isImage = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i.test(url) || url.includes('image')
+  const isVideo = /\.(mp4|mov|avi|webm|mkv|flv|wmv)$/i.test(url) || url.includes('video')
+  if (isImage) {
+    previewItem.innerHTML = `<img src="${url}" alt="preview" onerror="this.parentElement.style.display='none'"><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
+  } else if (isVideo) {
+    previewItem.innerHTML = `<video src="${url}" muted></video><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
+  } else {
+    previewItem.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#6b7280;">媒体</div><button class="remove-btn" onclick="removeLogPreview('${itemId}')">&times;</button>`
+  }
+  previewGrid.appendChild(previewItem)
+  previewGrid.style.display = 'flex'
+  if (!window.logUploadedUrls) window.logUploadedUrls = []
+  window.logUploadedUrls.push(url)
+}
+
 function removeLogPreview(itemId) {
   const item = document.getElementById(itemId)
   if (!item) return
@@ -625,6 +657,7 @@ function resetLogUpload() {
   window.logUploadedUrls = []
 }
 
+window.addLogPreviewFromUrl = addLogPreviewFromUrl
 window.setupLogFileUpload = setupLogFileUpload
 window.resetLogUpload = resetLogUpload
 window.editLog = editLog
