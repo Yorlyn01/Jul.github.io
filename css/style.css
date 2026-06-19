@@ -32,7 +32,7 @@ body {
 }
 
 .left-panel {
-  width: 38%;
+  width: 25%;
   background: var(--deep-blue);
   min-height: 100vh;
   padding: 3rem 3rem 2rem 3rem;
@@ -46,8 +46,8 @@ body {
 }
 
 .right-content {
-  width: 62%;
-  margin-left: 38%;
+  width: 75%;
+  margin-left: 25%;
   min-height: 100vh;
   position: relative;
 }
