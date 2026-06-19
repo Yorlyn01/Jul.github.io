@@ -64,7 +64,20 @@
     "log4_text": "Une expérience visuelle faite avec Three.js. À propos de lumière, d'ombre, de temps et de flux. Bien que ce ne soit que quelques lignes de code, le sentiment de création en le voyant prendre vie est toujours là.",
     "log4_tag1": "#threejs",
     "log4_tag2": "#expérience-visuelle",
-    "log4_tag3": "#code"
+    "log4_tag3": "#code",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "comments": "Commentaires",
+    "submit_comment": "Envoyer",
+    "auth_title": "Connexion",
+    "login_tab": "Connexion",
+    "register_tab": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "login_btn": "Connexion",
+    "register_btn": "Inscription",
+    "no_comments": "Aucun commentaire",
+    "comment_success": "Commentaire envoyé ! Il sera affiché après approbation."
   },
   "portfolio": {
     "page_label": "Travail",

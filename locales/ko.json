@@ -64,7 +64,20 @@
     "log4_text": "Three.js로 만든 시각적 실험. 빛과 그림자, 시간과 흐름에 대해. 단지 몇 줄의 코드지만, 움직이는 것을 보면 창조의 만족감이 생깁니다.",
     "log4_tag1": "#Three.js",
     "log4_tag2": "#시각실험",
-    "log4_tag3": "#코드"
+    "log4_tag3": "#코드",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "comments": "댓글",
+    "submit_comment": "댓글 작성",
+    "auth_title": "로그인",
+    "login_tab": "로그인",
+    "register_tab": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "login_btn": "로그인",
+    "register_btn": "회원가입",
+    "no_comments": "아직 댓글이 없습니다",
+    "comment_success": "댓글이 제출되었습니다! 승인 후 표시됩니다."
   },
   "portfolio": {
     "page_label": "Work",

@@ -64,7 +64,20 @@
     "log4_text": "Three.js で作った視覚的実験。光と影、時間と流れについて。たった数行のコードですが、それが動き出すのを見ると、創造の満足感が湧いてきます。",
     "log4_tag1": "#Three.js",
     "log4_tag2": "#視覚実験",
-    "log4_tag3": "#コード"
+    "log4_tag3": "#コード",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "comments": "コメント",
+    "submit_comment": "コメントを送信",
+    "auth_title": "ログイン",
+    "login_tab": "ログイン",
+    "register_tab": "新規登録",
+    "email": "メール",
+    "password": "パスワード",
+    "login_btn": "ログイン",
+    "register_btn": "登録",
+    "no_comments": "まだコメントはありません",
+    "comment_success": "コメントが送信されました！承認後に表示されます。"
   },
   "portfolio": {
     "page_label": "Work",

@@ -64,7 +64,20 @@
     "log4_text": "用 Three.js 做的一个视觉实验。关于光影、时间和流动的概念。虽然只是几行代码，但看到它动起来的时候，还是会有那种创造的满足感。",
     "log4_tag1": "#Three.js",
     "log4_tag2": "#视觉实验",
-    "log4_tag3": "#代码"
+    "log4_tag3": "#代码",
+    "login": "登录",
+    "logout": "退出",
+    "comments": "留言",
+    "submit_comment": "发送留言",
+    "auth_title": "用户登录",
+    "login_tab": "登录",
+    "register_tab": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "login_btn": "登录",
+    "register_btn": "注册",
+    "no_comments": "暂无留言",
+    "comment_success": "留言已提交，审核后显示！"
   },
   "portfolio": {
     "page_label": "Work",

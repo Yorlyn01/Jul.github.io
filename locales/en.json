@@ -64,7 +64,20 @@
     "log4_text": "A visual experiment made with Three.js. About light, shadow, time and flow. Though just a few lines of code, the feeling of creation when seeing it come alive is still there.",
     "log4_tag1": "#threejs",
     "log4_tag2": "#visual-experiment",
-    "log4_tag3": "#code"
+    "log4_tag3": "#code",
+    "login": "Login",
+    "logout": "Logout",
+    "comments": "Comments",
+    "submit_comment": "Submit Comment",
+    "auth_title": "User Login",
+    "login_tab": "Login",
+    "register_tab": "Register",
+    "email": "Email",
+    "password": "Password",
+    "login_btn": "Login",
+    "register_btn": "Register",
+    "no_comments": "No comments yet",
+    "comment_success": "Comment submitted! It will be displayed after approval."
   },
   "portfolio": {
     "page_label": "Work",
