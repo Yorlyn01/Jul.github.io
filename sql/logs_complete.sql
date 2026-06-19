@@ -24,7 +24,7 @@ CREATE POLICY "Allow public read published logs" ON logs
   FOR SELECT USING (status = 'published');
 
 CREATE POLICY "Allow authenticated full access" ON logs
-  FOR ALL USING (auth.role() = 'authenticated') WITH CHECK (auth.role() = 'authenticated');
+  FOR ALL USING (auth.uid() IS NOT NULL) WITH CHECK (auth.uid() IS NOT NULL);
 
 -- 4. 创建 log_likes 表
 CREATE TABLE IF NOT EXISTS log_likes (
@@ -41,7 +41,7 @@ CREATE POLICY "Allow public insert log_likes" ON log_likes
 CREATE POLICY "Allow public select log_likes" ON log_likes
   FOR SELECT USING (true);
 CREATE POLICY "Allow authenticated delete log_likes" ON log_likes
-  FOR DELETE USING (auth.role() = 'authenticated');
+  FOR DELETE USING (auth.uid() IS NOT NULL);
 
 -- 5. 创建 log_comments 表
 CREATE TABLE IF NOT EXISTS log_comments (
@@ -62,7 +62,7 @@ CREATE POLICY "Allow public insert log_comments" ON log_comments
 CREATE POLICY "Allow public select approved log_comments" ON log_comments
   FOR SELECT USING (status = 'approved');
 CREATE POLICY "Allow authenticated all log_comments" ON log_comments
-  FOR ALL USING (auth.role() = 'authenticated') WITH CHECK (auth.role() = 'authenticated');
+  FOR ALL USING (auth.uid() IS NOT NULL) WITH CHECK (auth.uid() IS NOT NULL);
 
 -- 6. 验证表是否创建成功（可选，执行后会返回表列表）
 SELECT table_name 
