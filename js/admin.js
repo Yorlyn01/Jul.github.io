@@ -128,6 +128,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector('.admin-tab[data-panel="navigation"]')?.addEventListener('click', () => {
     renderNavTable()
   })
+  
+  // Load logs table when logs tab is clicked
+  document.querySelector('.admin-tab[data-panel="logs"]')?.addEventListener('click', () => {
+    renderLogsTable()
+  })
+  
+  // Log form submit
+  document.getElementById('log-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = {
+      log_date: form.log_date.value,
+      title: form.title.value,
+      content: form.content.value,
+      media_urls: form.media_urls.value,
+      tags: form.tags.value,
+      status: form.status.value
+    }
+    const editId = form.dataset.editId
+    if (editId) data.id = editId
+    
+    try {
+      await saveLog(data)
+      alert('保存成功！')
+      form.reset()
+      form.dataset.editId = ''
+      document.getElementById('log-form-title').textContent = '添加日志'
+      document.getElementById('log-cancel-btn').style.display = 'none'
+      await renderLogsTable()
+    } catch (err) {
+      alert('保存失败: ' + err.message)
+    }
+  })
 })
 
 async function renderStats() {
@@ -388,11 +421,57 @@ async function deleteNavItemAndRefresh(id) {
   await renderNavTable()
 }
 
-window.editWork = editWork
-window.deleteWorkAndRefresh = deleteWorkAndRefresh
-window.approveAndRefresh = approveAndRefresh
-window.deleteCommentAndRefresh = deleteCommentAndRefresh
-window.resetUploadPreview = resetUploadPreview
-window.editNavItem = editNavItem
-window.deleteNavItemAndRefresh = deleteNavItemAndRefresh
-window.cancelNavEdit = cancelNavEdit
+async function renderLogsTable() {
+  const logs = await loadLogs()
+  const tbody = document.getElementById('logs-table-body')
+  if (!tbody) return
+  tbody.innerHTML = logs.map(l => `
+    <tr>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;white-space:nowrap;">${l.log_date}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;font-weight:600;">${escapeHtml(l.title)}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;color:#6b7280;max-width:240px;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(l.content.substring(0, 60))}${l.content.length > 60 ? '...' : ''}</td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.8rem;">
+        <span style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:500;${l.status === 'published' ? 'background:#d1fae5;color:#065f46;' : 'background:#e2e8f0;color:#475569;'}">${l.status === 'published' ? '已发布' : '草稿'}</span>
+      </td>
+      <td style="padding:0.8rem;border-bottom:1px solid #e5e7eb;font-size:0.85rem;">
+        <button onclick="editLog('${l.id}')" style="background:#1a3a5c;color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:4px;font-size:0.75rem;cursor:pointer;margin-right:0.3rem;">编辑</button>
+        <button onclick="deleteLogAndRefresh('${l.id}')" style="background:#ef4444;color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:4px;font-size:0.75rem;cursor:pointer;">删除</button>
+      </td>
+    </tr>
+  `).join('')
+}
+
+async function editLog(id) {
+  const logs = await loadLogs()
+  const log = logs.find(l => l.id === id)
+  if (!log) return
+  const form = document.getElementById('log-form')
+  form.log_date.value = log.log_date
+  form.title.value = log.title || ''
+  form.content.value = log.content || ''
+  form.media_urls.value = (log.media_urls || []).join('\n')
+  form.tags.value = (log.tags || []).join(', ')
+  form.status.value = log.status || 'published'
+  form.dataset.editId = log.id
+  document.getElementById('log-form-title').textContent = '编辑日志'
+  document.getElementById('log-cancel-btn').style.display = 'inline-block'
+}
+
+function cancelLogEdit() {
+  const form = document.getElementById('log-form')
+  form.reset()
+  form.dataset.editId = ''
+  document.getElementById('log-form-title').textContent = '添加日志'
+  document.getElementById('log-cancel-btn').style.display = 'none'
+}
+
+async function deleteLogAndRefresh(id) {
+  if (!confirm('确定删除此日志？')) return
+  await deleteLog(id)
+  await renderLogsTable()
+}
+
+window.editLog = editLog
+window.deleteLogAndRefresh = deleteLogAndRefresh
+window.cancelLogEdit = cancelLogEdit
+window.renderLogsTable = renderLogsTable

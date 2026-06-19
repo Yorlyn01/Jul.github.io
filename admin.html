@@ -48,6 +48,7 @@
       <h2 data-i18n="admin.brand">Yorlyn 管理后台</h2>
       <nav>
         <button class="admin-tab active" data-panel="overview" data-i18n="admin.overview">数据概览</button>
+        <button class="admin-tab" data-panel="logs" data-i18n="admin.logs">日志管理</button>
         <button class="admin-tab" data-panel="works" data-i18n="admin.works">作品管理</button>
         <button class="admin-tab" data-panel="comments" data-i18n="admin.comments">留言管理</button>
         <button class="admin-tab" data-panel="views" data-i18n="admin.views">浏览记录</button>
@@ -120,6 +121,39 @@
           <table style="width:100%;border-collapse:collapse;">
             <thead><tr><th data-i18n="admin.text">名称</th><th data-i18n="admin.category">分类</th><th data-i18n="admin.total_likes">点赞</th><th data-i18n="admin.action">操作</th></tr></thead>
             <tbody id="works-table-body"><tr><td colspan="4" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Logs -->
+      <div id="logs" class="admin-panel">
+        <div class="form-card" style="max-width:640px;">
+          <h3 id="log-form-title" data-i18n="admin.add_log">添加日志</h3>
+          <form id="log-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div class="form-group"><label data-i18n="admin.log_date">日期</label><input type="date" name="log_date" required></div>
+              <div class="form-group"><label data-i18n="admin.log_status">状态</label>
+                <select name="status" style="width:100%;padding:0.7rem 0.9rem;border:1px solid #e5e7eb;font-size:0.9rem;outline:none;background:#fff;">
+                  <option value="published">已发布</option>
+                  <option value="draft">草稿</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group"><label data-i18n="admin.log_title">标题</label><input type="text" name="title" placeholder="输入日志标题" required></div>
+            <div class="form-group"><label data-i18n="admin.log_content">内容</label><textarea name="content" placeholder="写下今天的感言..." style="min-height:120px;" required></textarea></div>
+            <div class="form-group">
+              <label data-i18n="admin.log_media">媒体链接 (每行一个 URL)</label>
+              <textarea name="media_urls" placeholder="https://example.com/image.jpg&#10;https://example.com/video.mp4" style="min-height:80px;font-family:monospace;font-size:0.8rem;"></textarea>
+            </div>
+            <div class="form-group"><label data-i18n="admin.tags">标签 (逗号分隔)</label><input type="text" name="tags" placeholder="日常, 设计, 摄影"></div>
+            <button type="submit" data-i18n="admin.save_log">保存日志</button>
+            <button type="button" onclick="cancelLogEdit()" id="log-cancel-btn" style="background:#6b7280;margin-left:0.5rem;display:none;" data-i18n="admin.cancel">取消</button>
+          </form>
+        </div>
+        <div class="data-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr><th data-i18n="admin.log_date">日期</th><th data-i18n="admin.log_title">标题</th><th data-i18n="admin.log_content">内容</th><th data-i18n="admin.status">状态</th><th data-i18n="admin.action">操作</th></tr></thead>
+            <tbody id="logs-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
           </table>
         </div>
       </div>

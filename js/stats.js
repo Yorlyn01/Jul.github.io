@@ -91,3 +91,54 @@ window.approveComment = approveComment
 window.deleteComment = deleteComment
 window.deleteWork = deleteWork
 window.saveWork = saveWork
+
+// ==================== LOGS ====================
+
+async function loadLogs() {
+  const sb = await getSupabase()
+  const { data, error } = await sb
+    .from('logs')
+    .select('*')
+    .order('log_date', { ascending: false })
+  if (error) {
+    console.error('loadLogs error:', error)
+    return []
+  }
+  return data || []
+}
+
+async function saveLog(logData) {
+  const sb = await getSupabase()
+  // Parse media_urls from newline-separated text
+  if (typeof logData.media_urls === 'string') {
+    logData.media_urls = logData.media_urls
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean)
+  }
+  if (typeof logData.tags === 'string') {
+    logData.tags = logData.tags
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean)
+  }
+  if (logData.id) {
+    const { data, error } = await sb.from('logs').update(logData).eq('id', logData.id).select()
+    if (error) throw error
+    return data
+  } else {
+    const { data, error } = await sb.from('logs').insert(logData).select()
+    if (error) throw error
+    return data
+  }
+}
+
+async function deleteLog(id) {
+  const sb = await getSupabase()
+  const { error } = await sb.from('logs').delete().eq('id', id)
+  return !error
+}
+
+window.loadLogs = loadLogs
+window.saveLog = saveLog
+window.deleteLog = deleteLog
