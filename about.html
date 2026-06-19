@@ -401,7 +401,7 @@
         .from('logs')
         .select('*')
         .eq('status', 'published')
-        .order('log_date', { ascending: false })
+        .order('log_date', { ascending: true }) // asc: oldest first, afterbegin pushes newest to top
       
       if (error || !data || !data.length) {
         console.log('No dynamic logs found or error:', error)
@@ -441,6 +441,15 @@
           ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
           : ''
         
+        // i18n support: if i18n_key exists, use data-i18n with fallback
+        const i18nKey = log.i18n_key ? log.i18n_key.trim() : ''
+        const titleHtml = i18nKey
+          ? `<h3 class="log-title" data-i18n="${i18nKey}.title" data-i18n-fallback="${escapeHtml(log.title)}">${escapeHtml(log.title)}</h3>`
+          : `<h3 class="log-title">${escapeHtml(log.title)}</h3>`
+        const contentHtml = i18nKey
+          ? `<p class="log-text" data-i18n="${i18nKey}.content" data-i18n-fallback="${escapeHtml(log.content)}">${escapeHtml(log.content)}</p>`
+          : `<p class="log-text">${escapeHtml(log.content)}</p>`
+        
         const html = `
           <div class="log-entry" data-entry-id="${entryId}">
             <div class="log-date">
@@ -448,8 +457,8 @@
               <span class="month-year">${monthYear}</span>
             </div>
             <div class="log-body">
-              <h3 class="log-title">${escapeHtml(log.title)}</h3>
-              <p class="log-text">${escapeHtml(log.content)}</p>
+              ${titleHtml}
+              ${contentHtml}
               ${mediaHtml}
               ${tagsHtml}
               <div class="log-actions">
@@ -474,8 +483,15 @@
             </div>
           </div>
         `
-        container.insertAdjacentHTML('beforeend', html)
+        // Insert to beginning; because we iterate ascending (oldest first),
+        // the newest log ends up at the very top after all insertions.
+        container.insertAdjacentHTML('afterbegin', html)
       })
+      
+      // Apply i18n translations to newly added dynamic elements
+      if (typeof applyTranslations === 'function') {
+        applyTranslations()
+      }
       
       // Refresh likes and comments for newly added entries
       await loadLogLikes()

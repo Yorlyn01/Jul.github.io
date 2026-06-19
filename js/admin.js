@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const data = {
       log_date: form.log_date.value,
       title: form.title.value,
+      i18n_key: form.i18n_key.value,
       content: form.content.value,
       tags: form.tags.value,
       status: form.status.value
@@ -463,6 +464,7 @@ async function editLog(id) {
   form.content.value = log.content || ''
   form.media_urls.value = (log.media_urls || []).join('\n')
   form.tags.value = (log.tags || []).join(', ')
+  form.i18n_key.value = log.i18n_key || ''
   form.status.value = log.status || 'published'
   form.dataset.editId = log.id
   document.getElementById('log-form-title').textContent = '编辑日志'

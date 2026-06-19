@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS logs (
   content text NOT NULL DEFAULT '',
   media_urls text[] DEFAULT '{}',
   tags text[] DEFAULT '{}',
+  i18n_key text DEFAULT '',
   status text NOT NULL DEFAULT 'published' CHECK (status IN ('published', 'draft'))
 );
 

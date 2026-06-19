@@ -74,8 +74,9 @@ function applyTranslations() {
   
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n
-    const text = t(key)
-    if (text) {
+    const fallback = el.dataset.i18nFallback || el.textContent
+    const text = t(key, fallback)
+    if (text && text !== key) {
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
         if (el.placeholder !== undefined) el.placeholder = text
         else el.value = text
@@ -87,20 +88,22 @@ function applyTranslations() {
   
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.dataset.i18nPlaceholder
-    const text = t(key)
-    if (text) el.placeholder = text
+    const fallback = el.placeholder
+    const text = t(key, fallback)
+    if (text && text !== key) el.placeholder = text
   })
   
   document.querySelectorAll('[data-i18n-value]').forEach(el => {
     const key = el.dataset.i18nValue
-    const text = t(key)
-    if (text) el.value = text
+    const fallback = el.value
+    const text = t(key, fallback)
+    if (text && text !== key) el.value = text
   })
   
   const titleKey = document.querySelector('title')?.dataset.i18n
   if (titleKey) {
     const titleText = t(titleKey)
-    if (titleText) document.title = titleText
+    if (titleText && titleText !== titleKey) document.title = titleText
   }
 }
 
