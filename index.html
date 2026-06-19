@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yorlyn — Creative Developer & Designer</title>
+  <title data-i18n="site.title">Yorlyn — Creative Developer & Designer</title>
   <meta name="description" content="把人类存在变成星光。设计、开发与日常记录的个人作品集。">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -11,12 +11,12 @@
 <body>
   <div class="page-wrapper">
     <aside class="left-panel">
-      <div><a href="index.html" class="brand">yorlyn.com</a></div>
+      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
       <div class="hero-section">
-        <p class="hello-label fade-in">Hello</p>
-        <h1 class="hero-title fade-in fade-in-delay-1">I'm Yorlyn</h1>
-        <p class="hero-subtitle fade-in fade-in-delay-2">A Creative Developer & Designer<br>From Shanghai.</p>
-        <a href="contact.html" class="btn-outline fade-in fade-in-delay-3">Hire Me</a>
+        <p class="hello-label fade-in" data-i18n="index.hello">Hello</p>
+        <h1 class="hero-title fade-in fade-in-delay-1" data-i18n="index.hero_title">I'm Yorlyn</h1>
+        <p class="hero-subtitle fade-in fade-in-delay-2" data-i18n="index.hero_subtitle">A Creative Developer & Designer<br>From Shanghai.</p>
+        <a href="contact.html" class="btn-outline fade-in fade-in-delay-3" data-i18n="index.hire_me">Hire Me</a>
         <div class="social-links">
           <a href="#" title="GitHub">Gh</a>
           <a href="#" title="Twitter">Tw</a>
@@ -24,7 +24,7 @@
           <a href="#" title="Email">@</a>
         </div>
       </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">&copy; 2024 Yorlyn. All rights reserved.</div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2024 Yorlyn. All rights reserved.</div>
     </aside>
 
     <main class="right-content">
@@ -35,17 +35,17 @@
       </div>
 
       <div class="intro-bar">
-        <p class="intro-text">
+        <p class="intro-text" data-i18n="index.intro">
           我致力于创造能够启发人心的创新解决方案，在品牌、UI/UX 与 Web 开发之间架起桥梁，通过热情与专注的设计打造可用且精致的产品。每一天，我都在用代码和设计记录生活的痕迹。
         </p>
-        <a href="portfolio.html" class="btn-dark">View Portfolio</a>
-        <a href="admin-login.html" style="margin-left:0.8rem;font-size:0.75rem;color:#6b7280;text-decoration:none;">⚙ 管理后台</a>
+        <a href="portfolio.html" class="btn-dark" data-i18n="index.view_portfolio">View Portfolio</a>
+        <a href="admin-login.html" style="margin-left:0.8rem;font-size:0.75rem;color:#6b7280;text-decoration:none;" data-i18n="index.admin_dashboard">⚙ 管理后台</a>
       </div>
 
       <div class="intro-bar" style="border-top:1px solid #e5e7eb;">
-        <h3 style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;">最新作品</h3>
+        <h3 style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;" data-i18n="index.latest_works">最新作品</h3>
         <div id="latest-work-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
-          <p style="color:#6b7280;font-size:0.85rem;">加载中...</p>
+          <p style="color:#6b7280;font-size:0.85rem;" data-i18n="portfolio.loading">加载中...</p>
         </div>
       </div>
     </main>
@@ -53,25 +53,27 @@
     <nav class="side-nav">
       <div class="side-nav-toggle"><span></span><span></span></div>
       <div class="nav-links">
-        <a href="index.html" class="active">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="contact.html">Contact</a>
+        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+        <a href="about.html" data-i18n="nav.about">About Me</a>
+        <a href="portfolio.html" data-i18n="nav.portfolio">Portfolio</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
       </div>
     </nav>
   </div>
 
   <nav class="mobile-nav">
-    <a href="index.html" class="active">Home</a>
-    <a href="about.html">About</a>
-    <a href="portfolio.html">Work</a>
-    <a href="contact.html">Contact</a>
+    <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+    <a href="about.html" data-i18n="nav.about">About</a>
+    <a href="portfolio.html" data-i18n="nav.portfolio">Work</a>
+    <a href="contact.html" data-i18n="nav.contact">Contact</a>
   </nav>
   
   <script src="js/supabase.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/works.js"></script>
   <script>
+    initI18n()
     // Load latest 3 works for preview
     async function loadLatestWorks() {
       const works = await loadWorks({ status: 'published' })
@@ -79,7 +81,7 @@
       if (!container) return
       const latest = works.slice(0, 3)
       if (!latest.length) {
-        container.innerHTML = '<p style="color:#6b7280;font-size:0.85rem;grid-column:1/-1;">暂无作品，请访问作品集页面。</p>'
+        container.innerHTML = '<p style="color:#6b7280;font-size:0.85rem;grid-column:1/-1;" data-i18n="index.no_works">暂无作品，请访问作品集页面。</p>'
         return
       }
       container.innerHTML = latest.map(w => `

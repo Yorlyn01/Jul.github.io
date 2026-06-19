@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me — Yorlyn</title>
+  <title data-i18n="about.page_title">About Me — Yorlyn</title>
   <meta name="description" content="关于 Yorlyn — 设计师与开发者的自我介绍。">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,12 +11,12 @@
 <body>
   <div class="page-wrapper">
     <aside class="left-panel">
-      <div><a href="index.html" class="brand">yorlyn.com</a></div>
+      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
       <div class="hero-section">
-        <p class="hello-label">About</p>
-        <h1 class="hero-title">About Me</h1>
-        <p class="hero-subtitle">A little bit about who I am<br>and what I do.</p>
-        <a href="portfolio.html" class="btn-outline">See My Work</a>
+        <p class="hello-label" data-i18n="about.page_label">About</p>
+        <h1 class="hero-title" data-i18n="about.page_title">About Me</h1>
+        <p class="hero-subtitle" data-i18n="about.subtitle">A little bit about who I am<br>and what I do.</p>
+        <a href="portfolio.html" class="btn-outline" data-i18n="about.see_work">See My Work</a>
         <div class="social-links">
           <a href="#" title="GitHub">Gh</a>
           <a href="#" title="Twitter">Tw</a>
@@ -24,42 +24,42 @@
           <a href="#" title="Email">@</a>
         </div>
       </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">&copy; 2024 Yorlyn</div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2024 Yorlyn</div>
     </aside>
 
     <main class="right-content">
       <div class="content-page">
-        <p class="page-subtitle">个人简介</p>
-        <h2 class="page-title">设计与代码之间</h2>
+        <p class="page-subtitle" data-i18n="about.section_about">个人简介</p>
+        <h2 class="page-title" data-i18n="about.about_title">设计与代码之间</h2>
 
-        <p class="text-content">
+        <p class="text-content" data-i18n="about.about_text">
           我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。
           我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，
           都承载着对用户体验的尊重与追求。
         </p>
 
-        <h3 class="section-title">工作经历</h3>
+        <h3 class="section-title" data-i18n="about.section_work">工作经历</h3>
         <p class="text-content">
-          <strong>2022 — 至今</strong> · 自由职业设计师 & 开发者<br>
-          为多个品牌和个人项目提供设计、开发与咨询服务。
+          <strong>2022 — 至今</strong> · <span data-i18n="about.job1_title">自由职业设计师 & 开发者</span><br>
+          <span data-i18n="about.job1_desc">为多个品牌和个人项目提供设计、开发与咨询服务。</span>
         </p>
         <p class="text-content">
-          <strong>2020 — 2022</strong> · 某互联网公司 · 前端工程师<br>
-          负责产品前端架构、组件库设计与用户体验优化。
-        </p>
-
-        <h3 class="section-title">技能栈</h3>
-        <p class="text-content">
-          <strong>设计</strong> — Figma, Sketch, Adobe Illustrator, Photoshop<br>
-          <strong>前端</strong> — HTML/CSS, JavaScript, React, Vue, Next.js, Three.js<br>
-          <strong>工具</strong> — Git, VS Code, Webpack, Vite, Tailwind CSS<br>
-          <strong>其他</strong> — Node.js, Python, Supabase, Vercel
+          <strong>2020 — 2022</strong> · <span data-i18n="about.job2_title">某互联网公司 · 前端工程师</span><br>
+          <span data-i18n="about.job2_desc">负责产品前端架构、组件库设计与用户体验优化。</span>
         </p>
 
-        <h3 class="section-title">教育背景</h3>
+        <h3 class="section-title" data-i18n="about.section_skills">技能栈</h3>
         <p class="text-content">
-          <strong>2016 — 2020</strong> · 某大学 · 计算机科学与技术<br>
-          主修软件工程，辅修视觉设计。在校期间参与多个开源项目。
+          <strong data-i18n="about.skills_design">设计</strong> — <span data-i18n="about.skills_design_list">Figma, Sketch, Adobe Illustrator, Photoshop</span><br>
+          <strong data-i18n="about.skills_frontend">前端</strong> — <span data-i18n="about.skills_frontend_list">HTML/CSS, JavaScript, React, Vue, Next.js, Three.js</span><br>
+          <strong data-i18n="about.skills_tools">工具</strong> — <span data-i18n="about.skills_tools_list">Git, VS Code, Webpack, Vite, Tailwind CSS</span><br>
+          <strong data-i18n="about.skills_other">其他</strong> — <span data-i18n="about.skills_other_list">Node.js, Python, Supabase, Vercel</span>
+        </p>
+
+        <h3 class="section-title" data-i18n="about.section_edu">教育背景</h3>
+        <p class="text-content">
+          <strong>2016 — 2020</strong> · <span data-i18n="about.edu_title">某大学 · 计算机科学与技术</span><br>
+          <span data-i18n="about.edu_desc">主修软件工程，辅修视觉设计。在校期间参与多个开源项目。</span>
         </p>
       </div>
     </main>
@@ -83,5 +83,9 @@
   </nav>
   <script src="js/supabase.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/i18n.js"></script>
+  <script>
+    initI18n()
+  </script>
 </body>
 </html>

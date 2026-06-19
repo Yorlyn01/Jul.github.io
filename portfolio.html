@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio — Yorlyn</title>
+  <title data-i18n="portfolio.page_title">Portfolio — Yorlyn</title>
   <meta name="description" content="Yorlyn 的作品集 — 设计、开发与创意项目展示。">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,12 +11,12 @@
 <body>
   <div class="page-wrapper">
     <aside class="left-panel">
-      <div><a href="index.html" class="brand">yorlyn.com</a></div>
+      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
       <div class="hero-section">
-        <p class="hello-label">Work</p>
-        <h1 class="hero-title">Portfolio</h1>
-        <p class="hero-subtitle">Selected projects<br>and case studies.</p>
-        <a href="contact.html" class="btn-outline">Start a Project</a>
+        <p class="hello-label" data-i18n="portfolio.page_label">Work</p>
+        <h1 class="hero-title" data-i18n="portfolio.page_title">Portfolio</h1>
+        <p class="hero-subtitle" data-i18n="portfolio.subtitle">Selected projects<br>and case studies.</p>
+        <a href="contact.html" class="btn-outline" data-i18n="portfolio.start_project">Start a Project</a>
         <div class="social-links">
           <a href="#" title="GitHub">Gh</a>
           <a href="#" title="Twitter">Tw</a>
@@ -24,21 +24,21 @@
           <a href="#" title="Email">@</a>
         </div>
       </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">&copy; 2024 Yorlyn</div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2024 Yorlyn</div>
     </aside>
 
     <main class="right-content">
       <div class="content-page" style="max-width:800px;">
-        <p class="page-subtitle">精选作品</p>
-        <h2 class="page-title">我的项目</h2>
+        <p class="page-subtitle" data-i18n="portfolio.section_title">精选作品</p>
+        <h2 class="page-title" data-i18n="portfolio.projects_title">我的项目</h2>
 
-        <p class="text-content">
+        <p class="text-content" data-i18n="portfolio.intro">
           以下是我参与的一些项目，涵盖 Web 开发、UI 设计、品牌视觉与创意实验。
           每一个项目都代表着一段探索与学习的旅程。点击作品可以查看详情、留言和点赞。
         </p>
 
         <div class="portfolio-grid" id="portfolio-grid">
-          <p style="color:#6b7280;padding:2rem 0;grid-column:1/-1;">加载作品中...</p>
+          <p style="color:#6b7280;padding:2rem 0;grid-column:1/-1;" data-i18n="portfolio.loading">加载作品中...</p>
         </div>
       </div>
     </main>
@@ -63,8 +63,10 @@
   
   <script src="js/supabase.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/works.js"></script>
   <script>
+    initI18n()
     renderWorks('#portfolio-grid', { status: 'published' })
     logPageView('/portfolio')
   </script>

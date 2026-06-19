@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Yorlyn</title>
+  <title data-i18n="admin.title">Admin Dashboard — Yorlyn</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -45,14 +45,14 @@
 <body>
   <div class="admin-wrapper">
     <aside class="admin-sidebar">
-      <h2>Yorlyn 管理后台</h2>
+      <h2 data-i18n="admin.brand">Yorlyn 管理后台</h2>
       <nav>
-        <button class="admin-tab active" data-panel="overview">数据概览</button>
-        <button class="admin-tab" data-panel="works">作品管理</button>
-        <button class="admin-tab" data-panel="comments">留言管理</button>
-        <button class="admin-tab" data-panel="views">浏览记录</button>
-        <button class="admin-tab" data-panel="password">修改密码</button>
-        <button class="admin-tab" data-panel="navigation">导航菜单</button>
+        <button class="admin-tab active" data-panel="overview" data-i18n="admin.overview">数据概览</button>
+        <button class="admin-tab" data-panel="works" data-i18n="admin.works">作品管理</button>
+        <button class="admin-tab" data-panel="comments" data-i18n="admin.comments">留言管理</button>
+        <button class="admin-tab" data-panel="views" data-i18n="admin.views">浏览记录</button>
+        <button class="admin-tab" data-panel="password" data-i18n="admin.password">修改密码</button>
+        <button class="admin-tab" data-panel="navigation" data-i18n="admin.navigation">导航菜单</button>
       </nav>
       <div style="margin-top:auto;padding-top:2rem;font-size:0.75rem;color:rgba(255,255,255,0.4);">
         <span id="admin-email">Admin</span>
@@ -61,16 +61,16 @@
     
     <main class="admin-main">
       <div class="admin-header">
-        <h1>Dashboard</h1>
-        <button class="logout" onclick="adminLogout()">退出登录</button>
+        <h1 data-i18n="admin.dashboard">Dashboard</h1>
+        <button class="logout" onclick="adminLogout()" data-i18n="admin.logout">退出登录</button>
       </div>
       
       <!-- Overview -->
       <div id="overview" class="admin-panel active">
         <div class="stats-grid" id="stats-grid">
-          <div style="padding:2rem;text-align:center;color:#6b7280;">加载中...</div>
+          <div style="padding:2rem;text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</div>
         </div>
-        <h3 style="margin-bottom:1rem;font-size:1.1rem;">最近留言</h3>
+        <h3 style="margin-bottom:1rem;font-size:1.1rem;" data-i18n="admin.recent_comments">最近留言</h3>
         <div class="data-table" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;">
             <thead><tr><th>用户</th><th>作品</th><th>内容</th><th>状态</th><th>操作</th></tr></thead>
@@ -82,17 +82,17 @@
       <!-- Works -->
       <div id="works" class="admin-panel">
         <div class="form-card">
-          <h3 id="form-title">添加作品</h3>
+          <h3 id="form-title" data-i18n="admin.add_work">添加作品</h3>
           <form id="work-form">
             <div class="form-group"><label>作品名称</label><input type="text" name="title" placeholder="输入作品名称" required></div>
             <div class="form-group"><label>描述</label><textarea name="description" placeholder="作品描述..."></textarea></div>
             <div class="form-group">
-              <label>媒体文件</label>
+              <label data-i18n="admin.media">媒体文件</label>
               <div class="upload-zone" id="upload-zone">
                 <div class="upload-zone-text">
                   <div style="font-size:1.5rem;margin-bottom:0.3rem;">📎</div>
                   <div>点击选择或拖放图片/视频</div>
-                  <small style="color:#6b7280;">支持 JPG, PNG, GIF, MP4, WebM 等格式 · 最大 300MB</small>
+                  <small style="color:#6b7280;" data-i18n="admin.media_tip">支持 JPG, PNG, GIF, MP4, WebM 等格式 · 最大 300MB</small>
                 </div>
                 <input type="file" id="media-input" accept="image/*,video/*" style="display:none;">
               </div>
@@ -102,24 +102,24 @@
               </div>
               <div class="upload-progress" id="upload-progress">
                 <div class="upload-progress-bar-wrap"><div class="upload-progress-bar" id="upload-progress-bar"></div></div>
-                <small id="upload-progress-text" style="color:#6b7280;font-size:0.75rem;">上传中...</small>
+                <small id="upload-progress-text" style="color:#6b7280;font-size:0.75rem;" data-i18n="portfolio.loading">上传中...</small>
               </div>
               <div id="upload-msg" style="margin-top:0.5rem;font-size:0.8rem;display:none;"></div>
             </div>
             <div class="form-group" style="margin-top:0.5rem;">
-              <label>或输入 URL</label>
+              <label data-i18n="admin.or_url">或输入 URL</label>
               <input type="url" name="image_url" id="image-url-input" placeholder="https://example.com/image.jpg">
             </div>
-            <div class="form-group"><label>分类</label><input type="text" name="category" placeholder="Web / UI / Brand"></div>
-            <div class="form-group"><label>标签 (逗号分隔)</label><input type="text" name="tags" placeholder="React, Design, 3D"></div>
-            <div class="form-group"><label>排序</label><input type="number" name="order_index" value="0" placeholder="0"></div>
-            <button type="submit">保存作品</button>
+            <div class="form-group"><label data-i18n="admin.category">分类</label><input type="text" name="category" placeholder="Web / UI / Brand"></div>
+            <div class="form-group"><label data-i18n="admin.tags">标签 (逗号分隔)</label><input type="text" name="tags" placeholder="React, Design, 3D"></div>
+            <div class="form-group"><label data-i18n="admin.order">排序</label><input type="number" name="order_index" value="0" placeholder="0"></div>
+            <button type="submit" data-i18n="admin.save_work">保存作品</button>
           </form>
         </div>
         <div class="data-table" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;">
-            <thead><tr><th>名称</th><th>分类</th><th>点赞</th><th>操作</th></tr></thead>
-            <tbody id="works-table-body"><tr><td colspan="4" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+            <thead><tr><th data-i18n="admin.text">名称</th><th data-i18n="admin.category">分类</th><th data-i18n="admin.total_likes">点赞</th><th data-i18n="admin.action">操作</th></tr></thead>
+            <tbody id="works-table-body"><tr><td colspan="4" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -128,8 +128,8 @@
       <div id="comments" class="admin-panel">
         <div class="data-table" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;">
-            <thead><tr><th>用户</th><th>作品</th><th>内容</th><th>状态</th><th>操作</th></tr></thead>
-            <tbody id="comments-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+            <thead><tr><th data-i18n="admin.user">用户</th><th data-i18n="admin.work">作品</th><th data-i18n="admin.content">内容</th><th data-i18n="admin.status">状态</th><th data-i18n="admin.action">操作</th></tr></thead>
+            <tbody id="comments-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -138,8 +138,8 @@
       <div id="views" class="admin-panel">
         <div class="data-table" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;">
-            <thead><tr><th>页面</th><th>时间</th></tr></thead>
-            <tbody id="views-table-body"><tr><td colspan="2" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+            <thead><tr><th data-i18n="admin.page">页面</th><th data-i18n="admin.time">时间</th></tr></thead>
+            <tbody id="views-table-body"><tr><td colspan="2" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -147,19 +147,19 @@
       <!-- Password -->
       <div id="password" class="admin-panel">
         <div class="form-card" style="max-width:480px;">
-          <h3>修改密码</h3>
+          <h3 data-i18n="admin.password">修改密码</h3>
           <form id="password-form">
             <div class="form-group">
-              <label>新密码</label>
+              <label data-i18n="admin.new_password">新密码</label>
               <input type="password" name="new_password" placeholder="输入新密码" required minlength="6">
-              <small style="color:#6b7280;font-size:0.75rem;">至少 6 个字符</small>
+              <small style="color:#6b7280;font-size:0.75rem;" data-i18n="admin.password_min">至少 6 个字符</small>
             </div>
             <div class="form-group">
-              <label>确认新密码</label>
+              <label data-i18n="admin.confirm_password">确认新密码</label>
               <input type="password" name="confirm_password" placeholder="再次输入新密码" required minlength="6">
             </div>
             <div id="password-msg" style="margin-bottom:1rem;font-size:0.85rem;display:none;"></div>
-            <button type="submit">保存新密码</button>
+            <button type="submit" data-i18n="admin.save_password">保存新密码</button>
           </form>
         </div>
       </div>
@@ -167,25 +167,25 @@
       <!-- Navigation -->
       <div id="navigation" class="admin-panel">
         <div class="form-card" style="max-width:560px;">
-          <h3 id="nav-form-title">添加导航项</h3>
+          <h3 id="nav-form-title" data-i18n="admin.add_nav">添加导航项</h3>
           <form id="nav-form">
-            <div class="form-group"><label>显示文字</label><input type="text" name="label" placeholder="如：首页 / 关于我" required></div>
-            <div class="form-group"><label>链接地址</label><input type="text" name="url" placeholder="如：index.html / about.html" required></div>
-            <div class="form-group"><label>排序</label><input type="number" name="order_index" value="0" placeholder="数字越小越靠前"></div>
+            <div class="form-group"><label data-i18n="admin.display_text">显示文字</label><input type="text" name="label" placeholder="如：首页 / 关于我" required></div>
+            <div class="form-group"><label data-i18n="admin.link_url">链接地址</label><input type="text" name="url" placeholder="如：index.html / about.html" required></div>
+            <div class="form-group"><label data-i18n="admin.order">排序</label><input type="number" name="order_index" value="0" placeholder="数字越小越靠前"></div>
             <div class="form-group">
               <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
                 <input type="checkbox" name="is_visible" checked style="width:auto;">
-                显示在导航中
+                <span data-i18n="admin.show_nav">显示在导航中</span>
               </label>
             </div>
-            <button type="submit">保存</button>
-            <button type="button" onclick="cancelNavEdit()" id="nav-cancel-btn" style="background:#6b7280;margin-left:0.5rem;display:none;">取消</button>
+            <button type="submit" data-i18n="admin.save">保存</button>
+            <button type="button" onclick="cancelNavEdit()" id="nav-cancel-btn" style="background:#6b7280;margin-left:0.5rem;display:none;" data-i18n="admin.cancel">取消</button>
           </form>
         </div>
         <div class="data-table" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;">
-            <thead><tr><th>文字</th><th>链接</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
-            <tbody id="nav-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
+            <thead><tr><th data-i18n="admin.text">文字</th><th data-i18n="admin.link">链接</th><th data-i18n="admin.order">排序</th><th data-i18n="admin.status">状态</th><th data-i18n="admin.action">操作</th></tr></thead>
+            <tbody id="nav-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;" data-i18n="portfolio.loading">加载中...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -193,8 +193,12 @@
   </div>
   
   <script src="js/supabase.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/stats.js"></script>
   <script src="js/works.js"></script>
   <script src="js/admin.js"></script>
+  <script>
+    initI18n()
+  </script>
 </body>
 </html>

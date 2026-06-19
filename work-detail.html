@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>作品详情 — Yorlyn</title>
+  <title data-i18n="work_detail.title">作品详情 — Yorlyn</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -47,40 +47,40 @@
       <div class="work-detail-page" id="work-detail">
         <div class="work-detail-header">
           <div class="work-detail-meta" id="work-tags">
-            <span>加载中...</span>
+            <span data-i18n="portfolio.loading">加载中...</span>
           </div>
-          <h1 id="work-title">加载中...</h1>
+          <h1 id="work-title" data-i18n="portfolio.loading">加载中...</h1>
         </div>
         
         <div class="work-detail-image" id="work-image">
           <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f2f5;color:#1a3a5c;font-size:2rem;font-weight:700;">YORLYN</div>
         </div>
         
-        <div class="work-detail-content" id="work-description">
+        <div class="work-detail-content" id="work-description" data-i18n="portfolio.loading">
           加载中...
         </div>
         
         <div class="work-actions">
           <button class="btn-like" id="like-btn" onclick="handleLike()">
-            <span>♥</span> 点赞 <span id="like-count">0</span>
+            <span>♥</span> <span data-i18n="work_detail.like">点赞</span> <span id="like-count">0</span>
           </button>
-          <button class="btn-back" onclick="location.href='portfolio.html'">← 返回作品集</button>
+          <button class="btn-back" onclick="location.href='portfolio.html'" data-i18n="work_detail.back">← 返回作品集</button>
         </div>
         
         <div class="comment-section">
-          <h2>留言板</h2>
-          <div class="comment-success" id="comment-success">留言提交成功！管理员审核通过后将显示。</div>
-          <div class="comment-pending" id="comment-pending">正在提交...</div>
+          <h2 data-i18n="work_detail.comments">留言板</h2>
+          <div class="comment-success" id="comment-success" data-i18n="work_detail.comment_success">留言提交成功！管理员审核通过后将显示。</div>
+          <div class="comment-pending" id="comment-pending" data-i18n="work_detail.comment_pending">正在提交...</div>
           <form class="comment-form" id="comment-form">
             <div class="form-row">
-              <input type="text" id="comment-name" placeholder="你的名字" required>
-              <input type="email" id="comment-email" placeholder="邮箱（不公开）" required>
+              <input type="text" id="comment-name" data-i18n-placeholder="work_detail.name_placeholder" placeholder="你的名字" required>
+              <input type="email" id="comment-email" data-i18n-placeholder="work_detail.email_placeholder" placeholder="邮箱（不公开）" required>
             </div>
-            <textarea id="comment-content" placeholder="写下你的留言..." required></textarea>
-            <button type="submit">提交留言</button>
+            <textarea id="comment-content" data-i18n-placeholder="work_detail.content_placeholder" placeholder="写下你的留言..." required></textarea>
+            <button type="submit" data-i18n="work_detail.submit">提交留言</button>
           </form>
           <div class="comment-list" id="comment-list">
-            <p style="color:#6b7280;font-size:0.85rem;">加载留言中...</p>
+            <p style="color:#6b7280;font-size:0.85rem;" data-i18n="portfolio.loading">加载留言中...</p>
           </div>
         </div>
       </div>
@@ -89,9 +89,11 @@
   
   <script src="js/supabase.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/works.js"></script>
   <script src="js/comments.js"></script>
   <script>
+    initI18n()
     const urlParams = new URLSearchParams(window.location.search)
     const workId = urlParams.get('id')
     
