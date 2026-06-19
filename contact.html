@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Yorlyn</title>
+  <meta name="description" content="联系 Yorlyn — 设计、开发合作与项目咨询。">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-wrapper">
+    <aside class="left-panel">
+      <div><a href="index.html" class="brand">yorlyn.com</a></div>
+      <div class="hero-section">
+        <p class="hello-label">Contact</p>
+        <h1 class="hero-title">Get in Touch</h1>
+        <p class="hero-subtitle">Have a project in mind?<br>Let's create something together.</p>
+        <a href="portfolio.html" class="btn-outline">View Portfolio</a>
+        <div class="social-links">
+          <a href="#" title="GitHub">Gh</a>
+          <a href="#" title="Twitter">Tw</a>
+          <a href="#" title="Dribbble">Dr</a>
+          <a href="#" title="Email">@</a>
+        </div>
+      </div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">&copy; 2024 Yorlyn</div>
+    </aside>
+
+    <main class="right-content">
+      <div class="content-page" style="max-width:600px;">
+        <p class="page-subtitle">联系方式</p>
+        <h2 class="page-title">开始合作</h2>
+
+        <p class="text-content">
+          无论是设计项目、开发合作，还是单纯想交流创意，我都很乐意收到你的来信。
+          填写下方表单，或直接通过邮件/社交媒体联系。
+        </p>
+
+        <form class="contact-form" action="#" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Project inquiry / Collaboration / Hello">
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-dark" style="justify-self:start;">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="icon">@</div>
+            <div>
+              <h4>Email</h4>
+              <p>hello@yorlyn.com</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon">L</div>
+            <div>
+              <h4>Location</h4>
+              <p>Shanghai, China</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon">T</div>
+            <div>
+              <h4>Social</h4>
+              <p>GitHub · Twitter · Dribbble</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="side-nav">
+      <div class="side-nav-toggle"><span></span><span></span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+    </nav>
+  </div>
+
+  <nav class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Work</a>
+    <a href="contact.html" class="active">Contact</a>
+  </nav>
+</body>
+</html>
