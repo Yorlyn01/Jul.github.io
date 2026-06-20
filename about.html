@@ -441,10 +441,19 @@
           ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
           : ''
         
+        // Parse translations - Supabase may return as string or object
+        let translations = log.translations || {}
+        if (typeof translations === 'string') {
+          try { translations = JSON.parse(translations) } catch (e) { translations = {} }
+        }
+        
         // Database translations take priority; fallback to i18n_key mechanism
-        const hasDbTranslation = log.translations && log.translations[currentLocale]
-        const titleToShow = hasDbTranslation ? log.translations[currentLocale].title : log.title
-        const contentToShow = hasDbTranslation ? log.translations[currentLocale].content : log.content
+        const hasDbTranslation = translations && translations[currentLocale]
+        const titleToShow = hasDbTranslation ? translations[currentLocale].title : log.title
+        const contentToShow = hasDbTranslation ? translations[currentLocale].content : log.content
+        
+        // Debug log
+        console.log('[loadDynamicLogs] entryId:', entryId, 'locale:', currentLocale, 'hasDbTranslation:', hasDbTranslation, 'translations:', translations)
         
         // i18n support: if i18n_key exists and no db translation, use data-i18n with about. prefix + fallback
         const i18nKey = log.i18n_key ? log.i18n_key.trim() : ''

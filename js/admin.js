@@ -743,22 +743,34 @@ async function translateLog() {
     const transInput = document.getElementById('log-translations')
     if (transInput) transInput.value = JSON.stringify(translations)
 
-    // Show preview
+    // Show preview - display both title and content for each language
     const preview = document.getElementById('translation-preview')
     if (preview) {
       const labels = { zh: '中文', en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', ja: '日本語', ko: '한국어', ru: 'Русский' }
       preview.innerHTML = `
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:1rem;margin-top:1rem;">
           <div style="font-weight:600;color:#166534;margin-bottom:0.5rem;">✅ 翻译完成 (${Object.keys(translations).length} 种语言)</div>
-          <div style="font-size:0.8rem;color:#4b5563;">
+          <div style="font-size:0.8rem;color:#4b5563;max-height:300px;overflow-y:auto;">
             ${Object.entries(translations).map(([lang, t]) => {
-              return `<div style="margin-bottom:0.3rem;"><strong>${labels[lang] || lang}</strong>: ${escapeHtml(t.title)}</div>`
+              const hasContent = t.content && t.content.trim() !== ''
+              return `<details style="margin-bottom:0.5rem;border:1px solid #e5e7eb;border-radius:4px;padding:0.5rem;">
+                <summary style="font-weight:600;cursor:pointer;">${labels[lang] || lang}</summary>
+                <div style="margin-top:0.3rem;padding-left:0.5rem;">
+                  <div><strong>标题:</strong> ${escapeHtml(t.title)}</div>
+                  <div style="margin-top:0.2rem;color:${hasContent ? '#4b5563' : '#ef4444'};">
+                    <strong>内容:</strong> ${hasContent ? escapeHtml(t.content.substring(0,80)) : '⚠️ 内容为空'}
+                  </div>
+                </div>
+              </details>`
             }).join('')}
           </div>
         </div>
       `
       preview.style.display = 'block'
     }
+
+    // Debug log
+    console.log('[translateLog] translations object:', translations)
 
   } catch (err) {
     console.error('Translation error:', err)
