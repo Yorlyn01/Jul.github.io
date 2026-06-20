@@ -99,7 +99,7 @@ async function loadLogs() {
   const { data, error } = await sb
     .from('logs')
     .select('*')
-    .order('log_date', { ascending: false })
+    .order('created_at', { ascending: false }) // 最新上传的显示在最上面
   if (error) {
     console.error('loadLogs error:', error)
     return []
