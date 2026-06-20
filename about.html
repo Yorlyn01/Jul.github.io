@@ -441,14 +441,19 @@
           ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
           : ''
         
-        // i18n support: if i18n_key exists, use data-i18n with about. prefix + fallback
+        // Database translations take priority; fallback to i18n_key mechanism
+        const hasDbTranslation = log.translations && log.translations[currentLocale]
+        const titleToShow = hasDbTranslation ? log.translations[currentLocale].title : log.title
+        const contentToShow = hasDbTranslation ? log.translations[currentLocale].content : log.content
+        
+        // i18n support: if i18n_key exists and no db translation, use data-i18n with about. prefix + fallback
         const i18nKey = log.i18n_key ? log.i18n_key.trim() : ''
-        const titleHtml = i18nKey
-          ? `<h3 class="log-title" data-i18n="about.${i18nKey}.title" data-i18n-fallback="${escapeHtml(log.title)}">${escapeHtml(log.title)}</h3>`
-          : `<h3 class="log-title">${escapeHtml(log.title)}</h3>`
-        const contentHtml = i18nKey
-          ? `<p class="log-text" data-i18n="about.${i18nKey}.content" data-i18n-fallback="${escapeHtml(log.content)}">${escapeHtml(log.content)}</p>`
-          : `<p class="log-text">${escapeHtml(log.content)}</p>`
+        const titleHtml = i18nKey && !hasDbTranslation
+          ? `<h3 class="log-title" data-i18n="about.${i18nKey}.title" data-i18n-fallback="${escapeHtml(titleToShow)}">${escapeHtml(titleToShow)}</h3>`
+          : `<h3 class="log-title">${escapeHtml(titleToShow)}</h3>`
+        const contentHtml = i18nKey && !hasDbTranslation
+          ? `<p class="log-text" data-i18n="about.${i18nKey}.content" data-i18n-fallback="${escapeHtml(contentToShow)}">${escapeHtml(contentToShow)}</p>`
+          : `<p class="log-text">${escapeHtml(contentToShow)}</p>`
         
         const html = `
           <div class="log-entry" data-entry-id="${entryId}">

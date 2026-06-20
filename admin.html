@@ -194,8 +194,16 @@
               <textarea name="media_urls" id="log-media-urls" placeholder="https://example.com/image.jpg&#10;https://example.com/video.mp4" style="min-height:80px;font-family:monospace;font-size:0.8rem;"></textarea>
             </div>
             <div class="form-group"><label data-i18n="admin.tags">标签 (逗号分隔)</label><input type="text" name="tags" placeholder="日常, 设计, 摄影"></div>
-            <button type="submit" data-i18n="admin.save_log">保存日志</button>
-            <button type="button" onclick="cancelLogEdit()" id="log-cancel-btn" style="background:#6b7280;margin-left:0.5rem;display:none;" data-i18n="admin.cancel">取消</button>
+            <div class="form-group" style="display:none;">
+              <label>翻译数据 (JSON)</label>
+              <input type="hidden" name="translations" id="log-translations" value="">
+            </div>
+            <div id="translation-preview" style="display:none;"></div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem;">
+              <button type="button" onclick="translateLog()" id="translate-log-btn" style="background:#059669;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer;">🌐 翻译</button>
+              <button type="submit" data-i18n="admin.save_log">保存日志</button>
+              <button type="button" onclick="cancelLogEdit()" id="log-cancel-btn" style="background:#6b7280;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer;display:none;" data-i18n="admin.cancel">取消</button>
+            </div>
           </form>
         </div>
         <div class="data-table" style="overflow-x:auto;">

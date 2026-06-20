@@ -150,6 +150,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       status: form.status.value
     }
     
+    // Include translations if available
+    const translationsInput = form.querySelector('#log-translations')
+    if (translationsInput?.value) {
+      try {
+        data.translations = JSON.parse(translationsInput.value)
+      } catch (e) {
+        console.warn('Invalid translations JSON:', e)
+      }
+    }
+    
     // Collect media URLs from textarea
     let mediaUrls = form.media_urls.value
       .split('\n')
@@ -169,6 +179,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('log-form-title').textContent = '添加日志'
       document.getElementById('log-cancel-btn').style.display = 'none'
       resetLogUpload()
+      // Clear translations
+      const transInput = document.getElementById('log-translations')
+      const transPreview = document.getElementById('translation-preview')
+      if (transInput) transInput.value = ''
+      if (transPreview) { transPreview.innerHTML = ''; transPreview.style.display = 'none' }
       await renderLogsTable()
     } catch (err) {
       alert('保存失败: ' + err.message)
@@ -476,6 +491,29 @@ async function editLog(id) {
       if (url && url.trim()) addLogPreviewFromUrl(url.trim())
     }
   }
+  // Load existing translations
+  const translationsInput = document.getElementById('log-translations')
+  const preview = document.getElementById('translation-preview')
+  if (log.translations && translationsInput) {
+    translationsInput.value = JSON.stringify(log.translations)
+    if (preview) {
+      const labels = { zh: '中文', en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', ja: '日本語', ko: '한국어', ru: 'Русский' }
+      preview.innerHTML = `
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:1rem;margin-top:1rem;">
+          <div style="font-weight:600;color:#166534;margin-bottom:0.5rem;">✅ 已有翻译 (${Object.keys(log.translations).length} 种语言)</div>
+          <div style="font-size:0.8rem;color:#4b5563;">
+            ${Object.entries(log.translations).map(([lang, t]) => {
+              return `<div style="margin-bottom:0.3rem;"><strong>${labels[lang] || lang}</strong>: ${escapeHtml(t.title)}</div>`
+            }).join('')}
+          </div>
+        </div>
+      `
+      preview.style.display = 'block'
+    }
+  } else {
+    if (translationsInput) translationsInput.value = ''
+    if (preview) { preview.innerHTML = ''; preview.style.display = 'none' }
+  }
 }
 
 function cancelLogEdit() {
@@ -485,6 +523,11 @@ function cancelLogEdit() {
   document.getElementById('log-form-title').textContent = '添加日志'
   document.getElementById('log-cancel-btn').style.display = 'none'
   resetLogUpload()
+  // Clear translations
+  const transInput = document.getElementById('log-translations')
+  const transPreview = document.getElementById('translation-preview')
+  if (transInput) transInput.value = ''
+  if (transPreview) { transPreview.innerHTML = ''; transPreview.style.display = 'none' }
 }
 
 async function deleteLogAndRefresh(id) {
@@ -657,6 +700,75 @@ function resetLogUpload() {
   window.logUploadedUrls = []
 }
 
+async function translateText(text, targetLang) {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`
+  const response = await fetch(url)
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  const data = await response.json()
+  if (!data || !data[0]) throw new Error('Invalid response')
+  return data[0].map(part => part[0]).join('')
+}
+
+async function translateLog() {
+  const form = document.getElementById('log-form')
+  const title = form.title.value.trim()
+  const content = form.content.value.trim()
+
+  if (!title || !content) {
+    alert('请先填写标题和内容')
+    return
+  }
+
+  const btn = document.getElementById('translate-log-btn')
+  const originalText = btn.textContent
+  btn.textContent = '翻译中...'
+  btn.disabled = true
+
+  try {
+    const languages = ['en', 'es', 'fr', 'de', 'ja', 'ko', 'ru']
+    const translations = { zh: { title, content } }
+
+    for (const lang of languages) {
+      const [translatedTitle, translatedContent] = await Promise.all([
+        translateText(title, lang),
+        translateText(content, lang)
+      ])
+      translations[lang] = {
+        title: translatedTitle,
+        content: translatedContent
+      }
+    }
+
+    // Update hidden input
+    const transInput = document.getElementById('log-translations')
+    if (transInput) transInput.value = JSON.stringify(translations)
+
+    // Show preview
+    const preview = document.getElementById('translation-preview')
+    if (preview) {
+      const labels = { zh: '中文', en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', ja: '日本語', ko: '한국어', ru: 'Русский' }
+      preview.innerHTML = `
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:1rem;margin-top:1rem;">
+          <div style="font-weight:600;color:#166534;margin-bottom:0.5rem;">✅ 翻译完成 (${Object.keys(translations).length} 种语言)</div>
+          <div style="font-size:0.8rem;color:#4b5563;">
+            ${Object.entries(translations).map(([lang, t]) => {
+              return `<div style="margin-bottom:0.3rem;"><strong>${labels[lang] || lang}</strong>: ${escapeHtml(t.title)}</div>`
+            }).join('')}
+          </div>
+        </div>
+      `
+      preview.style.display = 'block'
+    }
+
+  } catch (err) {
+    console.error('Translation error:', err)
+    alert('翻译失败: ' + err.message + '\n请检查网络连接，或手动保存后重试。')
+  } finally {
+    btn.textContent = originalText
+    btn.disabled = false
+  }
+}
+
 window.addLogPreviewFromUrl = addLogPreviewFromUrl
 window.setupLogFileUpload = setupLogFileUpload
 window.resetLogUpload = resetLogUpload
@@ -665,3 +777,5 @@ window.deleteLogAndRefresh = deleteLogAndRefresh
 window.cancelLogEdit = cancelLogEdit
 window.renderLogsTable = renderLogsTable
 window.removeLogPreview = removeLogPreview
+window.translateLog = translateLog
+window.translateText = translateText
