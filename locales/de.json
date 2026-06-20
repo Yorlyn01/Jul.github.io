@@ -81,6 +81,10 @@
     "log_launch": {
       "title": "Yorlyn-Website heute gestartet",
       "content": "Dies ist mein erster Blog-Eintrag. Danke an KI und die Kraft der Technologie. Ab heute wird diese kleine Ecke meine täglichen Gedanken und Kreationen aufzeichnen."
+    },
+    "log_claude_degrade": {
+      "title": "Claude Code ist so schlau",
+      "content": "Da Claudes Flabe 5 eingeschränkt wurde, habe ich das Gefühl, dass alle Modelle nicht mehr gut sind. Ich habe das Gefühl, getäuscht worden zu sein. Ein einfacher Befehl zur Änderung des Erscheinungsbilds ist ein völliges Durcheinander. Im Vergleich zum aktualisierten Codex ist es offensichtlich viel flüssiger, aber die alte Erinnerung ist, dass das Kontingent nicht ausreicht."
     }
   },
   "portfolio": {

@@ -81,6 +81,10 @@
     "log_launch": {
       "title": "Sitio web Yorlyn lanzado hoy",
       "content": "Esta es mi primera entrada de blog. Gracias a la IA y al poder de la tecnología. Desde hoy, este pequeño rincón registrará mis pensamientos y creaciones diarias."
+    },
+    "log_claude_degrade": {
+      "title": "El código Claude es tan inteligente.",
+      "content": "Desde que el Flabe 5 de Claude fue restringido, siento que todos los modelos ya no son buenos. Siento que me han engañado. Un simple comando de modificación de apariencia es un completo desastre. En comparación con el Codex actualizado, obviamente es mucho más fluido, pero el viejo recordatorio es que la cuota no es suficiente."
     }
   },
   "portfolio": {

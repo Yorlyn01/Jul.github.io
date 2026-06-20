@@ -85,6 +85,10 @@
     "log_launch": {
       "title": "个人网站Yorlyn今天上线",
       "content": "这是我的第一篇日志，感谢AI，感谢技术的力量。从今天起，这个小小的角落会记录我的日常、思考和创作。"
+    },
+    "log_claude_degrade": {
+      "title": "Claude code降智了",
+      "content": "自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉，一个简单的外观修改命令，都做的一塌糊涂。对比升级后的Codex，明显会顺很多，但是就是老提示额度不够用。"
     }
   },
   "portfolio": {

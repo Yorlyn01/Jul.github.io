@@ -85,6 +85,10 @@
     "log_launch": {
       "title": "Yorlyn Website Launched Today",
       "content": "This is my first log entry. Thanks to AI and the power of technology. From today on, this little corner will record my daily thoughts and creations."
+    },
+    "log_claude_degrade": {
+      "title": "Claude code is so smart",
+      "content": "Since Claude's Flabe 5 was restricted, I feel that all the models are no longer good. I feel like I have been deceived. A simple appearance modification command is a complete mess. Compared with the upgraded Codex, it is obviously much smoother, but the old reminder is that the quota is not enough."
     }
   },
   "portfolio": {
