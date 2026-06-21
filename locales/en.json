@@ -89,6 +89,10 @@
     "log_claude_degrade": {
       "title": "Claude code is so smart",
       "content": "Since Claude's Flabe 5 was restricted, I feel that all the models are no longer good. I feel like I have been deceived. A simple appearance modification command is a complete mess. Compared with the upgraded Codex, it is obviously much smoother, but the old reminder is that the quota is not enough."
+    },
+    "log_ai_insight": {
+      "title": "Insights on AI",
+      "content": "I feel that the current AI is still unable to achieve perfection in some knowledge in professional fields. It only knows the superficial knowledge of some professional fields, and is not said to be very proficient. Take the printing industry that I am currently engaged in as an example. I want to design a professional software for the printing industry, but I only get an empty shell and it has not yet reached the level of industrial-level output. So AI is still in its infancy. So how can we get to the core of the professional field? I think it may take a long time, and it requires people in various professional fields to use AI software for a long time to obtain truly professional data."
     }
   },
   "portfolio": {

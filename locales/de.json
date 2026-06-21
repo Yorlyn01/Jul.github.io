@@ -85,6 +85,10 @@
     "log_claude_degrade": {
       "title": "Claude Code ist so schlau",
       "content": "Da Claudes Flabe 5 eingeschränkt wurde, habe ich das Gefühl, dass alle Modelle nicht mehr gut sind. Ich habe das Gefühl, getäuscht worden zu sein. Ein einfacher Befehl zur Änderung des Erscheinungsbilds ist ein völliges Durcheinander. Im Vergleich zum aktualisierten Codex ist es offensichtlich viel flüssiger, aber die alte Erinnerung ist, dass das Kontingent nicht ausreicht."
+    },
+    "log_ai_insight": {
+      "title": "Einblicke in KI",
+      "content": "Ich habe das Gefühl, dass die aktuelle KI in einigen Berufsfeldern immer noch nicht in der Lage ist, die Perfektion zu erreichen. Es verfügt nur über oberflächliche Kenntnisse in einigen Berufsfeldern und wird nicht als sehr kompetent bezeichnet. Nehmen Sie als Beispiel die Druckindustrie, in der ich derzeit tätig bin. Ich möchte eine professionelle Software für die Druckindustrie entwerfen, aber ich bekomme nur eine leere Hülle und sie hat noch nicht das Niveau einer industriellen Ausgabe erreicht. KI steckt also noch in den Kinderschuhen. Wie gelangen wir also zum Kern des Berufsfeldes? Ich denke, es kann lange dauern, und es erfordert, dass Menschen in verschiedenen Berufsfeldern KI-Software über einen langen Zeitraum verwenden, um wirklich professionelle Daten zu erhalten."
     }
   },
   "portfolio": {

@@ -85,6 +85,10 @@
     "log_claude_degrade": {
       "title": "El código Claude es tan inteligente.",
       "content": "Desde que el Flabe 5 de Claude fue restringido, siento que todos los modelos ya no son buenos. Siento que me han engañado. Un simple comando de modificación de apariencia es un completo desastre. En comparación con el Codex actualizado, obviamente es mucho más fluido, pero el viejo recordatorio es que la cuota no es suficiente."
+    },
+    "log_ai_insight": {
+      "title": "Perspectivas sobre la IA",
+      "content": "Siento que la IA actual todavía no puede alcanzar la perfección en algunos conocimientos en campos profesionales. Solo conoce el conocimiento superficial de algunos campos profesionales y no se dice que sea muy competente. Tomemos como ejemplo la industria de la impresión en la que participo actualmente. Quiero diseñar un software profesional para la industria de la impresión, pero solo obtengo un caparazón vacío y aún no ha alcanzado el nivel de producción industrial. Así que la IA está todavía en su infancia. Entonces, ¿cómo podemos llegar al núcleo del campo profesional? Creo que puede llevar mucho tiempo y requiere que personas de diversos campos profesionales utilicen software de inteligencia artificial durante mucho tiempo para obtener datos verdaderamente profesionales."
     }
   },
   "portfolio": {
