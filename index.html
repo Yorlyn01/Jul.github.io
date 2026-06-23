@@ -6,362 +6,601 @@
   <title>Yorlyn</title>
   <meta name="description" content="Yorlyn — Creative Developer & Designer">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== HUNCWOT-STYLE HOMEPAGE ===== */
-    .huncwot-page {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Left Panel - Minimal */
-    .h-left {
-      width: 320px;
-      min-width: 280px;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1a1a2e;
       background: #0a0e1a;
-      color: #fff;
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 3rem 2.5rem;
+      overflow-x: hidden;
     }
 
-    .h-brand {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
+    /* ===== CUSTOM CURSOR ===== */
+    .cursor-dot, .cursor-ring {
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%); border-radius: 50%;
+    }
+    .cursor-dot { width: 8px; height: 8px; background: #fff; }
+    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); }
+    body.hovering .cursor-dot { width: 12px; height: 12px; background: #fff; }
+    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(255,255,255,0.5); }
+    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+
+    /* ===== LOADING SCREEN ===== */
+    .loader {
+      position: fixed; inset: 0; z-index: 10000;
+      background: #0a0e1a; display: flex;
+      align-items: center; justify-content: center;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    .loader.done { opacity: 0; visibility: hidden; }
+    .loader-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem; color: #fff;
+      animation: loaderPulse 1.5s ease infinite;
+    }
+    @keyframes loaderPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1); }
     }
 
-    .h-brand:hover { color: rgba(255,255,255,0.8); }
-
-    .h-intro {
-      margin-top: auto;
-      padding-top: 3rem;
+    /* ===== MAIN LAYOUT ===== */
+    .main-wrapper {
+      display: flex; min-height: 100vh;
     }
 
-    .h-intro h1 {
-      font-size: 1.8rem;
-      font-weight: 300;
-      line-height: 1.3;
-      margin-bottom: 1.5rem;
-      color: #fff;
+    /* ===== LEFT PANEL - DYNAMIC ===== */
+    .left-zone {
+      width: 35%; min-width: 380px; max-width: 500px;
+      position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
+      background: #0a0e1a; overflow: hidden;
     }
 
-    .h-intro h1 strong {
-      font-weight: 600;
-      color: #fff;
+    .left-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: space-between; padding: 4rem 3rem;
+      transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    .h-intro p {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.7;
-      max-width: 220px;
-    }
-
-    .h-nav {
-      margin-top: 3rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .h-nav a {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .left-brand {
+      font-size: 0.75rem; font-weight: 500;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none;
       transition: color 0.3s ease;
+    }
+    .left-brand:hover { color: rgba(255,255,255,0.8); }
+
+    .left-center {
       position: relative;
-      display: inline-block;
-      width: fit-content;
     }
 
-    .h-nav a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 0;
-      height: 1px;
+    .slide-number {
+      font-size: 6rem; font-weight: 700;
+      color: rgba(255,255,255,0.06);
+      font-family: 'Playfair Display', serif;
+      line-height: 1; margin-bottom: 1rem;
+      position: absolute; top: -4rem; left: -1rem;
+    }
+
+    .slide-title {
+      font-size: 2.5rem; font-weight: 700;
+      color: #fff; line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+      transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .slide-desc {
+      font-size: 0.9rem; color: rgba(255,255,255,0.5);
+      line-height: 1.8; max-width: 320px;
+      transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.1s;
+    }
+
+    .slide-tags {
+      display: flex; gap: 0.6rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .slide-tag {
+      font-size: 0.65rem; color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 1rem; border-radius: 20px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    .slide-nav {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .slide-progress {
+      width: 80px; height: 2px;
+      background: rgba(255,255,255,0.1); position: relative;
+    }
+    .slide-progress-bar {
+      position: absolute; left: 0; top: 0; height: 100%;
       background: rgba(255,255,255,0.6);
+      transition: width 0.6s ease;
+    }
+    .slide-counter {
+      font-size: 0.7rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+    }
+    .slide-arrows {
+      display: flex; gap: 0.5rem; margin-left: auto;
+    }
+    .slide-arrow {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%; display: flex;
+      align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s ease;
+      background: transparent; color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+    }
+    .slide-arrow:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: #fff; background: rgba(255,255,255,0.05);
+    }
+
+    .left-nav {
+      display: flex; flex-direction: column; gap: 1rem;
+      margin-top: 2rem;
+    }
+    .left-nav a {
+      font-size: 0.75rem; color: rgba(255,255,255,0.3);
+      text-decoration: none; letter-spacing: 0.08em;
+      text-transform: uppercase; transition: color 0.3s ease;
+      position: relative; width: fit-content;
+    }
+    .left-nav a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 1px; background: rgba(255,255,255,0.5);
       transition: width 0.4s ease;
     }
+    .left-nav a:hover, .left-nav a.active { color: rgba(255,255,255,0.7); }
+    .left-nav a:hover::after, .left-nav a.active::after { width: 100%; }
 
-    .h-nav a:hover,
-    .h-nav a.active {
-      color: rgba(255,255,255,0.8);
+    .left-footer {
+      font-size: 0.65rem; color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
     }
 
-    .h-nav a:hover::after,
-    .h-nav a.active::after {
-      width: 100%;
-    }
-
-    .h-footer {
-      margin-top: auto;
-      padding-top: 2rem;
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.25);
-    }
-
-    /* Right Content - Full Screen Projects */
-    .h-right {
-      margin-left: 320px;
-      width: calc(100% - 320px);
-    }
-
-    .h-project {
-      height: 100vh;
-      min-height: 600px;
+    /* ===== RIGHT ZONE - FULL SCREEN SLIDES ===== */
+    .right-zone {
+      margin-left: 35%; width: 65%;
       position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      padding: 4rem;
     }
 
-    .h-project-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    .slides-container {
+      position: relative; height: 100vh; overflow: hidden;
     }
 
-    .h-project-bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 8s ease;
+    .slide {
+      position: absolute; inset: 0;
+      opacity: 0; transform: translateY(100px);
+      transition: opacity 0.8s cubic-bezier(0.65,0,0.35,1), 
+                  transform 0.8s cubic-bezier(0.65,0,0.35,1);
+      display: flex; align-items: flex-end; padding: 5rem;
     }
 
-    .h-project:hover .h-project-bg img {
-      transform: scale(1.05);
+    .slide.active {
+      opacity: 1; transform: translateY(0);
     }
 
-    .h-project-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10,14,26,0.9) 0%, rgba(10,14,26,0.3) 40%, rgba(10,14,26,0.1) 100%);
-      z-index: 1;
+    .slide-bg {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    }
+    .slide-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 6s ease;
+    }
+    .slide.active .slide-bg img { transform: scale(1.05); }
+
+    .slide-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(135deg, rgba(10,14,26,0.7) 0%, rgba(10,14,26,0.2) 50%, rgba(10,14,26,0.5) 100%);
     }
 
-    .h-project-content {
-      position: relative;
-      z-index: 2;
-      max-width: 600px;
+    .slide-content {
+      position: relative; z-index: 2; max-width: 500px;
     }
 
-    .h-project-number {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
+    .slide-cta {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      margin-top: 2rem; padding: 1rem 2.5rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; text-decoration: none;
+      font-size: 0.75rem; letter-spacing: 0.12em;
+      text-transform: uppercase; transition: all 0.4s ease;
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
     }
-
-    .h-project-title {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.1;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
+    .slide-cta:hover {
+      background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.5);
+      transform: translateY(-2px);
     }
-
-    .h-project-desc {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.6;
-      max-width: 400px;
+    .slide-cta::after {
+      content: '→'; font-size: 1rem;
+      transition: transform 0.3s ease;
     }
+    .slide-cta:hover::after { transform: translateX(4px); }
 
-    .h-project-link {
-      display: inline-block;
-      margin-top: 2rem;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      padding-bottom: 0.3rem;
-      transition: all 0.3s ease;
-    }
-
-    .h-project-link:hover {
-      color: #fff;
-      border-bottom-color: #fff;
-    }
-
-    /* Big Y Decoration */
-    .h-y-decor {
-      position: absolute;
-      right: -5vw;
-      bottom: -10vh;
-      font-size: 50vh;
-      font-weight: 700;
-      color: rgba(255,255,255,0.03);
+    .slide-y {
+      position: absolute; right: -2vw; bottom: -8vh; z-index: 0;
+      font-size: 35vh; font-weight: 700;
+      color: rgba(255,255,255,0.025);
       font-family: 'Playfair Display', serif;
-      line-height: 1;
-      pointer-events: none;
-      z-index: 1;
+      line-height: 1; pointer-events: none;
+      transition: transform 1.2s ease;
     }
+    .slide.active .slide-y { transform: translateY(-20px); }
 
-    /* Scroll indicator */
-    .h-scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      animation: bounce 2s infinite;
+    /* Scroll down indicator */
+    .scroll-indicator {
+      position: absolute; bottom: 3rem; left: 50%;
+      transform: translateX(-50%); z-index: 5;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.8rem;
+      animation: scrollBounce 2.5s ease infinite;
+      cursor: pointer;
     }
-
-    .h-scroll-hint span {
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+    .scroll-indicator span {
+      font-size: 0.6rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.2em; text-transform: uppercase;
     }
-
-    .h-scroll-hint .arrow {
-      width: 1px;
-      height: 30px;
-      background: rgba(255,255,255,0.3);
-      position: relative;
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.2); position: relative;
     }
-
-    .h-scroll-hint .arrow::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: -3px;
-      width: 7px;
-      height: 7px;
-      border-right: 1px solid rgba(255,255,255,0.3);
-      border-bottom: 1px solid rgba(255,255,255,0.3);
+    .scroll-line::after {
+      content: ''; position: absolute; bottom: 0; left: -2px;
+      width: 5px; height: 5px;
+      border-right: 1px solid rgba(255,255,255,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.4);
       transform: rotate(45deg);
     }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+      50% { transform: translateX(-50%) translateY(12px); opacity: 1; }
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-      .h-left {
-        width: 100%;
-        position: relative;
-        min-height: auto;
-        padding: 2rem;
-      }
-      .h-right {
-        margin-left: 0;
-        width: 100%;
-      }
-      .h-project {
-        height: 80vh;
-        padding: 2rem;
-      }
-      .h-project-title {
-        font-size: 2.2rem;
-      }
-      .h-y-decor { display: none; }
+    /* ===== SECONDARY SECTION - ABOUT PREVIEW ===== */
+    .about-preview {
+      padding: 8rem 5rem; background: #fff;
+      position: relative; overflow: hidden;
+    }
+    .about-preview::before {
+      content: 'ABOUT'; position: absolute;
+      top: 2rem; left: 5rem;
+      font-size: 0.7rem; color: #e5e7eb;
+      letter-spacing: 0.3em; font-weight: 600;
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; max-width: 1200px; margin: 0 auto;
+      align-items: center;
+    }
+    .about-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; font-weight: 700;
+      line-height: 1.1; color: #1a1a2e;
+      letter-spacing: -0.02em; margin-bottom: 2rem;
+    }
+    .about-left p {
+      font-size: 1rem; color: #6b7280;
+      line-height: 1.8; margin-bottom: 1.5rem;
+    }
+    .about-stats {
+      display: flex; gap: 3rem; margin-top: 3rem;
+    }
+    .about-stat {
+      text-align: left;
+    }
+    .about-stat-number {
+      font-size: 2.5rem; font-weight: 700;
+      color: #1a3a5c; font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+    .about-stat-label {
+      font-size: 0.75rem; color: #9ca3af;
+      margin-top: 0.5rem; letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .about-right {
+      position: relative;
+    }
+    .about-image {
+      width: 100%; aspect-ratio: 4/5;
+      object-fit: cover; border-radius: 4px;
+    }
+    .about-image-caption {
+      position: absolute; bottom: -1rem; right: -1rem;
+      background: #1a3a5c; color: #fff;
+      padding: 1rem 1.5rem;
+      font-size: 0.75rem; letter-spacing: 0.05em;
+    }
+
+    /* ===== LOG PREVIEW SECTION ===== */
+    .log-preview {
+      padding: 8rem 5rem; background: #f8f9fa;
+      position: relative;
+    }
+    .log-preview::before {
+      content: 'DAILY LOG'; position: absolute;
+      top: 2rem; left: 5rem;
+      font-size: 0.7rem; color: #e5e7eb;
+      letter-spacing: 0.3em; font-weight: 600;
+    }
+    .log-preview-header {
+      max-width: 1200px; margin: 0 auto 4rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .log-preview-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; font-weight: 700;
+      color: #1a1a2e; line-height: 1.1;
+    }
+    .log-preview-header a {
+      font-size: 0.8rem; color: #1a3a5c;
+      text-decoration: none; letter-spacing: 0.05em;
+      text-transform: uppercase; border-bottom: 1px solid #1a3a5c;
+      padding-bottom: 0.2rem; transition: all 0.3s ease;
+    }
+    .log-preview-header a:hover {
+      color: #2a5280; border-bottom-color: #2a5280;
+    }
+    .log-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; max-width: 1200px; margin: 0 auto;
+    }
+    .log-card {
+      background: #fff; padding: 2rem;
+      border-radius: 4px; transition: all 0.4s ease;
+      cursor: pointer; text-decoration: none; color: inherit;
+    }
+    .log-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+    .log-card-date {
+      font-size: 0.7rem; color: #9ca3af;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .log-card h3 {
+      font-size: 1.1rem; font-weight: 600;
+      color: #1a1a2e; margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .log-card p {
+      font-size: 0.85rem; color: #6b7280;
+      line-height: 1.6; margin-bottom: 1.5rem;
+      display: -webkit-box; -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .log-card-tag {
+      font-size: 0.65rem; color: #1a3a5c;
+      background: rgba(26,58,92,0.06);
+      padding: 0.3rem 0.8rem; border-radius: 12px;
+      display: inline-block;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: #0a0e1a; color: #fff;
+      padding: 4rem 5rem; text-align: center;
+    }
+    .site-footer p {
+      font-size: 0.75rem; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.05em;
+    }
+    .site-footer .socials {
+      display: flex; justify-content: center;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    .site-footer .socials a {
+      color: rgba(255,255,255,0.4); text-decoration: none;
+      font-size: 0.8rem; transition: color 0.3s ease;
+    }
+    .site-footer .socials a:hover { color: #fff; }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: #0a0e1a; padding: 1rem; z-index: 200;
+      justify-content: space-around; align-items: center;
+    }
+    .mobile-nav a {
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .mobile-nav a.active { color: #fff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .left-zone { width: 100%; position: relative; min-height: 50vh; }
+      .right-zone { margin-left: 0; width: 100%; }
+      .slides-container { height: 60vh; }
+      .about-grid { grid-template-columns: 1fr; }
+      .log-grid { grid-template-columns: 1fr; }
+      .slide-y { display: none; }
+    }
+    @media (max-width: 768px) {
+      .mobile-nav { display: flex; }
+      .left-zone { display: none; }
+      .about-preview, .log-preview { padding: 4rem 2rem; }
+      .about-stats { gap: 2rem; }
+      .slide { padding: 3rem; }
+      .slide-title { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-text">Y</div>
+  </div>
+
   <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 
-  <div class="huncwot-page">
-    <!-- Left Minimal Panel -->
-    <aside class="h-left">
-      <a href="index.html" class="h-brand">Yorlyn</a>
+  <div class="main-wrapper">
+    <!-- LEFT ZONE - Dynamic Panel -->
+    <aside class="left-zone" id="leftZone">
+      <div class="left-content" id="leftContent">
+        <a href="index.html" class="left-brand">Yorlyn</a>
+        
+        <div class="left-center">
+          <div class="slide-number" id="slideNumber">01</div>
+          <h2 class="slide-title" id="slideTitle">Brand Identity<br>for Flora</h2>
+          <p class="slide-desc" id="slideDesc">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.</p>
+          <div class="slide-tags" id="slideTags">
+            <span class="slide-tag">Brand Design</span>
+            <span class="slide-tag">Visual Identity</span>
+            <span class="slide-tag">2024</span>
+          </div>
+        </div>
 
-      <div class="h-intro">
-        <h1>I'm a <strong>Creative Developer</strong> & Designer based in Shanghai.</h1>
-        <p>Crafting digital experiences that blend aesthetics with functionality. I believe in the power of simplicity and thoughtful design.</p>
-
-        <nav class="h-nav">
-          <a href="index.html" class="active">Home</a>
-          <a href="about.html">Daily Log</a>
-          <a href="portfolio.html">Portfolio</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-      </div>
-
-      <div class="h-footer">
-        &copy; 2026 Yorlyn. All rights reserved.
+        <div>
+          <div class="slide-nav">
+            <div class="slide-progress">
+              <div class="slide-progress-bar" id="progressBar" style="width: 33%"></div>
+            </div>
+            <span class="slide-counter" id="slideCounter">01 / 03</span>
+            <div class="slide-arrows">
+              <button class="slide-arrow" onclick="prevSlide()">←</button>
+              <button class="slide-arrow" onclick="nextSlide()">→</button>
+            </div>
+          </div>
+          
+          <nav class="left-nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="about.html">Daily Log</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+          
+          <div class="left-footer" style="margin-top: 2rem;">
+            &copy; 2026 Yorlyn. All rights reserved.
+          </div>
+        </div>
       </div>
     </aside>
 
-    <!-- Right Full Screen Projects -->
-    <main class="h-right">
-      <!-- Project 1 -->
-      <section class="h-project">
-        <div class="h-project-bg">
-          <img src="images/hero-flowers.jpg" alt="Project 1">
+    <!-- RIGHT ZONE - Full Screen Slides -->
+    <main class="right-zone" id="rightZone">
+      <div class="slides-container" id="slidesContainer">
+        <!-- Slide 1 -->
+        <div class="slide active" data-index="0">
+          <div class="slide-bg">
+            <img src="images/hero-flowers.jpg" alt="Brand Identity for Flora">
+          </div>
+          <div class="slide-overlay"></div>
+          <div class="slide-y">Y</div>
+          <div class="slide-content">
+            <a href="portfolio.html" class="slide-cta">View Project</a>
+          </div>
+          <div class="scroll-indicator" onclick="nextSlide()">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+          </div>
         </div>
-        <div class="h-project-overlay"></div>
-        <div class="h-y-decor">Y</div>
-        <div class="h-project-content">
-          <div class="h-project-number">01 / 03</div>
-          <h2 class="h-project-title">Brand Identity<br>for Flora</h2>
-          <p class="h-project-desc">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism.</p>
-          <a href="portfolio.html" class="h-project-link">View Project</a>
-        </div>
-        <div class="h-scroll-hint">
-          <span>Scroll</span>
-          <div class="arrow"></div>
-        </div>
-      </section>
 
-      <!-- Project 2 -->
-      <section class="h-project">
-        <div class="h-project-bg">
-          <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=1600&h=900&fit=crop" alt="Project 2">
+        <!-- Slide 2 -->
+        <div class="slide" data-index="1">
+          <div class="slide-bg">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=1600&h=900&fit=crop" alt="Digital Experience Platform">
+          </div>
+          <div class="slide-overlay"></div>
+          <div class="slide-y">Y</div>
+          <div class="slide-content">
+            <a href="portfolio.html" class="slide-cta">View Project</a>
+          </div>
         </div>
-        <div class="h-project-overlay"></div>
-        <div class="h-project-content">
-          <div class="h-project-number">02 / 03</div>
-          <h2 class="h-project-title">Digital Experience<br>Platform</h2>
-          <p class="h-project-desc">An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.</p>
-          <a href="portfolio.html" class="h-project-link">View Project</a>
-        </div>
-      </section>
 
-      <!-- Project 3 -->
-      <section class="h-project">
-        <div class="h-project-bg">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop" alt="Project 3">
+        <!-- Slide 3 -->
+        <div class="slide" data-index="2">
+          <div class="slide-bg">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop" alt="Art Direction Campaign">
+          </div>
+          <div class="slide-overlay"></div>
+          <div class="slide-y">Y</div>
+          <div class="slide-content">
+            <a href="portfolio.html" class="slide-cta">View Project</a>
+          </div>
         </div>
-        <div class="h-project-overlay"></div>
-        <div class="h-project-content">
-          <div class="h-project-number">03 / 03</div>
-          <h2 class="h-project-title">Art Direction<br>& Campaign</h2>
-          <p class="h-project-desc">Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.</p>
-          <a href="portfolio.html" class="h-project-link">View Project</a>
-        </div>
-      </section>
+      </div>
     </main>
   </div>
+
+  <!-- ABOUT PREVIEW SECTION -->
+  <section class="about-preview">
+    <div class="about-grid">
+      <div class="about-left">
+        <h2>Crafting digital experiences with passion & precision</h2>
+        <p>I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.</p>
+        <p>With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.</p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-number">5+</div>
+            <div class="about-stat-label">Years Experience</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">50+</div>
+            <div class="about-stat-label">Projects Done</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">30+</div>
+            <div class="about-stat-label">Happy Clients</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-right">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop" alt="Portrait" class="about-image">
+        <div class="about-image-caption">Yorlyn — Creative Developer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOG PREVIEW SECTION -->
+  <section class="log-preview">
+    <div class="log-preview-header">
+      <h2>Latest Thoughts</h2>
+      <a href="about.html">View All →</a>
+    </div>
+    <div class="log-grid">
+      <a href="about.html" class="log-card">
+        <div class="log-card-date">June 23, 2026</div>
+        <h3>对AI的感悟</h3>
+        <p>感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通...</p>
+        <span class="log-card-tag">#AI</span>
+      </a>
+      <a href="about.html" class="log-card">
+        <div class="log-card-date">June 20, 2026</div>
+        <h3>Claude code降智了</h3>
+        <p>自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉...</p>
+        <span class="log-card-tag">#Tech</span>
+      </a>
+      <a href="about.html" class="log-card">
+        <div class="log-card-date">June 15, 2026</div>
+        <h3>我的网站正式上线</h3>
+        <p>感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定...</p>
+        <span class="log-card-tag">#Life</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="socials">
+      <a href="#">GitHub</a>
+      <a href="#">Twitter</a>
+      <a href="#">Dribbble</a>
+      <a href="#">Email</a>
+    </div>
+    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+  </footer>
 
   <nav class="mobile-nav">
     <a href="index.html" class="active">Home</a>
@@ -370,28 +609,124 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <script src="js/navigation.js"></script>
   <script>
-    // Smooth scroll for project sections
-    document.querySelectorAll('.h-project').forEach((project, index) => {
-      project.style.scrollSnapAlign = 'start';
+    // ===== SLIDE DATA =====
+    const slidesData = [
+      {
+        number: '01',
+        title: 'Brand Identity<br>for Flora',
+        desc: 'A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.',
+        tags: ['Brand Design', 'Visual Identity', '2024'],
+        progress: '33%'
+      },
+      {
+        number: '02',
+        title: 'Digital Experience<br>Platform',
+        desc: 'An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.',
+        tags: ['Web Design', 'Development', '2025'],
+        progress: '66%'
+      },
+      {
+        number: '03',
+        title: 'Art Direction<br>& Campaign',
+        desc: 'Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.',
+        tags: ['Art Direction', 'Photography', '2025'],
+        progress: '100%'
+      }
+    ];
+
+    let currentSlide = 0;
+    const totalSlides = 3;
+    const slideElements = document.querySelectorAll('.slide');
+    const leftContent = document.getElementById('leftContent');
+
+    function updateSlide(index) {
+      // Update slide visibility
+      slideElements.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      // Animate left panel content
+      const data = slidesData[index];
+      leftContent.style.transform = 'translateY(-20px)';
+      leftContent.style.opacity = '0';
+      
+      setTimeout(() => {
+        document.getElementById('slideNumber').textContent = data.number;
+        document.getElementById('slideTitle').innerHTML = data.title;
+        document.getElementById('slideDesc').textContent = data.desc;
+        document.getElementById('slideCounter').textContent = `${data.number} / 03`;
+        document.getElementById('progressBar').style.width = data.progress;
+        
+        const tagsHtml = data.tags.map(t => `<span class="slide-tag">${t}</span>`).join('');
+        document.getElementById('slideTags').innerHTML = tagsHtml;
+        
+        leftContent.style.transform = 'translateY(0)';
+        leftContent.style.opacity = '1';
+      }, 300);
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlide(currentSlide);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') prevSlide();
     });
 
-    // Add scroll-snap to right panel
-    document.querySelector('.h-right').style.scrollSnapType = 'y mandatory';
-    document.querySelector('.h-right').style.overflowY = 'scroll';
-    document.querySelector('.h-right').style.height = '100vh';
+    // Wheel navigation
+    let wheelTimer;
+    document.addEventListener('wheel', (e) => {
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => {
+        if (e.deltaY > 0) nextSlide();
+        else if (e.deltaY < 0) prevSlide();
+      }, 100);
+    });
 
-    // Parallax effect on scroll
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      document.querySelectorAll('.h-project-bg img').forEach((img, i) => {
-        const rect = img.closest('.h-project').getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const speed = 0.3;
-          img.style.transform = `translateY(${rect.top * speed}px) scale(1)`;
-        }
-      });
+    // Touch swipe
+    let touchStartY = 0;
+    document.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+    document.addEventListener('touchend', (e) => {
+      const diff = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+      }
+    });
+
+    // ===== CURSOR =====
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function tick() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    tick();
+    document.querySelectorAll('a, button, .slide-arrow, .slide-cta, .log-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
+
+    // ===== LOADER =====
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('done');
+      }, 1500);
     });
   </script>
 </body>
