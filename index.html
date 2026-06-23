@@ -46,7 +46,7 @@
 
       <div class="intro-bar" style="border-top:1px solid #e5e7eb;">
         <h3 style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;" data-i18n="index.latest_works">最新作品</h3>
-        <div id="latest-work-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+        <div id="latest-work-preview" class="latest-works-grid">
           <p style="color:#6b7280;font-size:0.85rem;" data-i18n="portfolio.loading">加载中...</p>
         </div>
       </div>
@@ -86,12 +86,12 @@
         return
       }
       container.innerHTML = latest.map(w => `
-        <a href="work-detail.html?id=${w.id}" style="text-decoration:none;color:inherit;">
-          <div style="border-radius:8px;overflow:hidden;background:#f0f2f5;aspect-ratio:4/3;position:relative;">
-            ${w.image_url ? `<img src="${w.image_url}" style="width:100%;height:100%;object-fit:cover;" alt="${w.title}">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a3a5c,#2a5280);color:#fff;font-weight:700;">${w.title ? w.title.substring(0,2) : 'W'}</div>`}
+        <a href="work-detail.html?id=${w.id}" class="work-card">
+          <div class="work-card-img-wrap">
+            ${w.image_url ? `<img src="${w.image_url}" alt="${w.title}" loading="lazy">` : `<div class="work-card-placeholder">${w.title ? w.title.substring(0,2) : 'W'}</div>`}
           </div>
-          <div style="margin-top:0.5rem;font-size:0.85rem;font-weight:600;color:#1a1a2e;">${w.title}</div>
-          <div style="font-size:0.75rem;color:#6b7280;">${w.category || '作品'}</div>
+          <div class="work-card-title">${w.title}</div>
+          <div class="work-card-category">${w.category || '作品'}</div>
         </a>
       `).join('')
     }

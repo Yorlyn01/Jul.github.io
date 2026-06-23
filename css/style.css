@@ -411,6 +411,71 @@ body {
   color: rgba(255,255,255,0.7);
 }
 
+/* ===== LATEST WORKS GRID (Homepage) ===== */
+.latest-works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.work-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+.work-card:hover {
+  transform: translateY(-4px);
+}
+
+.work-card-img-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f2f5;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.work-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a3a5c, #2a5280);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.work-card-title {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.work-card-category {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
 /* ===== CONTACT FORM ===== */
 .contact-form {
   margin-top: 2rem;
@@ -648,6 +713,7 @@ body {
   .log-date { width: auto; text-align: left; display: flex; align-items: baseline; gap: 0.5rem; }
   .log-date .day { font-size: 1.5rem; }
   .log-media { grid-template-columns: 1fr; }
+  .latest-works-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 }
 
 @media (max-width: 600px) {
@@ -655,6 +721,7 @@ body {
   .left-panel { padding: 1.5rem; }
   .content-page { padding: 2rem 1.5rem; }
   .intro-bar { padding: 1.5rem; }
+  .latest-works-grid { grid-template-columns: 1fr; }
 }
 
 /* ===== ANIMATIONS ===== */
