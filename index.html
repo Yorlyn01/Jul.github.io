@@ -465,9 +465,9 @@
         <div>
           <div class="slide-nav">
             <div class="slide-progress">
-              <div class="slide-progress-bar" id="progressBar" style="width: 33%"></div>
+              <div class="slide-progress-bar" id="progressBar" style="width: 16%"></div>
             </div>
-            <span class="slide-counter" id="slideCounter">01 / 03</span>
+            <span class="slide-counter" id="slideCounter">01 / 06</span>
             <div class="slide-arrows">
               <button class="slide-arrow" onclick="prevSlide()">←</button>
               <button class="slide-arrow" onclick="nextSlide()">→</button>
@@ -712,7 +712,7 @@
         document.getElementById('slideNumber').textContent = data.number;
         document.getElementById('slideTitle').innerHTML = data.title;
         document.getElementById('slideDesc').textContent = data.desc;
-        document.getElementById('slideCounter').textContent = `${data.number} / 03`;
+        document.getElementById('slideCounter').textContent = `${data.number} / 06`;
         document.getElementById('progressBar').style.width = data.progress;
         
         const tagsHtml = data.tags.map(t => `<span class="slide-tag">${t}</span>`).join('');
