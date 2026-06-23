@@ -3,146 +3,396 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="site.title">Yorlyn — Creative Developer & Designer</title>
-  <meta name="description" content="把人类存在变成星光。设计、开发与日常记录的个人作品集。">
+  <title>Yorlyn</title>
+  <meta name="description" content="Yorlyn — Creative Developer & Designer">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== HUNCWOT-STYLE HOMEPAGE ===== */
+    .huncwot-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Left Panel - Minimal */
+    .h-left {
+      width: 320px;
+      min-width: 280px;
+      background: #0a0e1a;
+      color: #fff;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 2.5rem;
+    }
+
+    .h-brand {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .h-brand:hover { color: rgba(255,255,255,0.8); }
+
+    .h-intro {
+      margin-top: auto;
+      padding-top: 3rem;
+    }
+
+    .h-intro h1 {
+      font-size: 1.8rem;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    .h-intro h1 strong {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .h-intro p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+      max-width: 220px;
+    }
+
+    .h-nav {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .h-nav a {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      position: relative;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .h-nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.6);
+      transition: width 0.4s ease;
+    }
+
+    .h-nav a:hover,
+    .h-nav a.active {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .h-nav a:hover::after,
+    .h-nav a.active::after {
+      width: 100%;
+    }
+
+    .h-footer {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* Right Content - Full Screen Projects */
+    .h-right {
+      margin-left: 320px;
+      width: calc(100% - 320px);
+    }
+
+    .h-project {
+      height: 100vh;
+      min-height: 600px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 4rem;
+    }
+
+    .h-project-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .h-project-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease;
+    }
+
+    .h-project:hover .h-project-bg img {
+      transform: scale(1.05);
+    }
+
+    .h-project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,14,26,0.9) 0%, rgba(10,14,26,0.3) 40%, rgba(10,14,26,0.1) 100%);
+      z-index: 1;
+    }
+
+    .h-project-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .h-project-number {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .h-project-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .h-project-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    .h-project-link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 0.3rem;
+      transition: all 0.3s ease;
+    }
+
+    .h-project-link:hover {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+
+    /* Big Y Decoration */
+    .h-y-decor {
+      position: absolute;
+      right: -5vw;
+      bottom: -10vh;
+      font-size: 50vh;
+      font-weight: 700;
+      color: rgba(255,255,255,0.03);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Scroll indicator */
+    .h-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    .h-scroll-hint span {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .h-scroll-hint .arrow {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.3);
+      position: relative;
+    }
+
+    .h-scroll-hint .arrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -3px;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid rgba(255,255,255,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      transform: rotate(45deg);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .h-left {
+        width: 100%;
+        position: relative;
+        min-height: auto;
+        padding: 2rem;
+      }
+      .h-right {
+        margin-left: 0;
+        width: 100%;
+      }
+      .h-project {
+        height: 80vh;
+        padding: 2rem;
+      }
+      .h-project-title {
+        font-size: 2.2rem;
+      }
+      .h-y-decor { display: none; }
+    }
+  </style>
 </head>
 <body>
   <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 
-  <div class="page-wrapper">
-    <aside class="left-panel">
-      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
-      <div class="hero-section">
-        <p class="hello-label scroll-reveal" data-i18n="index.hello">Hello</p>
-        <h1 class="hero-title scroll-reveal scroll-reveal-delay-1" data-i18n="index.hero_title">I'm Yorlyn</h1>
-        <p class="hero-subtitle scroll-reveal scroll-reveal-delay-2" data-i18n="index.hero_subtitle">A Creative Developer & Designer<br>From Shanghai.</p>
-        <a href="contact.html" class="btn-outline scroll-reveal scroll-reveal-delay-3" data-i18n="index.hire_me">Hire Me</a>
-        <div class="social-links">
-          <a href="#" title="GitHub">Gh</a>
-          <a href="#" title="Twitter">Tw</a>
-          <a href="#" title="Dribbble">Dr</a>
-          <a href="#" title="Email">@</a>
-        </div>
+  <div class="huncwot-page">
+    <!-- Left Minimal Panel -->
+    <aside class="h-left">
+      <a href="index.html" class="h-brand">Yorlyn</a>
+
+      <div class="h-intro">
+        <h1>I'm a <strong>Creative Developer</strong> & Designer based in Shanghai.</h1>
+        <p>Crafting digital experiences that blend aesthetics with functionality. I believe in the power of simplicity and thoughtful design.</p>
+
+        <nav class="h-nav">
+          <a href="index.html" class="active">Home</a>
+          <a href="about.html">Daily Log</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="contact.html">Contact</a>
+        </nav>
       </div>
-      <div class="intro-panel">
-        <p class="intro-text-left" data-i18n="index.intro">
-          我致力于创造能够启发人心的创新解决方案，在品牌、UI/UX 与 Web 开发之间架起桥梁，通过热情与专注的设计打造可用且精致的产品。每一天，我都在用代码和设计记录生活的痕迹。
-        </p>
+
+      <div class="h-footer">
+        &copy; 2026 Yorlyn. All rights reserved.
       </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2026 Yorlyn. All rights reserved.</div>
     </aside>
 
-    <main class="right-content">
-      <div class="hero-image-area">
-        <div class="hero-y-letter">Y</div>
-        <img src="images/hero-flowers.jpg" alt="Fresh Flowers" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ecf1,#f0f4f8);color:#1a3a5c;font-size:3rem;font-weight:700;">YORLYN</div>
-        <div class="play-btn" title="View Video" onclick="location.href='portfolio.html'"></div>
-      </div>
-
-      <div class="intro-bar scroll-reveal">
-        <a href="portfolio.html" class="btn-dark" data-i18n="index.view_portfolio">View Portfolio</a>
-      </div>
-
-      <div class="intro-bar" style="border-top:1px solid #e5e7eb;">
-        <h3 class="scroll-reveal" style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;" data-i18n="index.latest_works">最新作品</h3>
-        <div id="latest-work-preview" class="latest-works-grid">
-          <p style="color:#6b7280;font-size:0.85rem;" data-i18n="portfolio.loading">加载中...</p>
+    <!-- Right Full Screen Projects -->
+    <main class="h-right">
+      <!-- Project 1 -->
+      <section class="h-project">
+        <div class="h-project-bg">
+          <img src="images/hero-flowers.jpg" alt="Project 1">
         </div>
-      </div>
-    </main>
+        <div class="h-project-overlay"></div>
+        <div class="h-y-decor">Y</div>
+        <div class="h-project-content">
+          <div class="h-project-number">01 / 03</div>
+          <h2 class="h-project-title">Brand Identity<br>for Flora</h2>
+          <p class="h-project-desc">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism.</p>
+          <a href="portfolio.html" class="h-project-link">View Project</a>
+        </div>
+        <div class="h-scroll-hint">
+          <span>Scroll</span>
+          <div class="arrow"></div>
+        </div>
+      </section>
 
-    <nav class="side-nav">
-      <div class="side-nav-toggle"><span></span><span></span></div>
-      <div class="nav-links">
-        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
-        <a href="about.html" data-i18n="nav.about">Daily Log</a>
-        <a href="portfolio.html" data-i18n="nav.portfolio">Portfolio</a>
-        <a href="contact.html" data-i18n="nav.contact">Contact</a>
-      </div>
-    </nav>
+      <!-- Project 2 -->
+      <section class="h-project">
+        <div class="h-project-bg">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=1600&h=900&fit=crop" alt="Project 2">
+        </div>
+        <div class="h-project-overlay"></div>
+        <div class="h-project-content">
+          <div class="h-project-number">02 / 03</div>
+          <h2 class="h-project-title">Digital Experience<br>Platform</h2>
+          <p class="h-project-desc">An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.</p>
+          <a href="portfolio.html" class="h-project-link">View Project</a>
+        </div>
+      </section>
+
+      <!-- Project 3 -->
+      <section class="h-project">
+        <div class="h-project-bg">
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop" alt="Project 3">
+        </div>
+        <div class="h-project-overlay"></div>
+        <div class="h-project-content">
+          <div class="h-project-number">03 / 03</div>
+          <h2 class="h-project-title">Art Direction<br>& Campaign</h2>
+          <p class="h-project-desc">Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.</p>
+          <a href="portfolio.html" class="h-project-link">View Project</a>
+        </div>
+      </section>
+    </main>
   </div>
 
   <nav class="mobile-nav">
-    <a href="index.html" class="active" data-i18n="nav.home">Home</a>
-    <a href="about.html" data-i18n="nav.about">Log</a>
-    <a href="portfolio.html" data-i18n="nav.portfolio">Work</a>
-    <a href="contact.html" data-i18n="nav.contact">Contact</a>
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">Log</a>
+    <a href="portfolio.html">Work</a>
+    <a href="contact.html">Contact</a>
   </nav>
-  
-  <script src="js/supabase.js"></script>
+
   <script src="js/navigation.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/works.js"></script>
   <script>
-    initI18n()
-    
-    // Custom Cursor
-    const cursorDot = document.querySelector('.cursor-dot')
-    const cursorRing = document.querySelector('.cursor-ring')
-    let mouseX = 0, mouseY = 0
-    let ringX = 0, ringY = 0
+    // Smooth scroll for project sections
+    document.querySelectorAll('.h-project').forEach((project, index) => {
+      project.style.scrollSnapAlign = 'start';
+    });
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX
-      mouseY = e.clientY
-      cursorDot.style.left = mouseX + 'px'
-      cursorDot.style.top = mouseY + 'px'
-    })
+    // Add scroll-snap to right panel
+    document.querySelector('.h-right').style.scrollSnapType = 'y mandatory';
+    document.querySelector('.h-right').style.overflowY = 'scroll';
+    document.querySelector('.h-right').style.height = '100vh';
 
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.15
-      ringY += (mouseY - ringY) * 0.15
-      cursorRing.style.left = ringX + 'px'
-      cursorRing.style.top = ringY + 'px'
-      requestAnimationFrame(animateRing)
-    }
-    animateRing()
-
-    // Hover effect on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .play-btn, .work-card')
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'))
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'))
-    })
-
-    // Scroll Reveal
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed')
+    // Parallax effect on scroll
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      document.querySelectorAll('.h-project-bg img').forEach((img, i) => {
+        const rect = img.closest('.h-project').getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          const speed = 0.3;
+          img.style.transform = `translateY(${rect.top * speed}px) scale(1)`;
         }
-      })
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
-
-    document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el))
-
-    async function loadLatestWorks() {
-      const works = await loadWorks({ status: 'published' })
-      const container = document.getElementById('latest-work-preview')
-      if (!container) return
-      const latest = works.slice(0, 3)
-      if (!latest.length) {
-        container.innerHTML = '<p style="color:#6b7280;font-size:0.85rem;grid-column:1/-1;" data-i18n="index.no_works">暂无作品，请访问作品集页面。</p>'
-        return
-      }
-      container.innerHTML = latest.map(w => `
-        <a href="work-detail.html?id=${w.id}" class="work-card">
-          <div class="work-card-img-wrap">
-            ${w.image_url ? `<img src="${w.image_url}" alt="${w.title}" loading="lazy">` : `<div class="work-card-placeholder">${w.title ? w.title.substring(0,2) : 'W'}</div>`}
-          </div>
-          <div class="work-card-title">${w.title}</div>
-          <div class="work-card-category">${w.category || '作品'}</div>
-        </a>
-      `).join('')
-    }
-    loadLatestWorks()
-    logPageView('/')
+      });
+    });
   </script>
 </body>
 </html>
