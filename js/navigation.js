@@ -30,38 +30,25 @@ async function deleteNavItem(id) {
 }
 
 function renderNavigation() {
-  loadNavigation().then(items => {
-    const currentPage = location.pathname.split('/').pop() || 'index.html'
-    
-    // Desktop side nav
-    const desktopNav = document.querySelector('.side-nav .nav-links')
-    if (desktopNav) {
-      desktopNav.innerHTML = items.map(item => {
-        const isActive = currentPage === item.url || (currentPage === '' && item.url === 'index.html')
-        return `<a href="${item.url}" class="${isActive ? 'active' : ''}">${escapeHtml(item.label)}</a>`
-      }).join('')
-    }
-    
-    // Mobile nav
-    const mobileNav = document.querySelector('.mobile-nav')
-    if (mobileNav) {
-      mobileNav.innerHTML = items.map(item => {
-        const isActive = currentPage === item.url || (currentPage === '' && item.url === 'index.html')
-        // Use shorter label for mobile if available (first word or label)
-        const mobileLabel = item.mobile_label || item.label
-        return `<a href="${item.url}" class="${isActive ? 'active' : ''}">${escapeHtml(mobileLabel)}</a>`
-      }).join('')
-    }
-  })
+  const container = document.querySelector('.side-nav .nav-links')
+  if (!container) return
+  // Default navigation
+  const defaultNav = [
+    { label: 'Home', href: 'index.html', key: 'nav.home' },
+    { label: 'Daily Log', href: 'about.html', key: 'nav.about' },
+    { label: 'Portfolio', href: 'portfolio.html', key: 'nav.portfolio' },
+    { label: 'Contact', href: 'contact.html', key: 'nav.contact' }
+  ]
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html'
+  container.innerHTML = defaultNav.map(item => {
+    const isActive = currentPath === item.href || (currentPath === '' && item.href === 'index.html')
+    return `<a href="${item.href}" class="${isActive ? 'active' : ''}" data-i18n="${item.key}">${item.label}</a>`
+  }).join('')
 }
 
-function escapeHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-}
-
-// Auto-render on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderNavigation)
+// Check if running in admin context
+if (typeof window !== 'undefined' && !document.querySelector('.admin-panel')) {
+  renderNavigation()
 } else {
   renderNavigation()
 }
@@ -70,3 +57,46 @@ window.loadNavigation = loadNavigation
 window.saveNavItem = saveNavItem
 window.deleteNavItem = deleteNavItem
 window.renderNavigation = renderNavigation
+
+// ===== CUSTOM CURSOR =====
+(function initCursor() {
+  const dot = document.querySelector('.cursor-dot')
+  const ring = document.querySelector('.cursor-ring')
+  if (!dot || !ring) return
+  let mx = 0, my = 0, rx = 0, ry = 0
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY
+    dot.style.left = mx + 'px'
+    dot.style.top = my + 'px'
+  })
+  function tick() {
+    rx += (mx - rx) * 0.15
+    ry += (my - ry) * 0.15
+    ring.style.left = rx + 'px'
+    ring.style.top = ry + 'px'
+    requestAnimationFrame(tick)
+  }
+  tick()
+  const interactive = document.querySelectorAll('a, button, .portfolio-item, .play-btn, .work-card, .log-like-btn, .log-comment-toggle, .side-nav-toggle')
+  interactive.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'))
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'))
+  })
+})()
+
+// ===== SCROLL REVEAL =====
+(function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('revealed')
+    })
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el))
+  // Also observe dynamically added elements
+  const dynObserver = new MutationObserver(() => {
+    document.querySelectorAll('.scroll-reveal:not(.revealed)').forEach(el => {
+      if (!el.__observed) { observer.observe(el); el.__observed = true }
+    })
+  })
+  dynObserver.observe(document.body, { childList: true, subtree: true })
+})()

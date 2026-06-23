@@ -63,6 +63,10 @@
   </style>
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
   <div class="page-wrapper">
     <aside class="left-panel">
       <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
@@ -89,7 +93,7 @@
     <main class="right-content">
       <div class="log-list" id="log-list">
         <!-- Static log entries with entry-id for likes/comments -->
-        <div class="log-entry" data-entry-id="log-1">
+        <div class="log-entry scroll-reveal" data-entry-id="log-1">
           <div class="log-date">
             <span class="day">15</span>
             <span class="month-year">JAN 2026</span>
@@ -126,7 +130,7 @@
           </div>
         </div>
 
-        <div class="log-entry" data-entry-id="log-2">
+        <div class="log-entry scroll-reveal" data-entry-id="log-2">
           <div class="log-date">
             <span class="day">12</span>
             <span class="month-year">JAN 2026</span>
@@ -160,7 +164,7 @@
           </div>
         </div>
 
-        <div class="log-entry" data-entry-id="log-3">
+        <div class="log-entry scroll-reveal" data-entry-id="log-3">
           <div class="log-date">
             <span class="day">08</span>
             <span class="month-year">JAN 2026</span>
@@ -199,7 +203,7 @@
           </div>
         </div>
 
-        <div class="log-entry" data-entry-id="log-4">
+        <div class="log-entry scroll-reveal" data-entry-id="log-4">
           <div class="log-date">
             <span class="day">05</span>
             <span class="month-year">JAN 2026</span>
@@ -300,6 +304,33 @@
   <script src="js/navigation.js"></script>
   <script src="js/i18n.js"></script>
   <script>
+    // Custom Cursor & Scroll Reveal
+    const cursorDot = document.querySelector('.cursor-dot')
+    const cursorRing = document.querySelector('.cursor-ring')
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY
+      cursorDot.style.left = mouseX + 'px'
+      cursorDot.style.top = mouseY + 'px'
+    })
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.15
+      ringY += (mouseY - ringY) * 0.15
+      cursorRing.style.left = ringX + 'px'
+      cursorRing.style.top = ringY + 'px'
+      requestAnimationFrame(animateRing)
+    }
+    animateRing()
+    const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .play-btn, .work-card, .log-like-btn, .log-comment-toggle')
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'))
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'))
+    })
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed') })
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+    document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el))
+
     initI18n()
     logPageView('/about')
 
@@ -466,7 +497,7 @@
           : `<p class="log-text">${escapeHtml(contentToShow)}</p>`
         
         const html = `
-          <div class="log-entry" data-entry-id="${entryId}">
+          <div class="log-entry scroll-reveal" data-entry-id="${entryId}">
             <div class="log-date">
               <span class="day">${day}</span>
               <span class="month-year">${monthYear}</span>

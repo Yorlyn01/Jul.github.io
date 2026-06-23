@@ -10,14 +10,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
   <div class="page-wrapper">
     <aside class="left-panel">
       <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
       <div class="hero-section">
-        <p class="hello-label fade-in" data-i18n="index.hello">Hello</p>
-        <h1 class="hero-title fade-in fade-in-delay-1" data-i18n="index.hero_title">I'm Yorlyn</h1>
-        <p class="hero-subtitle fade-in fade-in-delay-2" data-i18n="index.hero_subtitle">A Creative Developer & Designer<br>From Shanghai.</p>
-        <a href="contact.html" class="btn-outline fade-in fade-in-delay-3" data-i18n="index.hire_me">Hire Me</a>
+        <p class="hello-label scroll-reveal" data-i18n="index.hello">Hello</p>
+        <h1 class="hero-title scroll-reveal scroll-reveal-delay-1" data-i18n="index.hero_title">I'm Yorlyn</h1>
+        <p class="hero-subtitle scroll-reveal scroll-reveal-delay-2" data-i18n="index.hero_subtitle">A Creative Developer & Designer<br>From Shanghai.</p>
+        <a href="contact.html" class="btn-outline scroll-reveal scroll-reveal-delay-3" data-i18n="index.hire_me">Hire Me</a>
         <div class="social-links">
           <a href="#" title="GitHub">Gh</a>
           <a href="#" title="Twitter">Tw</a>
@@ -35,17 +39,18 @@
 
     <main class="right-content">
       <div class="hero-image-area">
+        <div class="hero-y-letter">Y</div>
         <img src="images/hero-flowers.jpg" alt="Fresh Flowers" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8ecf1,#f0f4f8);color:#1a3a5c;font-size:3rem;font-weight:700;">YORLYN</div>
         <div class="play-btn" title="View Video" onclick="location.href='portfolio.html'"></div>
       </div>
 
-      <div class="intro-bar">
+      <div class="intro-bar scroll-reveal">
         <a href="portfolio.html" class="btn-dark" data-i18n="index.view_portfolio">View Portfolio</a>
       </div>
 
       <div class="intro-bar" style="border-top:1px solid #e5e7eb;">
-        <h3 style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;" data-i18n="index.latest_works">最新作品</h3>
+        <h3 class="scroll-reveal" style="font-size:1rem;margin-bottom:1rem;color:#1a1a2e;" data-i18n="index.latest_works">最新作品</h3>
         <div id="latest-work-preview" class="latest-works-grid">
           <p style="color:#6b7280;font-size:0.85rem;" data-i18n="portfolio.loading">加载中...</p>
         </div>
@@ -76,6 +81,47 @@
   <script src="js/works.js"></script>
   <script>
     initI18n()
+    
+    // Custom Cursor
+    const cursorDot = document.querySelector('.cursor-dot')
+    const cursorRing = document.querySelector('.cursor-ring')
+    let mouseX = 0, mouseY = 0
+    let ringX = 0, ringY = 0
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX
+      mouseY = e.clientY
+      cursorDot.style.left = mouseX + 'px'
+      cursorDot.style.top = mouseY + 'px'
+    })
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.15
+      ringY += (mouseY - ringY) * 0.15
+      cursorRing.style.left = ringX + 'px'
+      cursorRing.style.top = ringY + 'px'
+      requestAnimationFrame(animateRing)
+    }
+    animateRing()
+
+    // Hover effect on interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .play-btn, .work-card')
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'))
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'))
+    })
+
+    // Scroll Reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed')
+        }
+      })
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el))
+
     async function loadLatestWorks() {
       const works = await loadWorks({ status: 'published' })
       const container = document.getElementById('latest-work-preview')
