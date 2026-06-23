@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Yorlyn</title>
+  <title data-i18n="contact.title" data-i18n-fallback="Contact">Contact — Yorlyn</title>
   <meta name="description" content="联系 Yorlyn — 设计、开发与创意合作。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -151,6 +151,20 @@
     }
     .site-footer .socials a:hover { color: #fff; }
 
+    /* ===== LANGUAGE SWITCHER ===== */
+    .lang-switcher { position: relative; display: inline-block; font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
+    .lang-switcher .lang-current { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.2s; }
+    .lang-switcher .lang-current:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+    .lang-switcher .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
+    .lang-switcher.open .lang-current .arrow { transform: rotate(180deg); }
+    .lang-switcher .lang-dropdown { position: absolute; bottom: calc(100% + 0.4rem); left: 0; background: rgba(15,20,35,0.95); backdrop-filter: blur(8px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem; min-width: 140px; display: none; overflow: hidden; }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-switcher .lang-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); transition: all 0.15s; }
+    .lang-switcher .lang-option:hover { background: rgba(255,255,255,0.08); }
+    .lang-switcher .lang-option.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .lang-switcher .lang-flag { font-size: 1rem; line-height: 1; }
+    .lang-switcher .lang-label { white-space: nowrap; }
+
     @media (max-width: 768px) {
       .contact-hero-title { font-size: 3rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -168,14 +182,14 @@
     </div>
     <div class="contact-hero-overlay"></div>
     <div class="contact-hero-content">
-      <div class="contact-hero-label">Contact</div>
-      <h1 class="contact-hero-title">Let's Talk</h1>
-      <p class="contact-hero-desc">Have a project in mind? I'd love to hear about it. Let's create something amazing together.</p>
+      <div class="contact-hero-label" data-i18n="contact.hero.label" data-i18n-fallback="Contact">Contact</div>
+      <h1 class="contact-hero-title" data-i18n="contact.hero.title" data-i18n-fallback="Let's Talk">Let's Talk</h1>
+      <p class="contact-hero-desc" data-i18n="contact.hero.desc" data-i18n-fallback="Have a project in mind? I'd love to hear about it. Let's create something amazing together.">Have a project in mind? I'd love to hear about it. Let's create something amazing together.</p>
       <nav class="contact-hero-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">Daily Log</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="contact.html" class="active">Contact</a>
+        <a href="index.html" data-i18n="contact.nav.home" data-i18n-fallback="Home">Home</a>
+        <a href="about.html" data-i18n="contact.nav.log" data-i18n-fallback="Daily Log">Daily Log</a>
+        <a href="portfolio.html" data-i18n="contact.nav.portfolio" data-i18n-fallback="Portfolio">Portfolio</a>
+        <a href="contact.html" class="active" data-i18n="contact.nav.contact" data-i18n-fallback="Contact">Contact</a>
       </nav>
     </div>
   </section>
@@ -183,69 +197,86 @@
   <section class="contact-section">
     <div class="contact-grid">
       <div class="contact-info">
-        <h2>Start a Project</h2>
-        <p>I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+        <h2 data-i18n="contact.form.heading" data-i18n-fallback="Start a Project">Start a Project</h2>
+        <p data-i18n="contact.form.p1" data-i18n-fallback="I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.">I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
         <div class="contact-details">
           <div class="contact-detail">
             <div class="contact-detail-icon">@</div>
             <div class="contact-detail-text">
-              <h4>Email</h4>
-              <a href="mailto:hello@yorlyn.com">hello@yorlyn.com</a>
+              <h4 data-i18n="contact.details.email" data-i18n-fallback="Email">Email</h4>
+              <a href="mailto:hello@yorlyn.com" data-i18n="contact.details.email_value" data-i18n-fallback="hello@yorlyn.com">hello@yorlyn.com</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Gh</div>
             <div class="contact-detail-text">
-              <h4>GitHub</h4>
-              <a href="https://github.com/yorlyn">github.com/yorlyn</a>
+              <h4 data-i18n="contact.details.github" data-i18n-fallback="GitHub">GitHub</h4>
+              <a href="https://github.com/yorlyn" data-i18n="contact.details.github_value" data-i18n-fallback="github.com/yorlyn">github.com/yorlyn</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Tw</div>
             <div class="contact-detail-text">
-              <h4>Twitter</h4>
-              <a href="https://twitter.com/yorlyn">@yorlyn</a>
+              <h4 data-i18n="contact.details.twitter" data-i18n-fallback="Twitter">Twitter</h4>
+              <a href="https://twitter.com/yorlyn" data-i18n="contact.details.twitter_value" data-i18n-fallback="@yorlyn">@yorlyn</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Dr</div>
             <div class="contact-detail-text">
-              <h4>Dribbble</h4>
-              <a href="https://dribbble.com/yorlyn">dribbble.com/yorlyn</a>
+              <h4 data-i18n="contact.details.dribbble" data-i18n-fallback="Dribbble">Dribbble</h4>
+              <a href="https://dribbble.com/yorlyn" data-i18n="contact.details.dribbble_value" data-i18n-fallback="dribbble.com/yorlyn">dribbble.com/yorlyn</a>
             </div>
           </div>
         </div>
       </div>
       <div class="contact-form">
         <div class="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Your name">
+          <label data-i18n="contact.form.name" data-i18n-fallback="Name">Name</label>
+          <input type="text" placeholder="Your name" data-i18n="contact.form.name_placeholder" data-i18n-fallback="Your name">
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="your@email.com">
+          <label data-i18n="contact.form.email" data-i18n-fallback="Email">Email</label>
+          <input type="email" placeholder="your@email.com" data-i18n="contact.form.email_placeholder" data-i18n-fallback="your@email.com">
         </div>
         <div class="form-group">
-          <label>Subject</label>
-          <input type="text" placeholder="Project inquiry">
+          <label data-i18n="contact.form.subject" data-i18n-fallback="Subject">Subject</label>
+          <input type="text" placeholder="Project inquiry" data-i18n="contact.form.subject_placeholder" data-i18n-fallback="Project inquiry">
         </div>
         <div class="form-group">
-          <label>Message</label>
-          <textarea placeholder="Tell me about your project..."></textarea>
+          <label data-i18n="contact.form.message" data-i18n-fallback="Message">Message</label>
+          <textarea placeholder="Tell me about your project..." data-i18n="contact.form.message_placeholder" data-i18n-fallback="Tell me about your project..."></textarea>
         </div>
-        <button class="submit-btn">Send Message</button>
+        <button class="submit-btn" data-i18n="contact.form.submit" data-i18n-fallback="Send Message">Send Message</button>
       </div>
     </div>
   </section>
 
   <footer class="site-footer">
     <div class="socials">
-      <a href="#">GitHub</a>
-      <a href="#">Twitter</a>
-      <a href="#">Dribbble</a>
-      <a href="#">Email</a>
+      <a href="#" data-i18n="contact.footer.socials.github" data-i18n-fallback="GitHub">GitHub</a>
+      <a href="#" data-i18n="contact.footer.socials.twitter" data-i18n-fallback="Twitter">Twitter</a>
+      <a href="#" data-i18n="contact.footer.socials.dribbble" data-i18n-fallback="Dribbble">Dribbble</a>
+      <a href="#" data-i18n="contact.footer.socials.email" data-i18n-fallback="Email">Email</a>
     </div>
-    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+    <div id="lang-switcher" class="lang-switcher">
+      <div class="lang-current" onclick="toggleLangDropdown()">
+        <span class="lang-current-flag">🇨🇳</span>
+        <span class="lang-current-code">ZH</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="lang-dropdown">
+        <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
+        <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
+        <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
+        <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
+        <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
+        <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
+        <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
+        <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
+      </div>
+    </div>
+    <p data-i18n="contact.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">&copy; 2026 Yorlyn. All rights reserved.</p>
   </footer>
 
   <script>
@@ -267,5 +298,7 @@
       el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
   </script>
+  <script src="js/i18n.js"></script>
+  <script>initI18n()</script>
 </body>
 </html>

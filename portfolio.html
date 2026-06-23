@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio — Yorlyn</title>
+  <title data-i18n="portfolio.title" data-i18n-fallback="Portfolio">Portfolio — Yorlyn</title>
   <meta name="description" content="Yorlyn 的作品集 — 设计、开发与创意项目展示。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -118,6 +118,20 @@
     }
     .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
 
+    /* ===== LANGUAGE SWITCHER ===== */
+    .lang-switcher { position: relative; display: inline-block; font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
+    .lang-switcher .lang-current { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.2s; }
+    .lang-switcher .lang-current:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+    .lang-switcher .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
+    .lang-switcher.open .lang-current .arrow { transform: rotate(180deg); }
+    .lang-switcher .lang-dropdown { position: absolute; bottom: calc(100% + 0.4rem); left: 0; background: rgba(15,20,35,0.95); backdrop-filter: blur(8px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem; min-width: 140px; display: none; overflow: hidden; }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-switcher .lang-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); transition: all 0.15s; }
+    .lang-switcher .lang-option:hover { background: rgba(255,255,255,0.08); }
+    .lang-switcher .lang-option.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .lang-switcher .lang-flag { font-size: 1rem; line-height: 1; }
+    .lang-switcher .lang-label { white-space: nowrap; }
+
     @media (max-width: 768px) {
       .portfolio-hero-title { font-size: 3rem; }
       .portfolio-grid { grid-template-columns: 1fr; }
@@ -135,14 +149,14 @@
     </div>
     <div class="portfolio-hero-overlay"></div>
     <div class="portfolio-hero-content">
-      <div class="portfolio-hero-label">Portfolio</div>
-      <h1 class="portfolio-hero-title">Selected Works</h1>
-      <p class="portfolio-hero-desc">A collection of projects spanning brand identity, digital experiences, and creative campaigns.</p>
+      <div class="portfolio-hero-label" data-i18n="portfolio.hero.label" data-i18n-fallback="Portfolio">Portfolio</div>
+      <h1 class="portfolio-hero-title" data-i18n="portfolio.hero.title" data-i18n-fallback="Selected Works">Selected Works</h1>
+      <p class="portfolio-hero-desc" data-i18n="portfolio.hero.desc" data-i18n-fallback="A collection of projects spanning brand identity, digital experiences, and creative campaigns.">A collection of projects spanning brand identity, digital experiences, and creative campaigns.</p>
       <nav class="portfolio-hero-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">Daily Log</a>
-        <a href="portfolio.html" class="active">Portfolio</a>
-        <a href="contact.html">Contact</a>
+        <a href="index.html" data-i18n="portfolio.nav.home" data-i18n-fallback="Home">Home</a>
+        <a href="about.html" data-i18n="portfolio.nav.log" data-i18n-fallback="Daily Log">Daily Log</a>
+        <a href="portfolio.html" class="active" data-i18n="portfolio.nav.portfolio" data-i18n-fallback="Portfolio">Portfolio</a>
+        <a href="contact.html" data-i18n="portfolio.nav.contact" data-i18n-fallback="Contact">Contact</a>
       </nav>
     </div>
   </section>
@@ -152,56 +166,73 @@
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=1'">
         <img src="images/hero-flowers.jpg" alt="Brand Identity for Flora">
         <div class="portfolio-item-overlay">
-          <h3>Brand Identity for Flora</h3>
-          <p>Luxury floral brand visual identity</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work1.title" data-i18n-fallback="Brand Identity for Flora">Brand Identity for Flora</h3>
+          <p data-i18n="portfolio.work1.desc" data-i18n-fallback="Luxury floral brand visual identity">Luxury floral brand visual identity</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=2'">
         <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=800&h=500&fit=crop" alt="Digital Experience Platform">
         <div class="portfolio-item-overlay">
-          <h3>Digital Experience Platform</h3>
-          <p>Tech startup web platform</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work2.title" data-i18n-fallback="Digital Experience Platform">Digital Experience Platform</h3>
+          <p data-i18n="portfolio.work2.desc" data-i18n-fallback="Tech startup web platform">Tech startup web platform</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=3'">
         <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop" alt="Art Direction Campaign">
         <div class="portfolio-item-overlay">
-          <h3>Art Direction & Campaign</h3>
-          <p>Fashion editorial campaign</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work3.title" data-i18n-fallback="Art Direction & Campaign">Art Direction & Campaign</h3>
+          <p data-i18n="portfolio.work3.desc" data-i18n-fallback="Fashion editorial campaign">Fashion editorial campaign</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=4'">
         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" alt="E-Commerce Redesign">
         <div class="portfolio-item-overlay">
-          <h3>E-Commerce Redesign</h3>
-          <p>Lifestyle platform UX overhaul</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work4.title" data-i18n-fallback="E-Commerce Redesign">E-Commerce Redesign</h3>
+          <p data-i18n="portfolio.work4.desc" data-i18n-fallback="Lifestyle platform UX overhaul">Lifestyle platform UX overhaul</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=5'">
         <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=500&fit=crop" alt="Mobile App Design">
         <div class="portfolio-item-overlay">
-          <h3>Mobile App Design</h3>
-          <p>Health & wellness application</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work5.title" data-i18n-fallback="Mobile App Design">Mobile App Design</h3>
+          <p data-i18n="portfolio.work5.desc" data-i18n-fallback="Health & wellness application">Health & wellness application</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
       <div class="portfolio-item" onclick="location.href='work-detail.html?id=6'">
         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop" alt="Motion & Animation">
         <div class="portfolio-item-overlay">
-          <h3>Motion & Animation</h3>
-          <p>Dynamic motion graphics</p>
-          <span class="cta">View Project →</span>
+          <h3 data-i18n="portfolio.work6.title" data-i18n-fallback="Motion & Animation">Motion & Animation</h3>
+          <p data-i18n="portfolio.work6.desc" data-i18n-fallback="Dynamic motion graphics">Dynamic motion graphics</p>
+          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
         </div>
       </div>
     </div>
   </section>
 
   <footer class="site-footer">
-    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+    <div id="lang-switcher" class="lang-switcher">
+      <div class="lang-current" onclick="toggleLangDropdown()">
+        <span class="lang-current-flag">🇨🇳</span>
+        <span class="lang-current-code">ZH</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="lang-dropdown">
+        <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
+        <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
+        <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
+        <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
+        <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
+        <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
+        <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
+        <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
+      </div>
+    </div>
+    <p data-i18n="portfolio.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">&copy; 2026 Yorlyn. All rights reserved.</p>
   </footer>
 
   <script>
@@ -223,5 +254,7 @@
       el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
   </script>
+  <script src="js/i18n.js"></script>
+  <script>initI18n()</script>
 </body>
 </html>

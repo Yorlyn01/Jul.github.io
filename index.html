@@ -433,6 +433,20 @@
       .slide { padding: 3rem; }
       .slide-title { font-size: 1.8rem; }
     }
+    /* ===== LANGUAGE SWITCHER ===== */
+    .lang-switcher { position: relative; display: inline-block; font-family: 'Inter', sans-serif; margin-top: 0.5rem; }
+    .lang-switcher .lang-current { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.2s; }
+    .lang-switcher .lang-current:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+    .lang-switcher .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
+    .lang-switcher.open .lang-current .arrow { transform: rotate(180deg); }
+    .lang-switcher .lang-dropdown { position: absolute; bottom: calc(100% + 0.4rem); left: 0; background: rgba(15,20,35,0.95); backdrop-filter: blur(8px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem; min-width: 140px; display: none; overflow: hidden; }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-switcher .lang-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); transition: all 0.15s; }
+    .lang-switcher .lang-option:hover { background: rgba(255,255,255,0.08); }
+    .lang-switcher .lang-option.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .lang-switcher .lang-flag { font-size: 1rem; line-height: 1; }
+    .lang-switcher .lang-label { white-space: nowrap; }
+
   </style>
 </head>
 <body>
@@ -453,12 +467,12 @@
         
         <div class="left-center">
           <div class="slide-number" id="slideNumber">01</div>
-          <h2 class="slide-title" id="slideTitle">Brand Identity<br>for Flora</h2>
-          <p class="slide-desc" id="slideDesc">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.</p>
+          <h2 class="slide-title" id="slideTitle" data-i18n="home.slides.01.title" data-i18n-fallback="Brand Identity for Flora">Brand Identity<br>for Flora</h2>
+          <p class="slide-desc" id="slideDesc" data-i18n="home.slides.01.desc" data-i18n-fallback="A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.</p>
           <div class="slide-tags" id="slideTags">
-            <span class="slide-tag">Brand Design</span>
-            <span class="slide-tag">Visual Identity</span>
-            <span class="slide-tag">2024</span>
+            <span class="slide-tag" data-i18n-fallback="Brand Design">Brand Design</span>
+            <span class="slide-tag" data-i18n-fallback="Visual Identity">Visual Identity</span>
+            <span class="slide-tag" data-i18n-fallback="2024">2024</span>
           </div>
         </div>
 
@@ -475,13 +489,30 @@
           </div>
           
           <nav class="left-nav">
-            <a href="index.html" class="active">Home</a>
-            <a href="about.html">Daily Log</a>
-            <a href="portfolio.html">Portfolio</a>
-            <a href="contact.html">Contact</a>
+            <a href="index.html" class="active" data-i18n="home.nav.home" data-i18n-fallback="Home">Home</a>
+            <a href="about.html" data-i18n="home.nav.log" data-i18n-fallback="Daily Log">Daily Log</a>
+            <a href="portfolio.html" data-i18n="home.nav.portfolio" data-i18n-fallback="Portfolio">Portfolio</a>
+            <a href="contact.html" data-i18n="home.nav.contact" data-i18n-fallback="Contact">Contact</a>
           </nav>
           
-          <div class="left-footer" style="margin-top: 2rem;">
+          <div id="lang-switcher" class="lang-switcher">
+            <div class="lang-current" onclick="toggleLangDropdown()">
+              <span class="lang-current-flag">🇨🇳</span>
+              <span class="lang-current-code">ZH</span>
+              <span class="arrow">▼</span>
+            </div>
+            <div class="lang-dropdown">
+              <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
+              <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
+              <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
+              <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
+              <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
+              <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
+              <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
+              <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
+            </div>
+          </div>
+          <div class="left-footer" style="margin-top: 2rem;" data-i18n="home.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">
             &copy; 2026 Yorlyn. All rights reserved.
           </div>
         </div>
@@ -574,27 +605,27 @@
   <section class="about-preview">
     <div class="about-grid">
       <div class="about-left">
-        <h2>Crafting digital experiences with passion & precision</h2>
-        <p>I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.</p>
-        <p>With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.</p>
+        <h2 data-i18n="home.about.title" data-i18n-fallback="Crafting digital experiences with passion &amp; precision">Crafting digital experiences with passion & precision</h2>
+        <p data-i18n="home.about.p1" data-i18n-fallback="I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.">I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.</p>
+        <p data-i18n="home.about.p2" data-i18n-fallback="With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.">With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.</p>
         <div class="about-stats">
           <div class="about-stat">
             <div class="about-stat-number">5+</div>
-            <div class="about-stat-label">Years Experience</div>
+            <div class="about-stat-label" data-i18n="home.about.stats.years" data-i18n-fallback="Years Experience">Years Experience</div>
           </div>
           <div class="about-stat">
             <div class="about-stat-number">50+</div>
-            <div class="about-stat-label">Projects Done</div>
+            <div class="about-stat-label" data-i18n="home.about.stats.projects" data-i18n-fallback="Projects Done">Projects Done</div>
           </div>
           <div class="about-stat">
             <div class="about-stat-number">30+</div>
-            <div class="about-stat-label">Happy Clients</div>
+            <div class="about-stat-label" data-i18n="home.about.stats.clients" data-i18n-fallback="Happy Clients">Happy Clients</div>
           </div>
         </div>
       </div>
       <div class="about-right">
         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop" alt="Portrait" class="about-image">
-        <div class="about-image-caption">Yorlyn — Creative Developer</div>
+        <div class="about-image-caption" data-i18n="home.about.caption" data-i18n-fallback="Yorlyn — Creative Developer">Yorlyn — Creative Developer</div>
       </div>
     </div>
   </section>
@@ -602,26 +633,26 @@
   <!-- LOG PREVIEW SECTION -->
   <section class="log-preview">
     <div class="log-preview-header">
-      <h2>Latest Thoughts</h2>
-      <a href="about.html">View All →</a>
+      <h2 data-i18n="home.logs.title" data-i18n-fallback="Latest Thoughts">Latest Thoughts</h2>
+      <a href="about.html" data-i18n="home.logs.view_all" data-i18n-fallback="View All →">View All →</a>
     </div>
     <div class="log-grid">
       <a href="about.html" class="log-card">
-        <div class="log-card-date">June 23, 2026</div>
-        <h3>对AI的感悟</h3>
-        <p>感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通...</p>
+        <div class="log-card-date" data-i18n="home.logs.card1.date" data-i18n-fallback="June 23, 2026">June 23, 2026</div>
+        <h3 data-i18n="home.logs.card1.title" data-i18n-fallback="对AI的感悟">对AI的感悟</h3>
+        <p data-i18n="home.logs.card1.excerpt" data-i18n-fallback="感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通...">感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通...</p>
         <span class="log-card-tag">#AI</span>
       </a>
       <a href="about.html" class="log-card">
-        <div class="log-card-date">June 20, 2026</div>
-        <h3>Claude code降智了</h3>
-        <p>自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉...</p>
+        <div class="log-card-date" data-i18n="home.logs.card2.date" data-i18n-fallback="June 20, 2026">June 20, 2026</div>
+        <h3 data-i18n="home.logs.card2.title" data-i18n-fallback="Claude code降智了">Claude code降智了</h3>
+        <p data-i18n="home.logs.card2.excerpt" data-i18n-fallback="自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉...">自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉...</p>
         <span class="log-card-tag">#Tech</span>
       </a>
       <a href="about.html" class="log-card">
-        <div class="log-card-date">June 15, 2026</div>
-        <h3>我的网站正式上线</h3>
-        <p>感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定...</p>
+        <div class="log-card-date" data-i18n="home.logs.card3.date" data-i18n-fallback="June 15, 2026">June 15, 2026</div>
+        <h3 data-i18n="home.logs.card3.title" data-i18n-fallback="我的网站正式上线">我的网站正式上线</h3>
+        <p data-i18n="home.logs.card3.excerpt" data-i18n-fallback="感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定...">感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定...</p>
         <span class="log-card-tag">#Life</span>
       </a>
     </div>
@@ -630,19 +661,19 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="socials">
-      <a href="#">GitHub</a>
-      <a href="#">Twitter</a>
-      <a href="#">Dribbble</a>
-      <a href="#">Email</a>
+      <a href="#" data-i18n="home.footer.github" data-i18n-fallback="GitHub">GitHub</a>
+      <a href="#" data-i18n="home.footer.twitter" data-i18n-fallback="Twitter">Twitter</a>
+      <a href="#" data-i18n="home.footer.dribbble" data-i18n-fallback="Dribbble">Dribbble</a>
+      <a href="#" data-i18n="home.footer.email" data-i18n-fallback="Email">Email</a>
     </div>
-    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+    <p data-i18n="home.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">&copy; 2026 Yorlyn. All rights reserved.</p>
   </footer>
 
   <nav class="mobile-nav">
-    <a href="index.html" class="active">Home</a>
-    <a href="about.html">Log</a>
-    <a href="portfolio.html">Work</a>
-    <a href="contact.html">Contact</a>
+    <a href="index.html" class="active" data-i18n="home.nav.home" data-i18n-fallback="Home">Home</a>
+    <a href="about.html" data-i18n="home.nav.log" data-i18n-fallback="Daily Log">Log</a>
+    <a href="portfolio.html" data-i18n="home.nav.portfolio" data-i18n-fallback="Portfolio">Work</a>
+    <a href="contact.html" data-i18n="home.nav.contact" data-i18n-fallback="Contact">Contact</a>
   </nav>
 
   <script>
@@ -650,43 +681,55 @@
     const slidesData = [
       {
         number: '01',
-        title: 'Brand Identity<br>for Flora',
-        desc: 'A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.',
+        title: 'home.slides.01.title',
+        titleFallback: 'Brand Identity for Flora',
+        desc: 'home.slides.01.desc',
+        descFallback: 'A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism and timeless aesthetics.',
         tags: ['Brand Design', 'Visual Identity', '2024'],
         progress: '16%'
       },
       {
         number: '02',
-        title: 'Digital Experience<br>Platform',
-        desc: 'An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.',
+        title: 'home.slides.02.title',
+        titleFallback: 'Digital Experience Platform',
+        desc: 'home.slides.02.desc',
+        descFallback: 'An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.',
         tags: ['Web Design', 'Development', '2025'],
         progress: '33%'
       },
       {
         number: '03',
-        title: 'Art Direction<br>& Campaign',
-        desc: 'Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.',
+        title: 'home.slides.03.title',
+        titleFallback: 'Art Direction & Campaign',
+        desc: 'home.slides.03.desc',
+        descFallback: 'Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.',
         tags: ['Art Direction', 'Photography', '2025'],
         progress: '50%'
       },
       {
         number: '04',
-        title: 'E-Commerce<br>Redesign',
-        desc: 'A complete UX overhaul for a lifestyle e-commerce platform, focusing on conversion optimization and mobile-first experience.',
+        title: 'home.slides.04.title',
+        titleFallback: 'E-Commerce Redesign',
+        desc: 'home.slides.04.desc',
+        descFallback: 'A complete UX overhaul for a lifestyle e-commerce platform, focusing on conversion optimization and mobile-first experience.',
         tags: ['UX Design', 'E-Commerce', '2024'],
         progress: '66%'
       },
       {
         number: '05',
-        title: 'Mobile App<br>Design',
-        desc: 'Designing an intuitive mobile application for health and wellness, with personalized dashboards and social features.',
+        title: 'home.slides.05.title',
+        titleFallback: 'Mobile App Design',
+        desc: 'home.slides.05.desc',
+        descFallback: 'Designing an intuitive mobile application for health and wellness, with personalized dashboards and social features.',
         tags: ['Mobile App', 'UI Design', '2025'],
         progress: '83%'
       },
       {
         number: '06',
-        title: 'Motion &<br>Animation',
-        desc: 'Creating dynamic motion graphics and micro-interactions for a digital product, enhancing user engagement through storytelling.',
+        title: 'home.slides.06.title',
+        titleFallback: 'Motion & Animation',
+        desc: 'home.slides.06.desc',
+        descFallback: 'Creating dynamic motion graphics and micro-interactions for a digital product, enhancing user engagement through storytelling.',
         tags: ['Motion', 'Animation', '2025'],
         progress: '100%'
       }
@@ -710,16 +753,23 @@
       
       setTimeout(() => {
         document.getElementById('slideNumber').textContent = data.number;
-        document.getElementById('slideTitle').innerHTML = data.title;
-        document.getElementById('slideDesc').textContent = data.desc;
         document.getElementById('slideCounter').textContent = `${data.number} / 06`;
         document.getElementById('progressBar').style.width = data.progress;
         
-        const tagsHtml = data.tags.map(t => `<span class="slide-tag">${t}</span>`).join('');
+        const titleEl = document.getElementById('slideTitle');
+        const descEl = document.getElementById('slideDesc');
+        titleEl.setAttribute('data-i18n', data.title);
+        titleEl.setAttribute('data-i18n-fallback', data.titleFallback || '');
+        descEl.setAttribute('data-i18n', data.desc);
+        descEl.setAttribute('data-i18n-fallback', data.descFallback || '');
+        
+        const tagsHtml = data.tags.map(t => `<span class="slide-tag" data-i18n-fallback="${t}">${t}</span>`).join('');
         document.getElementById('slideTags').innerHTML = tagsHtml;
         
         leftContent.style.transform = 'translateY(0)';
         leftContent.style.opacity = '1';
+        
+        if (typeof applyTranslations === 'function') applyTranslations();
       }, 300);
     }
 
@@ -786,5 +836,7 @@
       }, 1500);
     });
   </script>
+  <script src="js/i18n.js"></script>
+  <script>initI18n()</script>
 </body>
 </html>
