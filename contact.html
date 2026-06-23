@@ -3,156 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="contact.page_title">Contact — Yorlyn</title>
-  <meta name="description" content="联系 Yorlyn — 设计、开发合作与项目咨询。">
+  <title>Contact — Yorlyn</title>
+  <meta name="description" content="联系 Yorlyn — 设计、开发与创意合作。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1a1a2e; background: #0a0e1a;
+      overflow-x: hidden;
+    }
+
+    .cursor-dot, .cursor-ring {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%); border-radius: 50%;
+    }
+    .cursor-dot { width: 8px; height: 8px; background: #fff; }
+    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); }
+    body.hovering .cursor-dot { width: 12px; height: 12px; }
+    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(255,255,255,0.5); }
+    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+
+    .contact-hero {
+      height: 100vh; min-height: 600px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: #0a0e1a;
+    }
+    .contact-hero-bg {
+      position: absolute; inset: 0; opacity: 0.2;
+    }
+    .contact-hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .contact-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.8) 100%);
+    }
+    .contact-hero-content {
+      position: relative; z-index: 2; text-align: center; color: #fff;
+      padding: 2rem;
+    }
+    .contact-hero-label {
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 1.5rem;
+    }
+    .contact-hero-title {
+      font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .contact-hero-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto;
+      line-height: 1.7;
+    }
+    .contact-hero-nav {
+      display: flex; gap: 2rem; justify-content: center; margin-top: 3rem;
+    }
+    .contact-hero-nav a {
+      font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease;
+      position: relative; padding-bottom: 0.5rem;
+    }
+    .contact-hero-nav a::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 1px; background: rgba(255,255,255,0.5); transition: width 0.4s ease;
+    }
+    .contact-hero-nav a:hover, .contact-hero-nav a.active { color: rgba(255,255,255,0.8); }
+    .contact-hero-nav a:hover::after, .contact-hero-nav a.active::after { width: 100%; }
+
+    .contact-section {
+      padding: 6rem 3rem; max-width: 1000px; margin: 0 auto;
+    }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+    }
+    .contact-info h2 {
+      font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700;
+      color: #fff; margin-bottom: 1.5rem; line-height: 1.1;
+    }
+    .contact-info p {
+      font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .contact-details {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.6); font-size: 0.9rem; flex-shrink: 0;
+    }
+    .contact-detail-text h4 {
+      font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;
+    }
+    .contact-detail-text p, .contact-detail-text a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.4); text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .contact-detail-text a:hover { color: rgba(255,255,255,0.8); }
+
+    .contact-form {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+      padding: 2.5rem; border-radius: 8px;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block; font-size: 0.75rem; color: rgba(255,255,255,0.6);
+      margin-bottom: 0.5rem; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 1rem; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+      color: #fff; font-size: 0.9rem; outline: none; transition: all 0.3s ease;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08);
+    }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .submit-btn {
+      width: 100%; padding: 1rem; background: #fff; color: #0a0e1a;
+      border: none; border-radius: 4px; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      background: rgba(255,255,255,0.9); transform: translateY(-2px);
+    }
+
+    .site-footer {
+      background: #0a0e1a; color: #fff; padding: 4rem 2rem; text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .site-footer .socials {
+      display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;
+    }
+    .site-footer .socials a {
+      color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+    .site-footer .socials a:hover { color: #fff; }
+
+    @media (max-width: 768px) {
+      .contact-hero-title { font-size: 3rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-section { padding: 4rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 
-  <div class="page-wrapper">
-    <aside class="left-panel">
-      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
-      <div class="hero-section">
-        <p class="hello-label" data-i18n="contact.page_label">Contact</p>
-        <h1 class="hero-title" data-i18n="contact.page_title">Get in Touch</h1>
-        <p class="hero-subtitle" data-i18n="contact.subtitle">Have a project in mind?<br>Let's create something together.</p>
-        <a href="portfolio.html" class="btn-outline" data-i18n="contact.view_portfolio">View Portfolio</a>
-        <div class="social-links">
-          <a href="#" title="GitHub">Gh</a>
-          <a href="#" title="Twitter">Tw</a>
-          <a href="#" title="Dribbble">Dr</a>
-          <a href="#" title="Email">@</a>
-        </div>
-      </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2026 Yorlyn</div>
-    </aside>
-
-    <main class="right-content">
-      <div class="content-page" style="max-width:700px;">
-        <!-- Contact Section -->
-        <p class="page-subtitle" data-i18n="contact.section_title">联系方式</p>
-        <h2 class="page-title" data-i18n="contact.form_title">开始合作</h2>
-
-        <p class="text-content" data-i18n="contact.intro">
-          无论是设计项目、开发合作，还是单纯想交流创意，我都很乐意收到你的来信。
-          填写下方表单，或直接通过邮件/社交媒体联系。
-        </p>
-
-        <form class="contact-form" action="#" method="POST">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name" data-i18n="contact.name">Name</label>
-              <input type="text" id="name" name="name" data-i18n-placeholder="contact.name_placeholder" placeholder="Your name" required>
-            </div>
-            <div class="form-group">
-              <label for="email" data-i18n="contact.email">Email</label>
-              <input type="email" id="email" name="email" data-i18n-placeholder="contact.email_placeholder" placeholder="your@email.com" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="subject" data-i18n="contact.subject">Subject</label>
-            <input type="text" id="subject" name="subject" data-i18n-placeholder="contact.subject_placeholder" placeholder="Project inquiry / Collaboration / Hello">
-          </div>
-
-          <div class="form-group">
-            <label for="message" data-i18n="contact.message">Message</label>
-            <textarea id="message" name="message" data-i18n-placeholder="contact.message_placeholder" placeholder="Tell me about your project..." required></textarea>
-          </div>
-
-          <button type="submit" class="btn-dark" style="justify-self:start;" data-i18n="contact.send">Send Message</button>
-        </form>
-
-        <div class="contact-info">
-          <div class="contact-info-item">
-            <div class="icon">@</div>
-            <div>
-              <h4 data-i18n="contact.email_label">Email</h4>
-              <p>hello@yorlyn.com</p>
-            </div>
-          </div>
-          <div class="contact-info-item">
-            <div class="icon">L</div>
-            <div>
-              <h4 data-i18n="contact.location_label">Location</h4>
-              <p data-i18n="contact.location">Shanghai, China</p>
-            </div>
-          </div>
-          <div class="contact-info-item">
-            <div class="icon">T</div>
-            <div>
-              <h4>Social</h4>
-              <p>GitHub · Twitter · Dribbble</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- About Me Section (moved from about.html) -->
-        <div class="about-in-contact">
-          <p class="page-subtitle" data-i18n="about.section_about">关于我</p>
-          <h2 class="page-title" data-i18n="about.about_title">设计与代码之间</h2>
-
-          <p class="text-content" data-i18n="about.about_text">
-            我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。
-            我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，
-            都承载着对用户体验的尊重与追求。
-          </p>
-
-          <h3 class="section-title" data-i18n="about.section_work">工作经历</h3>
-          <p class="text-content">
-            <strong>2022 — 至今</strong> · <span data-i18n="about.job1_title">自由职业设计师 & 开发者</span><br>
-            <span data-i18n="about.job1_desc">为多个品牌和个人项目提供设计、开发与咨询服务。</span>
-          </p>
-          <p class="text-content">
-            <strong>2020 — 2022</strong> · <span data-i18n="about.job2_title">某互联网公司 · 前端工程师</span><br>
-            <span data-i18n="about.job2_desc">负责产品前端架构、组件库设计与用户体验优化。</span>
-          </p>
-
-          <h3 class="section-title" data-i18n="about.section_skills">技能栈</h3>
-          <p class="text-content">
-            <strong data-i18n="about.skills_design">设计</strong> — <span data-i18n="about.skills_design_list">Figma, Sketch, Adobe Illustrator, Photoshop</span><br>
-            <strong data-i18n="about.skills_frontend">前端</strong> — <span data-i18n="about.skills_frontend_list">HTML/CSS, JavaScript, React, Vue, Next.js, Three.js</span><br>
-            <strong data-i18n="about.skills_tools">工具</strong> — <span data-i18n="about.skills_tools_list">Git, VS Code, Webpack, Vite, Tailwind CSS</span><br>
-            <strong data-i18n="about.skills_other">其他</strong> — <span data-i18n="about.skills_other_list">Node.js, Python, Supabase, Vercel</span>
-          </p>
-
-          <h3 class="section-title" data-i18n="about.section_edu">教育背景</h3>
-          <p class="text-content">
-            <strong>2016 — 2020</strong> · <span data-i18n="about.edu_title">某大学 · 计算机科学与技术</span><br>
-            <span data-i18n="about.edu_desc">主修软件工程，辅修视觉设计。在校期间参与多个开源项目。</span>
-          </p>
-        </div>
-      </div>
-    </main>
-
-    <nav class="side-nav">
-      <div class="side-nav-toggle"><span></span><span></span></div>
-      <div class="nav-links">
+  <section class="contact-hero">
+    <div class="contact-hero-bg">
+      <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1600&h=900&fit=crop" alt="Contact">
+    </div>
+    <div class="contact-hero-overlay"></div>
+    <div class="contact-hero-content">
+      <div class="contact-hero-label">Contact</div>
+      <h1 class="contact-hero-title">Let's Talk</h1>
+      <p class="contact-hero-desc">Have a project in mind? I'd love to hear about it. Let's create something amazing together.</p>
+      <nav class="contact-hero-nav">
         <a href="index.html">Home</a>
         <a href="about.html">Daily Log</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="contact.html" class="active">Contact</a>
-      </div>
-    </nav>
-  </div>
+      </nav>
+    </div>
+  </section>
 
-  <nav class="mobile-nav">
-    <a href="index.html">Home</a>
-    <a href="about.html">Log</a>
-    <a href="portfolio.html">Work</a>
-    <a href="contact.html" class="active">Contact</a>
-  </nav>
-  <script src="js/supabase.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/i18n.js"></script>
+  <section class="contact-section">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Start a Project</h2>
+        <p>I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="contact-detail-icon">@</div>
+            <div class="contact-detail-text">
+              <h4>Email</h4>
+              <a href="mailto:hello@yorlyn.com">hello@yorlyn.com</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">Gh</div>
+            <div class="contact-detail-text">
+              <h4>GitHub</h4>
+              <a href="https://github.com/yorlyn">github.com/yorlyn</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">Tw</div>
+            <div class="contact-detail-text">
+              <h4>Twitter</h4>
+              <a href="https://twitter.com/yorlyn">@yorlyn</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">Dr</div>
+            <div class="contact-detail-text">
+              <h4>Dribbble</h4>
+              <a href="https://dribbble.com/yorlyn">dribbble.com/yorlyn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" placeholder="Project inquiry">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button class="submit-btn">Send Message</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="socials">
+      <a href="#">GitHub</a>
+      <a href="#">Twitter</a>
+      <a href="#">Dribbble</a>
+      <a href="#">Email</a>
+    </div>
+    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+  </footer>
+
   <script>
-    initI18n()
-    logPageView('/contact')
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function tick() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    tick();
+    document.querySelectorAll('a, button, .form-group input, .form-group textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
   </script>
 </body>
 </html>

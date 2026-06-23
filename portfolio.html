@@ -3,77 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="portfolio.page_title">Portfolio — Yorlyn</title>
+  <title>Portfolio — Yorlyn</title>
   <meta name="description" content="Yorlyn 的作品集 — 设计、开发与创意项目展示。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1a1a2e; background: #0a0e1a;
+      overflow-x: hidden;
+    }
+
+    .cursor-dot, .cursor-ring {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%); border-radius: 50%;
+    }
+    .cursor-dot { width: 8px; height: 8px; background: #fff; }
+    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); }
+    body.hovering .cursor-dot { width: 12px; height: 12px; }
+    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(255,255,255,0.5); }
+    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+
+    .portfolio-hero {
+      height: 100vh; min-height: 600px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: #0a0e1a;
+    }
+    .portfolio-hero-bg {
+      position: absolute; inset: 0; opacity: 0.25;
+    }
+    .portfolio-hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .portfolio-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.8) 100%);
+    }
+    .portfolio-hero-content {
+      position: relative; z-index: 2; text-align: center; color: #fff;
+      padding: 2rem;
+    }
+    .portfolio-hero-label {
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 1.5rem;
+    }
+    .portfolio-hero-title {
+      font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .portfolio-hero-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto;
+      line-height: 1.7;
+    }
+    .portfolio-hero-nav {
+      display: flex; gap: 2rem; justify-content: center; margin-top: 3rem;
+    }
+    .portfolio-hero-nav a {
+      font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease;
+      position: relative; padding-bottom: 0.5rem;
+    }
+    .portfolio-hero-nav a::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 1px; background: rgba(255,255,255,0.5); transition: width 0.4s ease;
+    }
+    .portfolio-hero-nav a:hover, .portfolio-hero-nav a.active { color: rgba(255,255,255,0.8); }
+    .portfolio-hero-nav a:hover::after, .portfolio-hero-nav a.active::after { width: 100%; }
+
+    .portfolio-grid-section {
+      padding: 6rem 3rem; max-width: 1400px; margin: 0 auto;
+    }
+    .portfolio-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+    }
+    .portfolio-item {
+      position: relative; overflow: hidden; border-radius: 8px;
+      aspect-ratio: 16/10; cursor: pointer; background: #1a1a2e;
+    }
+    .portfolio-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .portfolio-item:hover img { transform: scale(1.08); }
+    .portfolio-item-overlay {
+      position: absolute; inset: 0; background: rgba(10,14,26,0.85);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.5s ease;
+      color: #fff; padding: 2rem; text-align: center;
+    }
+    .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
+    .portfolio-item-overlay h3 {
+      font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;
+      transform: translateY(20px); transition: transform 0.5s ease 0.1s;
+    }
+    .portfolio-item:hover .portfolio-item-overlay h3 { transform: translateY(0); }
+    .portfolio-item-overlay p {
+      font-size: 0.85rem; color: rgba(255,255,255,0.6);
+      transform: translateY(20px); transition: transform 0.5s ease 0.15s;
+    }
+    .portfolio-item:hover .portfolio-item-overlay p { transform: translateY(0); }
+    .portfolio-item-overlay .cta {
+      margin-top: 1.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.7);
+      text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 0.3rem; letter-spacing: 0.1em; text-transform: uppercase;
+      transform: translateY(20px); transition: all 0.5s ease 0.2s;
+    }
+    .portfolio-item:hover .portfolio-item-overlay .cta { transform: translateY(0); }
+
+    .site-footer {
+      background: #0a0e1a; color: #fff; padding: 4rem 2rem; text-align: center;
+    }
+    .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+    @media (max-width: 768px) {
+      .portfolio-hero-title { font-size: 3rem; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .portfolio-grid-section { padding: 4rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 
-  <div class="page-wrapper">
-    <aside class="left-panel">
-      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
-      <div class="hero-section">
-        <p class="hello-label" data-i18n="portfolio.page_label">Work</p>
-        <h1 class="hero-title" data-i18n="portfolio.page_title">Portfolio</h1>
-        <p class="hero-subtitle" data-i18n="portfolio.subtitle">Selected projects<br>and case studies.</p>
-        <a href="contact.html" class="btn-outline" data-i18n="portfolio.start_project">Start a Project</a>
-        <div class="social-links">
-          <a href="#" title="GitHub">Gh</a>
-          <a href="#" title="Twitter">Tw</a>
-          <a href="#" title="Dribbble">Dr</a>
-          <a href="#" title="Email">@</a>
-        </div>
-      </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2026 Yorlyn</div>
-    </aside>
-
-    <main class="right-content">
-      <div class="content-page" style="max-width:800px;">
-        <p class="page-subtitle" data-i18n="portfolio.section_title">精选作品</p>
-        <h2 class="page-title" data-i18n="portfolio.projects_title">我的项目</h2>
-
-        <p class="text-content" data-i18n="portfolio.intro">
-          以下是我参与的一些项目，涵盖 Web 开发、UI 设计、品牌视觉与创意实验。
-          每一个项目都代表着一段探索与学习的旅程。点击作品可以查看详情、留言和点赞。
-        </p>
-
-        <div class="portfolio-grid" id="portfolio-grid">
-          <p style="color:#6b7280;padding:2rem 0;grid-column:1/-1;" data-i18n="portfolio.loading">加载作品中...</p>
-        </div>
-      </div>
-    </main>
-
-    <nav class="side-nav">
-      <div class="side-nav-toggle"><span></span><span></span></div>
-      <div class="nav-links">
+  <section class="portfolio-hero">
+    <div class="portfolio-hero-bg">
+      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop" alt="Portfolio">
+    </div>
+    <div class="portfolio-hero-overlay"></div>
+    <div class="portfolio-hero-content">
+      <div class="portfolio-hero-label">Portfolio</div>
+      <h1 class="portfolio-hero-title">Selected Works</h1>
+      <p class="portfolio-hero-desc">A collection of projects spanning brand identity, digital experiences, and creative campaigns.</p>
+      <nav class="portfolio-hero-nav">
         <a href="index.html">Home</a>
         <a href="about.html">Daily Log</a>
         <a href="portfolio.html" class="active">Portfolio</a>
         <a href="contact.html">Contact</a>
-      </div>
-    </nav>
-  </div>
+      </nav>
+    </div>
+  </section>
 
-  <nav class="mobile-nav">
-    <a href="index.html">Home</a>
-    <a href="about.html">Log</a>
-    <a href="portfolio.html" class="active">Work</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-  
-  <script src="js/supabase.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/works.js"></script>
+  <section class="portfolio-grid-section">
+    <div class="portfolio-grid" id="portfolio-grid">
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=1'">
+        <img src="images/hero-flowers.jpg" alt="Brand Identity for Flora">
+        <div class="portfolio-item-overlay">
+          <h3>Brand Identity for Flora</h3>
+          <p>Luxury floral brand visual identity</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=2'">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=800&h=500&fit=crop" alt="Digital Experience Platform">
+        <div class="portfolio-item-overlay">
+          <h3>Digital Experience Platform</h3>
+          <p>Tech startup web platform</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=3'">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop" alt="Art Direction Campaign">
+        <div class="portfolio-item-overlay">
+          <h3>Art Direction & Campaign</h3>
+          <p>Fashion editorial campaign</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=4'">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" alt="E-Commerce Redesign">
+        <div class="portfolio-item-overlay">
+          <h3>E-Commerce Redesign</h3>
+          <p>Lifestyle platform UX overhaul</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=5'">
+        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=500&fit=crop" alt="Mobile App Design">
+        <div class="portfolio-item-overlay">
+          <h3>Mobile App Design</h3>
+          <p>Health & wellness application</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+      <div class="portfolio-item" onclick="location.href='work-detail.html?id=6'">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop" alt="Motion & Animation">
+        <div class="portfolio-item-overlay">
+          <h3>Motion & Animation</h3>
+          <p>Dynamic motion graphics</p>
+          <span class="cta">View Project →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+  </footer>
+
   <script>
-    initI18n()
-    renderWorks('#portfolio-grid', { status: 'published' })
-    logPageView('/portfolio')
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function tick() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    tick();
+    document.querySelectorAll('a, button, .portfolio-item').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
   </script>
 </body>
 </html>
