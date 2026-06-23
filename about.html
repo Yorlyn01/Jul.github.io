@@ -3,657 +3,408 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="about.page_title">Daily Log — Yorlyn</title>
+  <title>Daily Log — Yorlyn</title>
   <meta name="description" content="Yorlyn 的每日日志 — 感言、图片、视频与日常记录。">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    .log-actions { display:flex;gap:1rem;margin-top:1rem;align-items:center; }
-    .log-like-btn { display:flex;align-items:center;gap:0.4rem;background:transparent;border:1.5px solid #e5e7eb;padding:0.4rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;color:#6b7280;transition:all 0.2s; }
-    .log-like-btn:hover { border-color:#dc2626;color:#dc2626; }
-    .log-like-btn.liked { border-color:#dc2626;color:#dc2626;background:#fef2f2; }
-    .log-like-btn .heart { font-size:1rem; }
-    .log-comment-toggle { background:transparent;border:none;color:#6b7280;font-size:0.8rem;cursor:pointer;padding:0.4rem 0; }
-    .log-comment-toggle:hover { color:#1a3a5c; }
-    .log-comment-section { margin-top:1rem;padding-top:1rem;border-top:1px solid #e5e7eb;display:none; }
-    .log-comment-section.open { display:block; }
-    .log-comment-list { margin-bottom:1rem; }
-    .log-comment-item { padding:0.6rem 0;border-bottom:1px solid #f0f2f5; }
-    .log-comment-item:last-child { border-bottom:none; }
-    .log-comment-name { font-weight:600;font-size:0.85rem;color:#1a1a2e; }
-    .log-comment-time { font-size:0.7rem;color:#9ca3af;margin-left:0.5rem; }
-    .log-comment-text { font-size:0.85rem;color:#4b5563;margin-top:0.2rem; }
-    .log-comment-form { display:grid;gap:0.6rem; }
-    .log-comment-form input, .log-comment-form textarea { padding:0.6rem 0.8rem;border:1px solid #e5e7eb;font-size:0.85rem;outline:none; }
-    .log-comment-form input:focus, .log-comment-form textarea:focus { border-color:#1a3a5c; }
-    .log-comment-form textarea { min-height:60px;resize:vertical; }
-    .log-comment-form button { background:#1a3a5c;color:#fff;border:none;padding:0.6rem 1.2rem;font-size:0.8rem;cursor:pointer;width:fit-content; }
-    .log-comment-form .comment-msg { font-size:0.8rem;color:#059669;display:none; }
-    .log-comment-form .comment-msg.error { color:#ef4444; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1a1a2e; background: #f8f9fa;
+      overflow-x: hidden;
+    }
 
-    .user-auth-bar { display:flex;align-items:center;gap:0.8rem; }
-    .user-auth-btn { background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:#fff;padding:0.4rem 1rem;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s; }
-    .user-auth-btn:hover { background:rgba(255,255,255,0.1); }
-    .user-name { font-size:0.8rem;color:rgba(255,255,255,0.8); }
-    .user-logout { font-size:0.7rem;color:rgba(255,255,255,0.5);cursor:pointer; }
-    .user-logout:hover { color:#fff; }
+    /* CUSTOM CURSOR */
+    .cursor-dot, .cursor-ring {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%); border-radius: 50%;
+    }
+    .cursor-dot { width: 8px; height: 8px; background: #1a3a5c; }
+    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(26,58,92,0.3); }
+    body.hovering .cursor-dot { width: 12px; height: 12px; }
+    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(26,58,92,0.5); }
+    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
 
-    .auth-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center; }
-    .auth-modal.open { display:flex; }
-    .auth-modal-content { background:#fff;padding:2rem;border-radius:12px;max-width:380px;width:90%;position:relative; }
-    .auth-modal-close { position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#6b7280; }
-    .auth-modal h3 { margin-bottom:1.5rem;font-size:1.1rem; }
-    .auth-tabs { display:flex;gap:1rem;margin-bottom:1.5rem;border-bottom:1px solid #e5e7eb; }
-    .auth-tab { background:none;border:none;padding:0.5rem 0;font-size:0.85rem;color:#6b7280;cursor:pointer;position:relative; }
-    .auth-tab.active { color:#1a3a5c;font-weight:600; }
-    .auth-tab.active::after { content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#1a3a5c; }
-    .auth-form { display:none; }
-    .auth-form.active { display:block; }
-    .auth-form .form-group { margin-bottom:1rem; }
-    .auth-form label { display:block;font-size:0.75rem;font-weight:500;color:#1a1a2e;margin-bottom:0.3rem; }
-    .auth-form input { width:100%;padding:0.7rem 0.9rem;border:1px solid #e5e7eb;font-size:0.9rem;outline:none; }
-    .auth-form input:focus { border-color:#1a3a5c; }
-    .auth-form button { width:100%;background:#1a3a5c;color:#fff;border:none;padding:0.7rem;font-size:0.85rem;cursor:pointer; }
-    .auth-form .auth-msg { margin-top:0.8rem;font-size:0.8rem;text-align:center;display:none; }
-    .auth-form .auth-msg.error { color:#ef4444; }
-    .auth-form .auth-msg.success { color:#059669; }
-    .auth-guest-btn { display:block;width:100%;text-align:center;margin-top:1rem;padding:0.6rem;background:#f1f5f9;border:none;border-radius:4px;font-size:0.8rem;color:#4b5563;cursor:pointer; }
-    .auth-guest-btn:hover { background:#e2e8f0; }
+    /* FULL SCREEN HERO */
+    .log-hero {
+      height: 100vh; min-height: 600px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: #0a0e1a;
+    }
+    .log-hero-bg {
+      position: absolute; inset: 0; opacity: 0.3;
+    }
+    .log-hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .log-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,14,26,0.9) 0%, rgba(10,14,26,0.7) 100%);
+    }
+    .log-hero-content {
+      position: relative; z-index: 2; text-align: center; color: #fff;
+      padding: 2rem;
+    }
+    .log-hero-label {
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 1.5rem;
+    }
+    .log-hero-title {
+      font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .log-hero-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto;
+      line-height: 1.7;
+    }
+    .log-hero-nav {
+      display: flex; gap: 2rem; justify-content: center; margin-top: 3rem;
+    }
+    .log-hero-nav a {
+      font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease;
+      position: relative; padding-bottom: 0.5rem;
+    }
+    .log-hero-nav a::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 1px; background: rgba(255,255,255,0.5); transition: width 0.4s ease;
+    }
+    .log-hero-nav a:hover, .log-hero-nav a.active { color: rgba(255,255,255,0.8); }
+    .log-hero-nav a:hover::after, .log-hero-nav a.active::after { width: 100%; }
+    .scroll-down {
+      position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      animation: bounce 2s infinite; cursor: pointer;
+    }
+    .scroll-down span { font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; }
+    .scroll-down .line { width: 1px; height: 40px; background: rgba(255,255,255,0.2); position: relative; }
+    .scroll-down .line::after {
+      content: ''; position: absolute; bottom: 0; left: -2px; width: 5px; height: 5px;
+      border-right: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);
+      transform: rotate(45deg);
+    }
+    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+    /* LOG ENTRIES - FULL WIDTH */
+    .log-section { max-width: 900px; margin: 0 auto; padding: 6rem 2rem; }
+    .log-entry {
+      margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 1px solid #e5e7eb;
+      transition: transform 0.4s ease;
+    }
+    .log-entry:hover { transform: translateX(10px); }
+    .log-entry:last-child { border-bottom: none; }
+    .log-meta {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .log-date-day {
+      font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700;
+      color: #1a3a5c; line-height: 1;
+    }
+    .log-date-month {
+      font-size: 0.75rem; color: #9ca3af; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .log-entry h2 {
+      font-size: 1.8rem; font-weight: 600; color: #1a1a2e; margin-bottom: 1rem; line-height: 1.3;
+      transition: color 0.3s ease;
+    }
+    .log-entry:hover h2 { color: #1a3a5c; }
+    .log-entry p {
+      font-size: 1rem; color: #6b7280; line-height: 1.8; margin-bottom: 1.5rem;
+    }
+    .log-media { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .log-media img, .log-media video {
+      width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 16/10;
+      transition: transform 0.4s ease;
+    }
+    .log-media img:hover { transform: scale(1.02); }
+    .log-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+    .log-tag {
+      font-size: 0.7rem; color: #6b7280; background: #f0f2f5;
+      padding: 0.3rem 0.8rem; border-radius: 20px; letter-spacing: 0.05em;
+    }
+    .log-actions { display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+    .log-like-btn {
+      display: flex; align-items: center; gap: 0.4rem; background: transparent;
+      border: 1.5px solid #e5e7eb; padding: 0.5rem 1.2rem; border-radius: 20px;
+      cursor: pointer; font-size: 0.8rem; color: #6b7280; transition: all 0.2s;
+    }
+    .log-like-btn:hover { border-color: #dc2626; color: #dc2626; }
+    .log-like-btn.liked { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+    .log-comment-toggle { background: transparent; border: none; color: #6b7280; font-size: 0.8rem; cursor: pointer; padding: 0.5rem 0; }
+    .log-comment-toggle:hover { color: #1a3a5c; }
+    .log-comment-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; display: none; }
+    .log-comment-section.open { display: block; }
+    .log-comment-form { display: grid; gap: 0.6rem; margin-top: 1rem; }
+    .log-comment-form input, .log-comment-form textarea {
+      padding: 0.7rem 1rem; border: 1px solid #e5e7eb; font-size: 0.85rem; outline: none; border-radius: 4px;
+    }
+    .log-comment-form input:focus, .log-comment-form textarea:focus { border-color: #1a3a5c; }
+    .log-comment-form textarea { min-height: 80px; resize: vertical; }
+    .log-comment-form button {
+      background: #1a3a5c; color: #fff; border: none; padding: 0.7rem 1.5rem;
+      font-size: 0.8rem; cursor: pointer; width: fit-content; border-radius: 4px; transition: background 0.3s;
+    }
+    .log-comment-form button:hover { background: #234b72; }
+
+    /* FOOTER */
+    .site-footer {
+      background: #0a0e1a; color: #fff; padding: 4rem 2rem; text-align: center;
+    }
+    .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .log-hero-title { font-size: 3rem; }
+      .log-section { padding: 4rem 1.5rem; }
+      .log-media { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <!-- Custom Cursor -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 
-  <div class="page-wrapper">
-    <aside class="left-panel">
-      <div><a href="index.html" class="brand" data-i18n="site.brand">yorlyn.com</a></div>
-      <div class="hero-section">
-        <p class="hello-label" data-i18n="about.page_label">Log</p>
-        <h1 class="hero-title" data-i18n="about.page_title">Daily Log</h1>
-        <p class="hero-subtitle" data-i18n="about.subtitle">Thoughts, images &amp; moments<br>from everyday life.</p>
-        <a href="contact.html" class="btn-outline" data-i18n="about.see_work">Get in Touch</a>
-        <div class="social-links">
-          <a href="#" title="GitHub">Gh</a>
-          <a href="#" title="Twitter">Tw</a>
-          <a href="#" title="Dribbble">Dr</a>
-          <a href="#" title="Email">@</a>
-        </div>
-        <div class="user-auth-bar" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1);" id="user-auth-bar">
-          <span class="user-name" id="user-name-display"></span>
-          <button class="user-auth-btn" id="login-btn" onclick="openAuthModal()" data-i18n="about.login">登录</button>
-          <span class="user-logout" id="logout-btn" onclick="userLogout()" style="display:none;" data-i18n="about.logout">退出</span>
-        </div>
-      </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);" data-i18n="site.copyright">&copy; 2026 Yorlyn</div>
-    </aside>
-
-    <main class="right-content">
-      <div class="log-list" id="log-list">
-        <!-- Static log entries with entry-id for likes/comments -->
-        <div class="log-entry scroll-reveal" data-entry-id="log-1">
-          <div class="log-date">
-            <span class="day">15</span>
-            <span class="month-year">JAN 2026</span>
-          </div>
-          <div class="log-body">
-            <h3 class="log-title" data-i18n="about.log1_title">新的开始</h3>
-            <p class="log-text" data-i18n="about.log1_text">今天重新设计了个人网站，把关于页面的内容移到了联系页面，这里变成了我的每日日志。我想用更简单的方式记录日常 — 一些随想、随手拍的照片、或者看到的好东西。希望这个角落能留住时间的痕迹。</p>
-            <div class="log-media">
-              <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" alt="Workspace">
-            </div>
-            <div class="log-tags">
-              <span class="log-tag" data-i18n="about.log1_tag1">#日常</span>
-              <span class="log-tag" data-i18n="about.log1_tag2">#设计</span>
-            </div>
-            <div class="log-actions">
-              <button class="log-like-btn" onclick="toggleLogLike('log-1', this)">
-                <span class="heart">♡</span>
-                <span class="like-count">0</span>
-              </button>
-              <button class="log-comment-toggle" onclick="toggleLogComments('log-1')" data-i18n="about.comments">留言</button>
-            </div>
-            <div class="log-comment-section" id="comments-log-1">
-              <div class="log-comment-list" id="comment-list-log-1"></div>
-              <form class="log-comment-form" onsubmit="submitLogComment(event, 'log-1')">
-                <input type="text" name="name" placeholder="你的名字" required id="name-log-1">
-                <input type="email" name="email" placeholder="Email（可选）">
-                <textarea name="content" placeholder="写下你的留言..." required></textarea>
-                <div style="display:flex;align-items:center;gap:0.8rem;">
-                  <button type="submit" data-i18n="about.submit_comment">发送留言</button>
-                  <span class="comment-msg" id="msg-log-1"></span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="log-entry scroll-reveal" data-entry-id="log-2">
-          <div class="log-date">
-            <span class="day">12</span>
-            <span class="month-year">JAN 2026</span>
-          </div>
-          <div class="log-body">
-            <h3 class="log-title" data-i18n="about.log2_title">关于极简</h3>
-            <p class="log-text" data-i18n="about.log2_text">最近越来越喜欢极简的设计。不是空白，而是恰到好处的留白。每一个元素都有它存在的理由，不多也不少。在设计中做减法，往往比做加法更难。要敢于删掉那些"看起来不错但没什么用"的东西。</p>
-            <div class="log-tags">
-              <span class="log-tag" data-i18n="about.log2_tag1">#随想</span>
-              <span class="log-tag" data-i18n="about.log2_tag2">#极简</span>
-            </div>
-            <div class="log-actions">
-              <button class="log-like-btn" onclick="toggleLogLike('log-2', this)">
-                <span class="heart">♡</span>
-                <span class="like-count">0</span>
-              </button>
-              <button class="log-comment-toggle" onclick="toggleLogComments('log-2')" data-i18n="about.comments">留言</button>
-            </div>
-            <div class="log-comment-section" id="comments-log-2">
-              <div class="log-comment-list" id="comment-list-log-2"></div>
-              <form class="log-comment-form" onsubmit="submitLogComment(event, 'log-2')">
-                <input type="text" name="name" placeholder="你的名字" required id="name-log-2">
-                <input type="email" name="email" placeholder="Email（可选）">
-                <textarea name="content" placeholder="写下你的留言..." required></textarea>
-                <div style="display:flex;align-items:center;gap:0.8rem;">
-                  <button type="submit" data-i18n="about.submit_comment">发送留言</button>
-                  <span class="comment-msg" id="msg-log-2"></span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="log-entry scroll-reveal" data-entry-id="log-3">
-          <div class="log-date">
-            <span class="day">08</span>
-            <span class="month-year">JAN 2026</span>
-          </div>
-          <div class="log-body">
-            <h3 class="log-title" data-i18n="about.log3_title">雨天的上海</h3>
-            <p class="log-text" data-i18n="about.log3_text">连续下了三天雨。雨中的城市有一种特别的氛围，灰色的天空反而让街道上的灯光更加温暖。路过一家咖啡馆，透过玻璃窗看到里面昏黄的灯光和读书的人，那一刻觉得生活很美好。</p>
-            <div class="log-media">
-              <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=400&h=500&fit=crop" alt="Rainy city">
-              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=500&fit=crop" alt="Coffee">
-            </div>
-            <div class="log-tags">
-              <span class="log-tag" data-i18n="about.log3_tag1">#上海</span>
-              <span class="log-tag" data-i18n="about.log3_tag2">#雨天</span>
-              <span class="log-tag" data-i18n="about.log3_tag3">#摄影</span>
-            </div>
-            <div class="log-actions">
-              <button class="log-like-btn" onclick="toggleLogLike('log-3', this)">
-                <span class="heart">♡</span>
-                <span class="like-count">0</span>
-              </button>
-              <button class="log-comment-toggle" onclick="toggleLogComments('log-3')" data-i18n="about.comments">留言</button>
-            </div>
-            <div class="log-comment-section" id="comments-log-3">
-              <div class="log-comment-list" id="comment-list-log-3"></div>
-              <form class="log-comment-form" onsubmit="submitLogComment(event, 'log-3')">
-                <input type="text" name="name" placeholder="你的名字" required id="name-log-3">
-                <input type="email" name="email" placeholder="Email（可选）">
-                <textarea name="content" placeholder="写下你的留言..." required></textarea>
-                <div style="display:flex;align-items:center;gap:0.8rem;">
-                  <button type="submit" data-i18n="about.submit_comment">发送留言</button>
-                  <span class="comment-msg" id="msg-log-3"></span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="log-entry scroll-reveal" data-entry-id="log-4">
-          <div class="log-date">
-            <span class="day">05</span>
-            <span class="month-year">JAN 2026</span>
-          </div>
-          <div class="log-body">
-            <h3 class="log-title" data-i18n="about.log4_title">一段短片</h3>
-            <p class="log-text" data-i18n="about.log4_text">用 Three.js 做的一个视觉实验。关于光影、时间和流动的概念。虽然只是几行代码，但看到它动起来的时候，还是会有那种创造的满足感。</p>
-            <div class="log-media single">
-              <video controls poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=340&fit=crop">
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                您的浏览器不支持视频播放。
-              </video>
-            </div>
-            <div class="log-tags">
-              <span class="log-tag" data-i18n="about.log4_tag1">#Three.js</span>
-              <span class="log-tag" data-i18n="about.log4_tag2">#视觉实验</span>
-              <span class="log-tag" data-i18n="about.log4_tag3">#代码</span>
-            </div>
-            <div class="log-actions">
-              <button class="log-like-btn" onclick="toggleLogLike('log-4', this)">
-                <span class="heart">♡</span>
-                <span class="like-count">0</span>
-              </button>
-              <button class="log-comment-toggle" onclick="toggleLogComments('log-4')" data-i18n="about.comments">留言</button>
-            </div>
-            <div class="log-comment-section" id="comments-log-4">
-              <div class="log-comment-list" id="comment-list-log-4"></div>
-              <form class="log-comment-form" onsubmit="submitLogComment(event, 'log-4')">
-                <input type="text" name="name" placeholder="你的名字" required id="name-log-4">
-                <input type="email" name="email" placeholder="Email（可选）">
-                <textarea name="content" placeholder="写下你的留言..." required></textarea>
-                <div style="display:flex;align-items:center;gap:0.8rem;">
-                  <button type="submit" data-i18n="about.submit_comment">发送留言</button>
-                  <span class="comment-msg" id="msg-log-4"></span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <nav class="side-nav">
-      <div class="side-nav-toggle"><span></span><span></span></div>
-      <div class="nav-links">
+  <!-- FULL SCREEN HERO -->
+  <section class="log-hero">
+    <div class="log-hero-bg">
+      <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1600&h=900&fit=crop" alt="Daily Log">
+    </div>
+    <div class="log-hero-overlay"></div>
+    <div class="log-hero-content">
+      <div class="log-hero-label">Daily Log</div>
+      <h1 class="log-hero-title">Thoughts & Moments</h1>
+      <p class="log-hero-desc">Recording ideas, sharing insights, and capturing everyday inspiration through design, technology, and life.</p>
+      <nav class="log-hero-nav">
         <a href="index.html">Home</a>
         <a href="about.html" class="active">Daily Log</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="contact.html">Contact</a>
-      </div>
-    </nav>
-  </div>
-
-  <nav class="mobile-nav">
-    <a href="index.html">Home</a>
-    <a href="about.html" class="active">Log</a>
-    <a href="portfolio.html">Work</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-
-  <!-- Auth Modal -->
-  <div class="auth-modal" id="auth-modal">
-    <div class="auth-modal-content">
-      <button class="auth-modal-close" onclick="closeAuthModal()">&times;</button>
-      <h3 data-i18n="about.auth_title">用户登录</h3>
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('login')" data-i18n="about.login_tab">登录</button>
-        <button class="auth-tab" onclick="switchAuthTab('register')" data-i18n="about.register_tab">注册</button>
-      </div>
-      <form class="auth-form active" id="login-form" onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label data-i18n="about.email">邮箱</label>
-          <input type="email" name="email" required placeholder="your@email.com">
-        </div>
-        <div class="form-group">
-          <label data-i18n="about.password">密码</label>
-          <input type="password" name="password" required minlength="6" placeholder="******">
-        </div>
-        <button type="submit" data-i18n="about.login_btn">登录</button>
-        <div class="auth-msg" id="login-msg"></div>
-      </form>
-      <form class="auth-form" id="register-form" onsubmit="handleRegister(event)">
-        <div class="form-group">
-          <label data-i18n="about.email">邮箱</label>
-          <input type="email" name="email" required placeholder="your@email.com">
-        </div>
-        <div class="form-group">
-          <label data-i18n="about.password">密码</label>
-          <input type="password" name="password" required minlength="6" placeholder="至少6位">
-        </div>
-        <button type="submit" data-i18n="about.register_btn">注册</button>
-        <div class="auth-msg" id="register-msg"></div>
-      </form>
+      </nav>
     </div>
-  </div>
+    <div class="scroll-down" onclick="document.querySelector('.log-section').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll</span>
+      <div class="line"></div>
+    </div>
+  </section>
 
-  <script src="js/supabase.js"></script>
-  <script src="js/navigation.js"></script>
-  <script src="js/i18n.js"></script>
+  <!-- LOG ENTRIES -->
+  <section class="log-section" id="log-section">
+    <div class="log-entry" data-entry-id="log-1">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">23</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>对AI的感悟</h2>
+      <p>感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通。就拿我现在从事的印刷行业来说，我要设计一款印刷行业专业软件，但仅得到空壳，尚未达到工业级输出的程度。所以说现在AI还是刚刚起步。那怎样才能触及专业领域最核心的东西？我觉得可能还要一个很长的过程，需要各个专业领域的人员长期使用AI软件，才能获得真正的专业数据。</p>
+      <div class="log-tags">
+        <span class="log-tag">#AI</span>
+        <span class="log-tag">#Tech</span>
+        <span class="log-tag">#Thoughts</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>12</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-1')">3 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-1">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-entry" data-entry-id="log-2">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">20</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>Claude code降智了</h2>
+      <p>自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉，一个简单的外观修改命令，都做的一塌糊涂。对比升级后的Codex，明显会顺很多，但是就是老提示额度不够用。</p>
+      <div class="log-media">
+        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=500&fit=crop" alt="AI Tech">
+      </div>
+      <div class="log-tags">
+        <span class="log-tag">#AI</span>
+        <span class="log-tag">#Claude</span>
+        <span class="log-tag">#Coding</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>8</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-2')">5 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-2">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-entry" data-entry-id="log-3">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">15</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>我的网站Yorlyn正式上线了</h2>
+      <p>感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定。这不仅仅是一个作品集，更是我记录生活、分享想法的数字空间。未来会在这里持续更新日志、作品和更多有趣的内容。</p>
+      <div class="log-media">
+        <img src="images/hero-flowers.jpg" alt="Website Launch">
+      </div>
+      <div class="log-tags">
+        <span class="log-tag">#Website</span>
+        <span class="log-tag">#Launch</span>
+        <span class="log-tag">#Milestone</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>24</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-3')">12 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-3">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-entry" data-entry-id="log-4">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">10</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>设计一个印刷行业软件</h2>
+      <p>最近在研究印刷行业的专业软件。这个领域需要非常精确的色彩管理、排版规则和生产流程控制。传统软件往往界面陈旧、操作复杂。我想用现代的设计理念，重新思考这个行业的工作流程，让专业工具也能拥有优雅的用户体验。</p>
+      <div class="log-media">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop" alt="Design Work">
+        <img src="https://images.unsplash.com/photo-1558655146-9f40138ed24e?w=800&h=500&fit=crop" alt="Print Design">
+      </div>
+      <div class="log-tags">
+        <span class="log-tag">#Design</span>
+        <span class="log-tag">#Printing</span>
+        <span class="log-tag">#Software</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>15</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-4')">7 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-4">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-entry" data-entry-id="log-5">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">05</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>上海雨天的灵感</h2>
+      <p>连续下了三天雨。雨中的城市有一种特别的氛围，灰色的天空反而让街道上的灯光更加温暖。路过一家咖啡馆，透过玻璃窗看到里面昏黄的灯光和读书的人，那一刻觉得生活很美好。这种瞬间的感动，是设计最好的灵感来源。</p>
+      <div class="log-media">
+        <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=800&h=500&fit=crop" alt="Rainy Shanghai">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=500&fit=crop" alt="Coffee Shop">
+      </div>
+      <div class="log-tags">
+        <span class="log-tag">#Shanghai</span>
+        <span class="log-tag">#Rain</span>
+        <span class="log-tag">#Inspiration</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>31</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-5')">9 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-5">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-entry" data-entry-id="log-6">
+      <div class="log-meta">
+        <div>
+          <div class="log-date-day">01</div>
+          <div class="log-date-month">JUN 2026</div>
+        </div>
+      </div>
+      <h2>极简主义的设计思考</h2>
+      <p>最近越来越喜欢极简的设计。不是空白，而是恰到好处的留白。每一个元素都有它存在的理由，不多也不少。在设计中做减法，往往比做加法更难。要敢于删掉那些"看起来不错但没什么用"的东西。真正的简洁，是复杂的终极形式。</p>
+      <div class="log-tags">
+        <span class="log-tag">#Minimalism</span>
+        <span class="log-tag">#Design</span>
+        <span class="log-tag">#Philosophy</span>
+      </div>
+      <div class="log-actions">
+        <button class="log-like-btn" onclick="toggleLike(this)"><span>♡</span> <span>42</span></button>
+        <button class="log-comment-toggle" onclick="toggleComments('log-6')">18 Comments</button>
+      </div>
+      <div class="log-comment-section" id="comments-log-6">
+        <div class="log-comment-form">
+          <input type="text" placeholder="Your name">
+          <textarea placeholder="Write a comment..."></textarea>
+          <button>Post Comment</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Yorlyn. All rights reserved.</p>
+  </footer>
+
   <script>
-    // Custom Cursor & Scroll Reveal
-    const cursorDot = document.querySelector('.cursor-dot')
-    const cursorRing = document.querySelector('.cursor-ring')
-    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0
+    // Custom Cursor
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX; mouseY = e.clientY
-      cursorDot.style.left = mouseX + 'px'
-      cursorDot.style.top = mouseY + 'px'
-    })
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.15
-      ringY += (mouseY - ringY) * 0.15
-      cursorRing.style.left = ringX + 'px'
-      cursorRing.style.top = ringY + 'px'
-      requestAnimationFrame(animateRing)
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    function tick() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(tick);
     }
-    animateRing()
-    const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .play-btn, .work-card, .log-like-btn, .log-comment-toggle')
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'))
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'))
-    })
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed') })
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
-    document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el))
+    tick();
+    document.querySelectorAll('a, button, .log-entry').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
 
-    initI18n()
-    logPageView('/about')
-
-    // ===== User Auth =====
-    let currentUser = null
-
-    async function checkUserSession() {
-      const sb = await getSupabase()
-      const { data: { session } } = await sb.auth.getSession()
-      if (session?.user) {
-        currentUser = session.user
-        updateUserDisplay()
-      }
-    }
-    checkUserSession()
-
-    function updateUserDisplay() {
-      const nameDisplay = document.getElementById('user-name-display')
-      const loginBtn = document.getElementById('login-btn')
-      const logoutBtn = document.getElementById('logout-btn')
-      if (currentUser) {
-        nameDisplay.textContent = currentUser.email.split('@')[0]
-        loginBtn.style.display = 'none'
-        logoutBtn.style.display = 'inline'
-        // Auto-fill name inputs in comment forms
-        document.querySelectorAll('.log-comment-form input[name="name"]').forEach(input => {
-          input.value = currentUser.email.split('@')[0]
-        })
-      } else {
-        nameDisplay.textContent = ''
-        loginBtn.style.display = 'inline-block'
-        logoutBtn.style.display = 'none'
-      }
+    // Like toggle
+    function toggleLike(btn) {
+      btn.classList.toggle('liked');
+      const heart = btn.querySelector('span:first-child');
+      const count = btn.querySelector('span:last-child');
+      heart.textContent = btn.classList.contains('liked') ? '♥' : '♡';
+      count.textContent = btn.classList.contains('liked') ? parseInt(count.textContent) + 1 : parseInt(count.textContent) - 1;
     }
 
-    function openAuthModal() { document.getElementById('auth-modal').classList.add('open') }
-    function closeAuthModal() { document.getElementById('auth-modal').classList.remove('open') }
-
-    function switchAuthTab(tab) {
-      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'))
-      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'))
-      event.target.classList.add('active')
-      document.getElementById(tab + '-form').classList.add('active')
+    // Comments toggle
+    function toggleComments(id) {
+      document.getElementById('comments-' + id).classList.toggle('open');
     }
-
-    async function handleLogin(e) {
-      e.preventDefault()
-      const form = e.target
-      const msg = document.getElementById('login-msg')
-      const sb = await getSupabase()
-      const { data, error } = await sb.auth.signInWithPassword({
-        email: form.email.value,
-        password: form.password.value
-      })
-      if (error) {
-        msg.textContent = error.message
-        msg.className = 'auth-msg error'
-        msg.style.display = 'block'
-      } else {
-        currentUser = data.user
-        updateUserDisplay()
-        closeAuthModal()
-        form.reset()
-      }
-    }
-
-    async function handleRegister(e) {
-      e.preventDefault()
-      const form = e.target
-      const msg = document.getElementById('register-msg')
-      const sb = await getSupabase()
-      const { data, error } = await sb.auth.signUp({
-        email: form.email.value,
-        password: form.password.value
-      })
-      if (error) {
-        msg.textContent = error.message
-        msg.className = 'auth-msg error'
-        msg.style.display = 'block'
-      } else {
-        msg.textContent = '注册成功！请检查邮箱确认。'
-        msg.className = 'auth-msg success'
-        msg.style.display = 'block'
-        form.reset()
-      }
-    }
-
-    async function userLogout() {
-      const sb = await getSupabase()
-      await sb.auth.signOut()
-      currentUser = null
-      updateUserDisplay()
-      document.querySelectorAll('.log-comment-form input[name="name"]').forEach(input => input.value = '')
-    }
-
-    // ===== Dynamic Log Loading =====
-    async function loadDynamicLogs() {
-      const sb = await getSupabase()
-      const { data, error } = await sb
-        .from('logs')
-        .select('*')
-        .eq('status', 'published')
-        .order('log_date', { ascending: true }) // asc: oldest first, afterbegin pushes newest to top
-      
-      if (error || !data || !data.length) {
-        console.log('No dynamic logs found or error:', error)
-        return
-      }
-      
-      const container = document.getElementById('log-list')
-      const monthNames = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
-      
-      data.forEach(log => {
-        const entryId = log.id
-        const date = new Date(log.log_date + 'T00:00:00')
-        const day = String(date.getDate()).padStart(2, '0')
-        const monthYear = monthNames[date.getMonth()] + ' ' + date.getFullYear()
-        
-        // Render media
-        let mediaHtml = ''
-        const urls = log.media_urls || []
-        if (urls.length) {
-          const mediaItems = urls.map(url => {
-            const u = url.trim()
-            if (!u) return ''
-            if (/\.(mp4|webm|mov|avi|mkv)(\?|$)/i.test(u)) {
-              return `<video controls src="${u}"></video>`
-            } else {
-              return `<img src="${u}" alt="media">`
-            }
-          }).filter(Boolean)
-          if (mediaItems.length) {
-            mediaHtml = `<div class="log-media">${mediaItems.join('')}</div>`
-          }
-        }
-        
-        // Render tags
-        const tags = log.tags || []
-        const tagsHtml = tags.length
-          ? `<div class="log-tags">${tags.map(t => `<span class="log-tag">#${t}</span>`).join('')}</div>`
-          : ''
-        
-        // Parse translations - Supabase may return as string or object
-        let translations = log.translations || {}
-        if (typeof translations === 'string') {
-          try { translations = JSON.parse(translations) } catch (e) { translations = {} }
-        }
-        
-        // Database translations take priority; fallback to i18n_key mechanism
-        const hasDbTranslation = translations && translations[currentLocale]
-        const titleToShow = hasDbTranslation ? translations[currentLocale].title : log.title
-        const contentToShow = hasDbTranslation ? translations[currentLocale].content : log.content
-        
-        // Debug log
-        console.log('[loadDynamicLogs] entryId:', entryId, 'locale:', currentLocale, 'hasDbTranslation:', hasDbTranslation, 'translations:', translations)
-        
-        // i18n support: if i18n_key exists and no db translation, use data-i18n with about. prefix + fallback
-        const i18nKey = log.i18n_key ? log.i18n_key.trim() : ''
-        const titleHtml = i18nKey && !hasDbTranslation
-          ? `<h3 class="log-title" data-i18n="about.${i18nKey}.title" data-i18n-fallback="${escapeHtml(titleToShow)}">${escapeHtml(titleToShow)}</h3>`
-          : `<h3 class="log-title">${escapeHtml(titleToShow)}</h3>`
-        const contentHtml = i18nKey && !hasDbTranslation
-          ? `<p class="log-text" data-i18n="about.${i18nKey}.content" data-i18n-fallback="${escapeHtml(contentToShow)}">${escapeHtml(contentToShow)}</p>`
-          : `<p class="log-text">${escapeHtml(contentToShow)}</p>`
-        
-        const html = `
-          <div class="log-entry scroll-reveal" data-entry-id="${entryId}">
-            <div class="log-date">
-              <span class="day">${day}</span>
-              <span class="month-year">${monthYear}</span>
-            </div>
-            <div class="log-body">
-              ${titleHtml}
-              ${contentHtml}
-              ${mediaHtml}
-              ${tagsHtml}
-              <div class="log-actions">
-                <button class="log-like-btn" onclick="toggleLogLike('${entryId}', this)">
-                  <span class="heart">♡</span>
-                  <span class="like-count">0</span>
-                </button>
-                <button class="log-comment-toggle" onclick="toggleLogComments('${entryId}')" data-i18n="about.comments">留言</button>
-              </div>
-              <div class="log-comment-section" id="comments-${entryId}">
-                <div class="log-comment-list" id="comment-list-${entryId}"></div>
-                <form class="log-comment-form" onsubmit="submitLogComment(event, '${entryId}')">
-                  <input type="text" name="name" placeholder="你的名字" required id="name-${entryId}">
-                  <input type="email" name="email" placeholder="Email（可选）">
-                  <textarea name="content" placeholder="写下你的留言..." required></textarea>
-                  <div style="display:flex;align-items:center;gap:0.8rem;">
-                    <button type="submit" data-i18n="about.submit_comment">发送留言</button>
-                    <span class="comment-msg" id="msg-${entryId}"></span>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        `
-        // Insert to beginning; because we iterate ascending (oldest first),
-        // the newest log ends up at the very top after all insertions.
-        container.insertAdjacentHTML('afterbegin', html)
-      })
-      
-      // Apply i18n translations to newly added dynamic elements
-      if (typeof applyTranslations === 'function') {
-        applyTranslations()
-      }
-      
-      // Refresh likes and comments for newly added entries
-      await loadLogLikes()
-      await loadLogComments()
-    }
-    
-    // Call loadDynamicLogs after page init
-    loadDynamicLogs()
-
-    // ===== Log Likes =====
-    async function loadLogLikes() {
-      const sb = await getSupabase()
-      const { data, error } = await sb.from('log_likes').select('entry_id')
-      if (error || !data) return
-      const counts = {}
-      data.forEach(row => { counts[row.entry_id] = (counts[row.entry_id] || 0) + 1 })
-      document.querySelectorAll('.log-like-btn').forEach(btn => {
-        const entryId = btn.closest('.log-entry').dataset.entryId
-        const countEl = btn.querySelector('.like-count')
-        if (counts[entryId]) countEl.textContent = counts[entryId]
-      })
-    }
-    loadLogLikes()
-
-    async function toggleLogLike(entryId, btn) {
-      const sb = await getSupabase()
-      const countEl = btn.querySelector('.like-count')
-      const isLiked = btn.classList.contains('liked')
-      if (isLiked) {
-        await sb.from('log_likes').delete().eq('entry_id', entryId)
-        btn.classList.remove('liked')
-        btn.querySelector('.heart').textContent = '♡'
-      } else {
-        await sb.from('log_likes').insert({ entry_id: entryId })
-        btn.classList.add('liked')
-        btn.querySelector('.heart').textContent = '♥'
-      }
-      const { data } = await sb.from('log_likes').select('id').eq('entry_id', entryId)
-      countEl.textContent = (data || []).length
-    }
-
-    // ===== Log Comments =====
-    async function loadLogComments() {
-      const sb = await getSupabase()
-      const { data, error } = await sb.from('log_comments').select('*').eq('status', 'approved').order('created_at', { ascending: true })
-      if (error || !data) return
-      const grouped = {}
-      data.forEach(c => {
-        if (!grouped[c.entry_id]) grouped[c.entry_id] = []
-        grouped[c.entry_id].push(c)
-      })
-      Object.entries(grouped).forEach(([entryId, comments]) => {
-        const list = document.getElementById('comment-list-' + entryId)
-        if (!list) return
-        if (!comments.length) {
-          list.innerHTML = '<p style="color:#9ca3af;font-size:0.8rem;" data-i18n="about.no_comments">暂无留言</p>'
-          return
-        }
-        list.innerHTML = comments.map(c => `
-          <div class="log-comment-item">
-            <div>
-              <span class="log-comment-name">${escapeHtml(c.name)}</span>
-              <span class="log-comment-time">${new Date(c.created_at).toLocaleDateString()}</span>
-            </div>
-            <div class="log-comment-text">${escapeHtml(c.content)}</div>
-          </div>
-        `).join('')
-      })
-    }
-    loadLogComments()
-
-    function toggleLogComments(entryId) {
-      const section = document.getElementById('comments-' + entryId)
-      section.classList.toggle('open')
-    }
-
-    async function submitLogComment(e, entryId) {
-      e.preventDefault()
-      const form = e.target
-      const msg = document.getElementById('msg-' + entryId)
-      const sb = await getSupabase()
-      const { data, error } = await sb.from('log_comments').insert({
-        entry_id: entryId,
-        name: form.name.value,
-        email: form.email.value || null,
-        content: form.content.value,
-        user_id: currentUser?.id || null
-      })
-      if (error) {
-        msg.textContent = '发送失败: ' + error.message
-        msg.className = 'comment-msg error'
-      } else {
-        msg.textContent = '留言已提交，审核后显示！'
-        msg.className = 'comment-msg'
-        form.reset()
-        if (currentUser) {
-          document.getElementById('name-' + entryId).value = currentUser.email.split('@')[0]
-        }
-      }
-      msg.style.display = 'block'
-      setTimeout(() => { msg.style.display = 'none' }, 3000)
-    }
-
-    function escapeHtml(str) {
-      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-    }
-
-    window.openAuthModal = openAuthModal
-    window.closeAuthModal = closeAuthModal
-    window.switchAuthTab = switchAuthTab
-    window.handleLogin = handleLogin
-    window.handleRegister = handleRegister
-    window.userLogout = userLogout
-    window.toggleLogLike = toggleLogLike
-    window.toggleLogComments = toggleLogComments
-    window.submitLogComment = submitLogComment
   </script>
 </body>
 </html>
