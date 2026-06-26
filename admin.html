@@ -80,6 +80,7 @@
       <h2 data-i18n="admin.brand">Yorlyn 管理后台</h2>
       <nav>
         <button class="admin-tab active" data-panel="overview" data-i18n="admin.overview">数据概览</button>
+        <button class="admin-tab" data-panel="site-config" data-i18n="admin.site_config">网站配置</button>
         <button class="admin-tab" data-panel="logs" data-i18n="admin.logs">日志管理</button>
         <button class="admin-tab" data-panel="works" data-i18n="admin.works">作品管理</button>
         <button class="admin-tab" data-panel="comments" data-i18n="admin.comments">留言管理</button>
@@ -112,6 +113,98 @@
             <thead><tr><th>用户</th><th>作品</th><th>内容</th><th>状态</th><th>操作</th></tr></thead>
             <tbody id="comments-table-body"><tr><td colspan="5" style="text-align:center;color:#6b7280;">加载中...</td></tr></tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Site Config -->
+      <div id="site-config" class="admin-panel">
+        <div class="form-card" style="max-width:720px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+            <h3>网站配置</h3>
+            <span id="config-status" style="font-size:0.8rem;color:#6b7280;">正在加载配置...</span>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.75rem;font-weight:600;text-transform:uppercase;color:#64748b;margin-bottom:0.5rem;display:block;">当前语言</label>
+            <select id="config-lang" onchange="loadSiteConfig()" style="padding:0.5rem 0.8rem;border:1px solid #e5e7eb;border-radius:4px;font-size:0.9rem;">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+
+          <form id="site-config-form" onsubmit="event.preventDefault();saveSiteConfig();">
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;">
+              <h4 style="font-size:1rem;margin-bottom:1rem;color:#1a3a5c;">首页 Hero 区域</h4>
+              <div class="form-group"><label>Hero 小标题</label><input type="text" name="hero_label" data-config-key="home.hero.label" placeholder="例如: 创意开发者 & 设计师"></div>
+              <div class="form-group"><label>Hero 大标题</label><input type="text" name="hero_title" data-config-key="home.hero.title" placeholder="例如: Yorlyn"></div>
+              <div class="form-group"><label>Hero 副标题</label><input type="text" name="hero_subtitle" data-config-key="home.hero.subtitle" placeholder="例如: 用热情与精准打造数字体验"></div>
+              <div class="form-group"><label>Hero 描述</label><textarea name="hero_desc" data-config-key="home.hero.desc" rows="3" placeholder="简短的个人介绍..."></textarea></div>
+              <div class="form-group"><label>CTA 按钮文字</label><input type="text" name="hero_cta" data-config-key="home.hero.cta" placeholder="例如: 查看我的作品 →"></div>
+            </div>
+
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;">
+              <h4 style="font-size:1rem;margin-bottom:1rem;color:#1a3a5c;">关于区域</h4>
+              <div class="form-group"><label>关于标题</label><input type="text" name="about_title" data-config-key="home.about.title" placeholder="例如: 关于我"></div>
+              <div class="form-group"><label>关于段落 1</label><textarea name="about_p1" data-config-key="home.about.p1" rows="3" placeholder="第一段介绍..."></textarea></div>
+              <div class="form-group"><label>关于段落 2</label><textarea name="about_p2" data-config-key="home.about.p2" rows="3" placeholder="第二段介绍..."></textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                <div class="form-group"><label>统计1 数字</label><input type="text" name="stat1_num" data-config-key="home.about.stat1.number" placeholder="5+"></div>
+                <div class="form-group"><label>统计1 标签</label><input type="text" name="stat1_label" data-config-key="home.about.stat1.label" placeholder="年经验"></div>
+                <div class="form-group"><label>统计1 英文标签</label><input type="text" name="stat1_label_en" data-config-key="home.about.stat1.label" placeholder="Years Experience" style="display:none;" data-en-only></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                <div class="form-group"><label>统计2 数字</label><input type="text" name="stat2_num" data-config-key="home.about.stat2.number" placeholder="50+"></div>
+                <div class="form-group"><label>统计2 标签</label><input type="text" name="stat2_label" data-config-key="home.about.stat2.label" placeholder="完成项目"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                <div class="form-group"><label>统计3 数字</label><input type="text" name="stat3_num" data-config-key="home.about.stat3.number" placeholder="30+"></div>
+                <div class="form-group"><label>统计3 标签</label><input type="text" name="stat3_label" data-config-key="home.about.stat3.label" placeholder="满意客户"></div>
+              </div>
+            </div>
+
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;">
+              <h4 style="font-size:1rem;margin-bottom:1rem;color:#1a3a5c;">联系信息</h4>
+              <div class="form-group"><label>邮箱</label><input type="email" name="contact_email" data-config-key="contact.info.email_value" placeholder="hello@yorlyn.com"></div>
+              <div class="form-group"><label>GitHub</label><input type="text" name="contact_github" data-config-key="contact.info.github_value" placeholder="github.com/yorlyn"></div>
+              <div class="form-group"><label>Twitter</label><input type="text" name="contact_twitter" data-config-key="contact.info.twitter_value" placeholder="@yorlyn"></div>
+              <div class="form-group"><label>Dribbble</label><input type="text" name="contact_dribbble" data-config-key="contact.info.dribbble_value" placeholder="dribbble.com/yorlyn"></div>
+            </div>
+
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;">
+              <h4 style="font-size:1rem;margin-bottom:1rem;color:#1a3a5c;">页脚</h4>
+              <div class="form-group"><label>版权信息</label><input type="text" name="footer_copyright" data-config-key="home.footer.copyright" placeholder="© 2026 Yorlyn. All rights reserved."></div>
+            </div>
+
+            <div style="display:flex;gap:1rem;">
+              <button type="submit" style="background:#1a3a5c;color:#fff;border:none;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer;border-radius:4px;">保存配置</button>
+              <button type="button" onclick="resetSiteConfig()" style="background:#f1f5f9;color:#1a1a2e;border:1px solid #e5e7eb;padding:0.7rem 1.5rem;font-size:0.85rem;cursor:pointer;border-radius:4px;">重置为默认</button>
+            </div>
+            <div id="config-save-msg" style="margin-top:1rem;font-size:0.85rem;display:none;"></div>
+          </form>
+        </div>
+
+        <div class="form-card" style="max-width:720px;margin-top:2rem;">
+          <h3 style="margin-bottom:1rem;">使用说明</h3>
+          <div style="font-size:0.85rem;color:#6b7280;line-height:1.8;">
+            <p>1. 上方表单可直接编辑网站各模块的文字内容。</p>
+            <p>2. 选择「当前语言」可切换编辑中文或英文内容。</p>
+            <p>3. 点击「保存配置」后，修改会立即生效（前台页面会自动读取）。</p>
+            <p>4. 如需编辑图片，请在「作品管理」中修改作品信息。</p>
+            <p style="color:#ef4444;margin-top:1rem;">⚠️ 首次使用请先在 Supabase 控制台执行 SQL 创建 site_config 表（见下方）。</p>
+          </div>
+          <div style="background:#f1f5f9;border:1px solid #e5e7eb;border-radius:6px;padding:1rem;margin-top:1rem;font-family:monospace;font-size:0.75rem;overflow-x:auto;">
+CREATE TABLE site_config (
+  id TEXT PRIMARY KEY,
+  key TEXT NOT NULL,
+  value TEXT NOT NULL,
+  lang TEXT DEFAULT 'zh',
+  page TEXT DEFAULT 'home',
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+ALTER TABLE site_config ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read" ON site_config FOR SELECT USING (true);
+CREATE POLICY "Allow authenticated write" ON site_config FOR ALL USING (auth.role() = 'authenticated');
+          </div>
         </div>
       </div>
       

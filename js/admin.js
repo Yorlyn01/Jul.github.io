@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await renderWorksTable()
   await renderCommentsTable()
   await renderPageViews()
+  await loadSiteConfig() // Load site config
   
   // Tab switching
   document.querySelectorAll('.admin-tab').forEach(tab => {
@@ -791,3 +792,153 @@ window.renderLogsTable = renderLogsTable
 window.removeLogPreview = removeLogPreview
 window.translateLog = translateLog
 window.translateText = translateText
+// Site config functions
+let siteConfigCache = {}
+
+async function loadSiteConfig() {
+  const lang = document.getElementById('config-lang')?.value || 'zh'
+  const statusEl = document.getElementById('config-status')
+  const form = document.getElementById('site-config-form')
+  
+  if (statusEl) statusEl.textContent = '正在加载...'
+  
+  try {
+    const sb = await getSupabase()
+    const { data, error } = await sb.from('site_config').select('*').eq('lang', lang)
+    
+    if (error) {
+      // Table might not exist yet
+      if (statusEl) statusEl.textContent = '配置表不存在，请先创建 site_config 表'
+      if (statusEl) statusEl.style.color = '#ef4444'
+      return
+    }
+    
+    siteConfigCache = {}
+    if (data) {
+      data.forEach(row => {
+        siteConfigCache[row.key] = row.value
+      })
+    }
+    
+    // Populate form fields
+    if (form) {
+      form.querySelectorAll('[data-config-key]').forEach(input => {
+        const key = input.dataset.configKey
+        const value = siteConfigCache[key]
+        if (value !== undefined) {
+          input.value = value
+        } else {
+          // Use fallback from data-i18n-fallback or placeholder
+          const fallback = input.dataset.i18nFallback || input.placeholder
+          if (fallback && !input.value) input.value = ''
+        }
+      })
+    }
+    
+    if (statusEl) {
+      statusEl.textContent = `已加载 ${data.length} 条配置`
+      statusEl.style.color = '#059669'
+    }
+  } catch (err) {
+    console.error('Load config error:', err)
+    if (statusEl) {
+      statusEl.textContent = '加载失败: ' + (err.message || '未知错误')
+      statusEl.style.color = '#ef4444'
+    }
+  }
+}
+
+async function saveSiteConfig() {
+  const lang = document.getElementById('config-lang')?.value || 'zh'
+  const form = document.getElementById('site-config-form')
+  const msgEl = document.getElementById('config-save-msg')
+  
+  if (!form) return
+  
+  const updates = []
+  form.querySelectorAll('[data-config-key]').forEach(input => {
+    const key = input.dataset.configKey
+    const value = input.value.trim()
+    if (key && value) {
+      updates.push({ id: `${lang}_${key}`, key, value, lang, page: key.split('.')[0], updated_at: new Date().toISOString() })
+    }
+  })
+  
+  if (updates.length === 0) {
+    if (msgEl) {
+      msgEl.textContent = '没有需要保存的配置'
+      msgEl.style.color = '#6b7280'
+      msgEl.style.display = 'block'
+    }
+    return
+  }
+  
+  try {
+    const sb = await getSupabase()
+    
+    // Upsert each config item
+    for (const item of updates) {
+      const { error } = await sb.from('site_config').upsert(item, { onConflict: 'id' })
+      if (error) throw error
+    }
+    
+    if (msgEl) {
+      msgEl.textContent = `✅ 已保存 ${updates.length} 条配置（语言: ${lang}）`
+      msgEl.style.color = '#059669'
+      msgEl.style.display = 'block'
+    }
+    
+    // Refresh cache
+    await loadSiteConfig()
+    
+    // Hide message after 3 seconds
+    setTimeout(() => { if (msgEl) msgEl.style.display = 'none' }, 3000)
+  } catch (err) {
+    console.error('Save config error:', err)
+    if (msgEl) {
+      msgEl.textContent = '保存失败: ' + (err.message || '请检查 site_config 表是否已创建')
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+    }
+  }
+}
+
+async function resetSiteConfig() {
+  if (!confirm('确定要重置为默认配置吗？这将清空当前语言的所有自定义配置。')) return
+  
+  const lang = document.getElementById('config-lang')?.value || 'zh'
+  const msgEl = document.getElementById('config-save-msg')
+  
+  try {
+    const sb = await getSupabase()
+    const { error } = await sb.from('site_config').delete().eq('lang', lang)
+    if (error) throw error
+    
+    // Clear form
+    const form = document.getElementById('site-config-form')
+    if (form) {
+      form.querySelectorAll('[data-config-key]').forEach(input => {
+        input.value = ''
+      })
+    }
+    
+    if (msgEl) {
+      msgEl.textContent = '已重置为默认配置'
+      msgEl.style.color = '#059669'
+      msgEl.style.display = 'block'
+    }
+    
+    siteConfigCache = {}
+    await loadSiteConfig()
+  } catch (err) {
+    if (msgEl) {
+      msgEl.textContent = '重置失败: ' + err.message
+      msgEl.style.color = '#ef4444'
+      msgEl.style.display = 'block'
+    }
+  }
+}
+
+window.loadSiteConfig = loadSiteConfig
+window.saveSiteConfig = saveSiteConfig
+window.resetSiteConfig = resetSiteConfig
