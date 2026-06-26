@@ -4,300 +4,355 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="contact.title" data-i18n-fallback="Contact">Contact — Yorlyn</title>
-  <meta name="description" content="联系 Yorlyn — 设计、开发与创意合作。">
+  <meta name="description" content="Contact Yorlyn — design, development, and creative collaboration.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #1a1a2e; background: #0a0e1a;
+      color: #1a1a1a;
+      background: #ffffff;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    .cursor-dot, .cursor-ring {
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%); border-radius: 50%;
-    }
-    .cursor-dot { width: 8px; height: 8px; background: #fff; }
-    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); }
-    body.hovering .cursor-dot { width: 12px; height: 12px; }
-    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(255,255,255,0.5); }
-    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
 
-    .contact-hero {
-      height: 100vh; min-height: 600px; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; background: #0a0e1a;
+    /* ===== NAVIGATION ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e5e5;
+      height: 64px;
     }
-    .contact-hero-bg {
-      position: absolute; inset: 0; opacity: 0.2;
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      height: 100%; display: flex;
+      align-items: center; justify-content: space-between;
     }
-    .contact-hero-bg img {
-      width: 100%; height: 100%; object-fit: cover;
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: #1a1a1a;
+      letter-spacing: -0.02em;
     }
-    .contact-hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.8) 100%);
+    .nav-brand:hover { color: #1a3a5c; }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
     }
-    .contact-hero-content {
-      position: relative; z-index: 2; text-align: center; color: #fff;
-      padding: 2rem;
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: #666666;
+      letter-spacing: 0.02em; padding: 0.25rem 0;
+      position: relative; transition: color 0.3s ease;
     }
-    .contact-hero-label {
-      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4); margin-bottom: 1.5rem;
+    .nav-links a:hover { color: #1a1a1a; }
+    .nav-links a.active {
+      color: #1a1a1a;
     }
-    .contact-hero-title {
-      font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700;
-      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    .nav-links a.active::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 100%; height: 2px; background: #1a3a5c; border-radius: 1px;
     }
-    .contact-hero-desc {
-      font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto;
-      line-height: 1.7;
-    }
-    .contact-hero-nav {
-      display: flex; gap: 2rem; justify-content: center; margin-top: 3rem;
-    }
-    .contact-hero-nav a {
-      font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none;
-      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease;
-      position: relative; padding-bottom: 0.5rem;
-    }
-    .contact-hero-nav a::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 0; height: 1px; background: rgba(255,255,255,0.5); transition: width 0.4s ease;
-    }
-    .contact-hero-nav a:hover, .contact-hero-nav a.active { color: rgba(255,255,255,0.8); }
-    .contact-hero-nav a:hover::after, .contact-hero-nav a.active::after { width: 100%; }
 
+    /* Language switcher */
+    .lang-switcher { position: relative; display: inline-block; }
+    .lang-current {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: #f7f7f5; padding: 0.4rem 0.9rem;
+      border-radius: 20px; border: 1px solid #e5e5e5;
+      cursor: pointer; font-size: 0.8rem; font-weight: 500;
+      color: #666666; transition: all 0.2s;
+    }
+    .lang-current:hover { background: #ededeb; color: #1a1a1a; }
+    .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
+    .lang-switcher.open .arrow { transform: rotate(180deg); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 0.4rem); right: 0;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(8px);
+      border-radius: 12px; border: 1px solid #e5e5e5;
+      padding: 0.4rem; min-width: 140px; display: none;
+      overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 0.7rem; border-radius: 8px;
+      cursor: pointer; font-size: 0.8rem; color: #666666;
+      transition: all 0.15s;
+    }
+    .lang-option:hover { background: #f7f7f5; }
+    .lang-option.active { background: #f7f7f5; color: #1a1a1a; font-weight: 500; }
+    .lang-flag { font-size: 1rem; line-height: 1; }
+    .lang-label { white-space: nowrap; }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 0.5rem;
+    }
+    .mobile-menu-btn span {
+      display: block; width: 22px; height: 2px;
+      background: #1a1a1a; margin: 5px 0; border-radius: 1px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: #f7f7f5;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+    }
+    .page-header-label {
+      font-size: 0.75rem; font-weight: 600; color: #1a3a5c;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 700; color: #1a1a1a;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .page-header-desc {
+      font-size: 1.1rem; color: #666666; max-width: 500px;
+      margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ===== CONTACT SECTION ===== */
     .contact-section {
-      padding: 6rem 3rem; max-width: 1000px; margin: 0 auto;
+      background: #ffffff;
+      padding: 4rem 2rem;
     }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+    .contact-container {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: start;
     }
-    .contact-info h2 {
-      font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700;
-      color: #fff; margin-bottom: 1.5rem; line-height: 1.1;
+    .contact-card {
+      background: #ffffff; border: 1px solid #e5e5e5;
+      border-radius: 8px; padding: 2.5rem;
     }
-    .contact-info p {
-      font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.8;
+    .contact-info-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 1rem;
+    }
+    .contact-info-text {
+      font-size: 1rem; color: #666666; line-height: 1.8;
       margin-bottom: 2rem;
     }
     .contact-details {
-      display: flex; flex-direction: column; gap: 1.5rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
     }
     .contact-detail {
       display: flex; align-items: flex-start; gap: 1rem;
     }
     .contact-detail-icon {
       width: 40px; height: 40px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.2);
+      background: #f7f7f5; border: 1px solid #e5e5e5;
       display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.6); font-size: 0.9rem; flex-shrink: 0;
+      color: #1a3a5c; font-size: 0.85rem; font-weight: 600;
+      flex-shrink: 0;
     }
     .contact-detail-text h4 {
-      font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;
+      font-size: 0.8rem; font-weight: 600; color: #1a1a1a;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 0.25rem;
     }
-    .contact-detail-text p, .contact-detail-text a {
-      font-size: 0.85rem; color: rgba(255,255,255,0.4); text-decoration: none;
-      transition: color 0.3s ease;
+    .contact-detail-text a {
+      font-size: 0.9rem; color: #666666; transition: color 0.3s ease;
     }
-    .contact-detail-text a:hover { color: rgba(255,255,255,0.8); }
+    .contact-detail-text a:hover { color: #1a3a5c; }
 
-    .contact-form {
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-      padding: 2.5rem; border-radius: 8px;
-    }
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
     .form-group label {
-      display: block; font-size: 0.75rem; color: rgba(255,255,255,0.6);
-      margin-bottom: 0.5rem; letter-spacing: 0.05em; text-transform: uppercase;
+      display: block; font-size: 0.75rem; font-weight: 600;
+      color: #1a1a1a; margin-bottom: 0.5rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
     }
     .form-group input, .form-group textarea {
-      width: 100%; padding: 1rem; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
-      color: #fff; font-size: 0.9rem; outline: none; transition: all 0.3s ease;
+      width: 100%; padding: 0.9rem 1rem;
+      background: #ffffff; border: 1px solid #e5e5e5;
+      border-radius: 8px; color: #1a1a1a;
+      font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: all 0.3s ease;
     }
     .form-group input:focus, .form-group textarea:focus {
-      border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08);
+      border-color: #1a3a5c; box-shadow: 0 0 0 3px rgba(26,58,92,0.08);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder {
+      color: #aaaaaa;
     }
     .form-group textarea { min-height: 120px; resize: vertical; }
     .submit-btn {
-      width: 100%; padding: 1rem; background: #fff; color: #0a0e1a;
-      border: none; border-radius: 4px; font-size: 0.85rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
-      transition: all 0.3s ease;
+      width: 100%; padding: 1rem;
+      background: #1a1a1a; color: #ffffff;
+      border: none; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s ease;
     }
     .submit-btn:hover {
-      background: rgba(255,255,255,0.9); transform: translateY(-2px);
+      background: #1a3a5c; transform: translateY(-2px);
     }
 
+    /* ===== FOOTER ===== */
     .site-footer {
-      background: #0a0e1a; color: #fff; padding: 4rem 2rem; text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      background: #1a1a1a; color: #ffffff; padding: 3rem 2rem;
+      text-align: center;
     }
-    .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
-    .site-footer .socials {
-      display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;
+    .footer-socials {
+      display: flex; justify-content: center;
+      gap: 2rem; margin-bottom: 1.5rem;
     }
-    .site-footer .socials a {
-      color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem;
+    .footer-socials a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
       transition: color 0.3s ease;
     }
-    .site-footer .socials a:hover { color: #fff; }
+    .footer-socials a:hover { color: #ffffff; }
+    .footer-copy {
+      font-size: 0.8rem; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.02em;
+    }
 
-    /* ===== LANGUAGE SWITCHER ===== */
-    .lang-switcher { position: relative; display: inline-block; font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
-    .lang-switcher .lang-current { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.2s; }
-    .lang-switcher .lang-current:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
-    .lang-switcher .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
-    .lang-switcher.open .lang-current .arrow { transform: rotate(180deg); }
-    .lang-switcher .lang-dropdown { position: absolute; bottom: calc(100% + 0.4rem); left: 0; background: rgba(15,20,35,0.95); backdrop-filter: blur(8px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem; min-width: 140px; display: none; overflow: hidden; }
-    .lang-switcher.open .lang-dropdown { display: block; }
-    .lang-switcher .lang-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); transition: all 0.15s; }
-    .lang-switcher .lang-option:hover { background: rgba(255,255,255,0.08); }
-    .lang-switcher .lang-option.active { background: rgba(255,255,255,0.15); color: #fff; }
-    .lang-switcher .lang-flag { font-size: 1rem; line-height: 1; }
-    .lang-switcher .lang-label { white-space: nowrap; }
-
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .contact-hero-title { font-size: 3rem; }
-      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .contact-section { padding: 4rem 1.5rem; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .page-header { padding: 6rem 1.5rem 3rem; }
+      .page-header-title { font-size: 2.5rem; }
+      .page-header-desc { font-size: 1rem; }
+      .contact-container { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-section { padding: 3rem 1.5rem; }
+      .contact-card { padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .page-header-title { font-size: 2rem; }
+      .footer-socials { flex-wrap: wrap; gap: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
 
-  <section class="contact-hero">
-    <div class="contact-hero-bg">
-      <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1600&h=900&fit=crop" alt="Contact">
-    </div>
-    <div class="contact-hero-overlay"></div>
-    <div class="contact-hero-content">
-      <div class="contact-hero-label" data-i18n="contact.hero.label" data-i18n-fallback="Contact">Contact</div>
-      <h1 class="contact-hero-title" data-i18n="contact.hero.title" data-i18n-fallback="Let's Talk">Let's Talk</h1>
-      <p class="contact-hero-desc" data-i18n="contact.hero.desc" data-i18n-fallback="Have a project in mind? I'd love to hear about it. Let's create something amazing together.">Have a project in mind? I'd love to hear about it. Let's create something amazing together.</p>
-      <nav class="contact-hero-nav">
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-brand" data-i18n="contact.nav.brand" data-i18n-fallback="Yorlyn">Yorlyn</a>
+      <div class="nav-links">
         <a href="index.html" data-i18n="contact.nav.home" data-i18n-fallback="Home">Home</a>
-        <a href="about.html" data-i18n="contact.nav.log" data-i18n-fallback="Daily Log">Daily Log</a>
+        <a href="about.html" data-i18n="contact.nav.about" data-i18n-fallback="About">About</a>
         <a href="portfolio.html" data-i18n="contact.nav.portfolio" data-i18n-fallback="Portfolio">Portfolio</a>
         <a href="contact.html" class="active" data-i18n="contact.nav.contact" data-i18n-fallback="Contact">Contact</a>
-      </nav>
+        <div class="lang-switcher" id="lang-switcher">
+          <div class="lang-current" onclick="toggleLangDropdown()">
+            <span class="lang-current-flag">🇨🇳</span>
+            <span class="lang-current-code">ZH</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="lang-dropdown">
+            <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
+            <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
+            <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
+            <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
+            <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
+            <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
+            <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
+            <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <p class="page-header-label" data-i18n="contact.header.label" data-i18n-fallback="Contact">Contact</p>
+    <h1 class="page-header-title" data-i18n="contact.header.title" data-i18n-fallback="Let's Talk">Let's Talk</h1>
+    <p class="page-header-desc" data-i18n="contact.header.desc" data-i18n-fallback="Have a project in mind? I'd love to hear about it.">Have a project in mind? I'd love to hear about it.</p>
   </section>
 
+  <!-- CONTACT SECTION -->
   <section class="contact-section">
-    <div class="contact-grid">
-      <div class="contact-info">
-        <h2 data-i18n="contact.form.heading" data-i18n-fallback="Start a Project">Start a Project</h2>
-        <p data-i18n="contact.form.p1" data-i18n-fallback="I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.">I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+    <div class="contact-container">
+      <div class="contact-card">
+        <h2 class="contact-info-title" data-i18n="contact.info.title" data-i18n-fallback="Start a Project">Start a Project</h2>
+        <p class="contact-info-text" data-i18n="contact.info.p1" data-i18n-fallback="I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
         <div class="contact-details">
           <div class="contact-detail">
             <div class="contact-detail-icon">@</div>
             <div class="contact-detail-text">
-              <h4 data-i18n="contact.details.email" data-i18n-fallback="Email">Email</h4>
-              <a href="mailto:hello@yorlyn.com" data-i18n="contact.details.email_value" data-i18n-fallback="hello@yorlyn.com">hello@yorlyn.com</a>
+              <h4 data-i18n="contact.info.email" data-i18n-fallback="Email">Email</h4>
+              <a href="mailto:hello@yorlyn.com" data-i18n="contact.info.email_value" data-i18n-fallback="hello@yorlyn.com">hello@yorlyn.com</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Gh</div>
             <div class="contact-detail-text">
-              <h4 data-i18n="contact.details.github" data-i18n-fallback="GitHub">GitHub</h4>
-              <a href="https://github.com/yorlyn" data-i18n="contact.details.github_value" data-i18n-fallback="github.com/yorlyn">github.com/yorlyn</a>
+              <h4 data-i18n="contact.info.github" data-i18n-fallback="GitHub">GitHub</h4>
+              <a href="https://github.com/yorlyn" data-i18n="contact.info.github_value" data-i18n-fallback="github.com/yorlyn">github.com/yorlyn</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Tw</div>
             <div class="contact-detail-text">
-              <h4 data-i18n="contact.details.twitter" data-i18n-fallback="Twitter">Twitter</h4>
-              <a href="https://twitter.com/yorlyn" data-i18n="contact.details.twitter_value" data-i18n-fallback="@yorlyn">@yorlyn</a>
+              <h4 data-i18n="contact.info.twitter" data-i18n-fallback="Twitter">Twitter</h4>
+              <a href="https://twitter.com/yorlyn" data-i18n="contact.info.twitter_value" data-i18n-fallback="@yorlyn">@yorlyn</a>
             </div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">Dr</div>
             <div class="contact-detail-text">
-              <h4 data-i18n="contact.details.dribbble" data-i18n-fallback="Dribbble">Dribbble</h4>
-              <a href="https://dribbble.com/yorlyn" data-i18n="contact.details.dribbble_value" data-i18n-fallback="dribbble.com/yorlyn">dribbble.com/yorlyn</a>
+              <h4 data-i18n="contact.info.dribbble" data-i18n-fallback="Dribbble">Dribbble</h4>
+              <a href="https://dribbble.com/yorlyn" data-i18n="contact.info.dribbble_value" data-i18n-fallback="dribbble.com/yorlyn">dribbble.com/yorlyn</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="contact-form">
+      <div class="contact-card">
         <div class="form-group">
           <label data-i18n="contact.form.name" data-i18n-fallback="Name">Name</label>
-          <input type="text" placeholder="Your name" data-i18n="contact.form.name_placeholder" data-i18n-fallback="Your name">
+          <input type="text" data-i18n="contact.form.name_placeholder" data-i18n-fallback="Your name" placeholder="Your name">
         </div>
         <div class="form-group">
           <label data-i18n="contact.form.email" data-i18n-fallback="Email">Email</label>
-          <input type="email" placeholder="your@email.com" data-i18n="contact.form.email_placeholder" data-i18n-fallback="your@email.com">
+          <input type="email" data-i18n="contact.form.email_placeholder" data-i18n-fallback="your@email.com" placeholder="your@email.com">
         </div>
         <div class="form-group">
           <label data-i18n="contact.form.subject" data-i18n-fallback="Subject">Subject</label>
-          <input type="text" placeholder="Project inquiry" data-i18n="contact.form.subject_placeholder" data-i18n-fallback="Project inquiry">
+          <input type="text" data-i18n="contact.form.subject_placeholder" data-i18n-fallback="Project inquiry" placeholder="Project inquiry">
         </div>
         <div class="form-group">
           <label data-i18n="contact.form.message" data-i18n-fallback="Message">Message</label>
-          <textarea placeholder="Tell me about your project..." data-i18n="contact.form.message_placeholder" data-i18n-fallback="Tell me about your project..."></textarea>
+          <textarea data-i18n="contact.form.message_placeholder" data-i18n-fallback="Tell me about your project..." placeholder="Tell me about your project..."></textarea>
         </div>
         <button class="submit-btn" data-i18n="contact.form.submit" data-i18n-fallback="Send Message">Send Message</button>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="socials">
-      <a href="#" data-i18n="contact.footer.socials.github" data-i18n-fallback="GitHub">GitHub</a>
-      <a href="#" data-i18n="contact.footer.socials.twitter" data-i18n-fallback="Twitter">Twitter</a>
-      <a href="#" data-i18n="contact.footer.socials.dribbble" data-i18n-fallback="Dribbble">Dribbble</a>
-      <a href="#" data-i18n="contact.footer.socials.email" data-i18n-fallback="Email">Email</a>
+    <div class="footer-socials">
+      <a href="#" data-i18n="contact.footer.github" data-i18n-fallback="GitHub">GitHub</a>
+      <a href="#" data-i18n="contact.footer.twitter" data-i18n-fallback="Twitter">Twitter</a>
+      <a href="#" data-i18n="contact.footer.dribbble" data-i18n-fallback="Dribbble">Dribbble</a>
+      <a href="#" data-i18n="contact.footer.email" data-i18n-fallback="Email">Email</a>
     </div>
-    <div id="lang-switcher" class="lang-switcher">
-      <div class="lang-current" onclick="toggleLangDropdown()">
-        <span class="lang-current-flag">🇨🇳</span>
-        <span class="lang-current-code">ZH</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="lang-dropdown">
-        <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
-        <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
-        <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
-        <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
-        <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
-        <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
-        <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
-        <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
-      </div>
-    </div>
-    <p data-i18n="contact.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">&copy; 2026 Yorlyn. All rights reserved.</p>
+    <p class="footer-copy" data-i18n="contact.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">© 2026 Yorlyn. All rights reserved.</p>
   </footer>
 
-  <script>
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    function tick() {
-      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(tick);
-    }
-    tick();
-    document.querySelectorAll('a, button, .form-group input, .form-group textarea').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-    });
-  </script>
   <script src="js/i18n.js"></script>
   <script>initI18n()</script>
 </body>

@@ -3,257 +3,363 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="portfolio.title" data-i18n-fallback="Portfolio">Portfolio — Yorlyn</title>
-  <meta name="description" content="Yorlyn 的作品集 — 设计、开发与创意项目展示。">
+  <title>Portfolio — Yorlyn</title>
+  <meta name="description" content="Yorlyn — Portfolio of selected works spanning brand identity, digital experiences, and creative campaigns.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #1a1a2e; background: #0a0e1a;
+      color: #1a1a1a;
+      background: #ffffff;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    .cursor-dot, .cursor-ring {
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%); border-radius: 50%;
-    }
-    .cursor-dot { width: 8px; height: 8px; background: #fff; }
-    .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); }
-    body.hovering .cursor-dot { width: 12px; height: 12px; }
-    body.hovering .cursor-ring { width: 50px; height: 50px; border-color: rgba(255,255,255,0.5); }
-    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
 
-    .portfolio-hero {
-      height: 100vh; min-height: 600px; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; background: #0a0e1a;
+    /* ===== NAVIGATION ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e5e5;
+      height: 64px;
     }
-    .portfolio-hero-bg {
-      position: absolute; inset: 0; opacity: 0.25;
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      height: 100%; display: flex;
+      align-items: center; justify-content: space-between;
     }
-    .portfolio-hero-bg img {
-      width: 100%; height: 100%; object-fit: cover;
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: #1a1a1a;
+      letter-spacing: -0.02em;
     }
-    .portfolio-hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.8) 100%);
+    .nav-brand:hover { color: #1a3a5c; }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
     }
-    .portfolio-hero-content {
-      position: relative; z-index: 2; text-align: center; color: #fff;
-      padding: 2rem;
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: #666666;
+      letter-spacing: 0.02em; padding: 0.25rem 0;
+      position: relative; transition: color 0.3s ease;
     }
-    .portfolio-hero-label {
-      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4); margin-bottom: 1.5rem;
+    .nav-links a:hover { color: #1a1a1a; }
+    .nav-links a.active {
+      color: #1a1a1a;
     }
-    .portfolio-hero-title {
-      font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700;
-      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    .nav-links a.active::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 100%; height: 2px; background: #1a3a5c; border-radius: 1px;
     }
-    .portfolio-hero-desc {
-      font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto;
+
+    /* Language switcher */
+    .lang-switcher { position: relative; display: inline-block; }
+    .lang-current {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: #f7f7f5; padding: 0.4rem 0.9rem;
+      border-radius: 20px; border: 1px solid #e5e5e5;
+      cursor: pointer; font-size: 0.8rem; font-weight: 500;
+      color: #666666; transition: all 0.2s;
+    }
+    .lang-current:hover { background: #ededeb; color: #1a1a1a; }
+    .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
+    .lang-switcher.open .arrow { transform: rotate(180deg); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 0.4rem); right: 0;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(8px);
+      border-radius: 12px; border: 1px solid #e5e5e5;
+      padding: 0.4rem; min-width: 140px; display: none;
+      overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 0.7rem; border-radius: 8px;
+      cursor: pointer; font-size: 0.8rem; color: #666666;
+      transition: all 0.15s;
+    }
+    .lang-option:hover { background: #f7f7f5; }
+    .lang-option.active { background: #f7f7f5; color: #1a1a1a; font-weight: 500; }
+    .lang-flag { font-size: 1rem; line-height: 1; }
+    .lang-label { white-space: nowrap; }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 0.5rem;
+    }
+    .mobile-menu-btn span {
+      display: block; width: 22px; height: 2px;
+      background: #1a1a1a; margin: 5px 0; border-radius: 1px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: #f7f7f5;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+    }
+    .page-header-label {
+      font-size: 0.75rem; font-weight: 600; color: #1a3a5c;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .page-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 700; color: #1a1a1a;
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .page-header-desc {
+      font-size: 1.1rem; color: #666666;
+      max-width: 580px; margin: 0 auto;
       line-height: 1.7;
     }
-    .portfolio-hero-nav {
-      display: flex; gap: 2rem; justify-content: center; margin-top: 3rem;
-    }
-    .portfolio-hero-nav a {
-      font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none;
-      letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease;
-      position: relative; padding-bottom: 0.5rem;
-    }
-    .portfolio-hero-nav a::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 0; height: 1px; background: rgba(255,255,255,0.5); transition: width 0.4s ease;
-    }
-    .portfolio-hero-nav a:hover, .portfolio-hero-nav a.active { color: rgba(255,255,255,0.8); }
-    .portfolio-hero-nav a:hover::after, .portfolio-hero-nav a.active::after { width: 100%; }
 
-    .portfolio-grid-section {
-      padding: 6rem 3rem; max-width: 1400px; margin: 0 auto;
+    /* ===== WORKS GRID ===== */
+    .works-section {
+      background: #ffffff;
+      padding: 4rem 2rem;
     }
-    .portfolio-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+    .section-container {
+      max-width: 1200px; margin: 0 auto;
     }
-    .portfolio-item {
-      position: relative; overflow: hidden; border-radius: 8px;
-      aspect-ratio: 16/10; cursor: pointer; background: #1a1a2e;
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
     }
-    .portfolio-item img {
+    .work-card {
+      background: #ffffff; border: 1px solid #e5e5e5;
+      border-radius: 8px; overflow: hidden;
+      transition: all 0.3s ease; cursor: pointer;
+      display: block;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .work-card-img {
+      aspect-ratio: 16 / 10; overflow: hidden;
+    }
+    .work-card-img img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: transform 0.5s ease;
     }
-    .portfolio-item:hover img { transform: scale(1.08); }
-    .portfolio-item-overlay {
-      position: absolute; inset: 0; background: rgba(10,14,26,0.85);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.5s ease;
-      color: #fff; padding: 2rem; text-align: center;
+    .work-card:hover .work-card-img img { transform: scale(1.03); }
+    .work-card-body { padding: 1.5rem; }
+    .work-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 0.5rem; line-height: 1.3;
     }
-    .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
-    .portfolio-item-overlay h3 {
-      font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;
-      transform: translateY(20px); transition: transform 0.5s ease 0.1s;
+    .work-card-desc {
+      font-size: 0.85rem; color: #666666; line-height: 1.6;
+      margin-bottom: 1rem;
     }
-    .portfolio-item:hover .portfolio-item-overlay h3 { transform: translateY(0); }
-    .portfolio-item-overlay p {
-      font-size: 0.85rem; color: rgba(255,255,255,0.6);
-      transform: translateY(20px); transition: transform 0.5s ease 0.15s;
+    .work-card-tags {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
     }
-    .portfolio-item:hover .portfolio-item-overlay p { transform: translateY(0); }
-    .portfolio-item-overlay .cta {
-      margin-top: 1.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.7);
-      text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3);
-      padding-bottom: 0.3rem; letter-spacing: 0.1em; text-transform: uppercase;
-      transform: translateY(20px); transition: all 0.5s ease 0.2s;
+    .work-card-tag {
+      font-size: 0.7rem; font-weight: 500; color: #1a3a5c;
+      background: rgba(26,58,92,0.06); padding: 0.3rem 0.75rem;
+      border-radius: 20px; letter-spacing: 0.02em;
     }
-    .portfolio-item:hover .portfolio-item-overlay .cta { transform: translateY(0); }
 
+    /* ===== FOOTER ===== */
     .site-footer {
-      background: #0a0e1a; color: #fff; padding: 4rem 2rem; text-align: center;
+      background: #1a1a1a; color: #ffffff; padding: 3rem 2rem;
+      text-align: center;
     }
-    .site-footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .footer-socials {
+      display: flex; justify-content: center;
+      gap: 2rem; margin-bottom: 1.5rem;
+    }
+    .footer-socials a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      transition: color 0.3s ease;
+    }
+    .footer-socials a:hover { color: #ffffff; }
+    .footer-copy {
+      font-size: 0.8rem; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.02em;
+    }
 
-    /* ===== LANGUAGE SWITCHER ===== */
-    .lang-switcher { position: relative; display: inline-block; font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
-    .lang-switcher .lang-current { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.2s; }
-    .lang-switcher .lang-current:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
-    .lang-switcher .lang-current .arrow { font-size: 0.6rem; transition: transform 0.2s; opacity: 0.6; }
-    .lang-switcher.open .lang-current .arrow { transform: rotate(180deg); }
-    .lang-switcher .lang-dropdown { position: absolute; bottom: calc(100% + 0.4rem); left: 0; background: rgba(15,20,35,0.95); backdrop-filter: blur(8px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem; min-width: 140px; display: none; overflow: hidden; }
-    .lang-switcher.open .lang-dropdown { display: block; }
-    .lang-switcher .lang-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); transition: all 0.15s; }
-    .lang-switcher .lang-option:hover { background: rgba(255,255,255,0.08); }
-    .lang-switcher .lang-option.active { background: rgba(255,255,255,0.15); color: #fff; }
-    .lang-switcher .lang-flag { font-size: 1rem; line-height: 1; }
-    .lang-switcher .lang-label { white-space: nowrap; }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .works-grid { gap: 1.5rem; }
+    }
 
     @media (max-width: 768px) {
-      .portfolio-hero-title { font-size: 3rem; }
-      .portfolio-grid { grid-template-columns: 1fr; }
-      .portfolio-grid-section { padding: 4rem 1.5rem; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .page-header { padding: 6rem 1.5rem 3rem; }
+      .page-header-title { font-size: 2.5rem; }
+      .page-header-desc { font-size: 1rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .works-section { padding: 3rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .page-header-title { font-size: 2rem; }
+      .work-card-title { font-size: 1.1rem; }
+      .footer-socials { flex-wrap: wrap; gap: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
 
-  <section class="portfolio-hero">
-    <div class="portfolio-hero-bg">
-      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop" alt="Portfolio">
-    </div>
-    <div class="portfolio-hero-overlay"></div>
-    <div class="portfolio-hero-content">
-      <div class="portfolio-hero-label" data-i18n="portfolio.hero.label" data-i18n-fallback="Portfolio">Portfolio</div>
-      <h1 class="portfolio-hero-title" data-i18n="portfolio.hero.title" data-i18n-fallback="Selected Works">Selected Works</h1>
-      <p class="portfolio-hero-desc" data-i18n="portfolio.hero.desc" data-i18n-fallback="A collection of projects spanning brand identity, digital experiences, and creative campaigns.">A collection of projects spanning brand identity, digital experiences, and creative campaigns.</p>
-      <nav class="portfolio-hero-nav">
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-brand" data-i18n="portfolio.nav.brand" data-i18n-fallback="Yorlyn">Yorlyn</a>
+      <div class="nav-links">
         <a href="index.html" data-i18n="portfolio.nav.home" data-i18n-fallback="Home">Home</a>
-        <a href="about.html" data-i18n="portfolio.nav.log" data-i18n-fallback="Daily Log">Daily Log</a>
+        <a href="about.html" data-i18n="portfolio.nav.about" data-i18n-fallback="About">About</a>
         <a href="portfolio.html" class="active" data-i18n="portfolio.nav.portfolio" data-i18n-fallback="Portfolio">Portfolio</a>
         <a href="contact.html" data-i18n="portfolio.nav.contact" data-i18n-fallback="Contact">Contact</a>
-      </nav>
+        <div class="lang-switcher" id="lang-switcher">
+          <div class="lang-current" onclick="toggleLangDropdown()">
+            <span class="lang-current-flag">🇨🇳</span>
+            <span class="lang-current-code">ZH</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="lang-dropdown">
+            <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
+            <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
+            <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
+            <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
+            <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
+            <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
+            <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
+            <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <p class="page-header-label" data-i18n="portfolio.header.label" data-i18n-fallback="Portfolio">Portfolio</p>
+    <h1 class="page-header-title" data-i18n="portfolio.header.title" data-i18n-fallback="Selected Works">Selected Works</h1>
+    <p class="page-header-desc" data-i18n="portfolio.header.desc" data-i18n-fallback="A collection of projects spanning brand identity, digital experiences, and creative campaigns.">A collection of projects spanning brand identity, digital experiences, and creative campaigns.</p>
+  </section>
+
+  <!-- WORKS GRID -->
+  <section class="works-section">
+    <div class="section-container">
+      <div class="works-grid">
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="images/hero-flowers.jpg" alt="Brand Identity for Flora">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work1.title" data-i18n-fallback="Brand Identity for Flora">Brand Identity for Flora</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work1.desc" data-i18n-fallback="A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism.">A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work1.tag1" data-i18n-fallback="Brand Design">Brand Design</span>
+              <span class="work-card-tag" data-i18n="portfolio.work1.tag2" data-i18n-fallback="Visual Identity">Visual Identity</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=800&h=500&fit=crop" alt="Digital Experience Platform">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work2.title" data-i18n-fallback="Digital Experience Platform">Digital Experience Platform</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work2.desc" data-i18n-fallback="An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.">An immersive web platform designed for a tech startup, featuring interactive data visualizations and fluid animations.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work2.tag1" data-i18n-fallback="Web Design">Web Design</span>
+              <span class="work-card-tag" data-i18n="portfolio.work2.tag2" data-i18n-fallback="Development">Development</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop" alt="Art Direction & Campaign">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work3.title" data-i18n-fallback="Art Direction & Campaign">Art Direction & Campaign</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work3.desc" data-i18n-fallback="Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.">Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work3.tag1" data-i18n-fallback="Art Direction">Art Direction</span>
+              <span class="work-card-tag" data-i18n="portfolio.work3.tag2" data-i18n-fallback="Photography">Photography</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" alt="E-Commerce Redesign">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work4.title" data-i18n-fallback="E-Commerce Redesign">E-Commerce Redesign</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work4.desc" data-i18n-fallback="A complete redesign of an online retail platform focused on conversion optimization and seamless user experience.">A complete redesign of an online retail platform focused on conversion optimization and seamless user experience.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work4.tag1" data-i18n-fallback="UI/UX">UI/UX</span>
+              <span class="work-card-tag" data-i18n="portfolio.work4.tag2" data-i18n-fallback="E-Commerce">E-Commerce</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=500&fit=crop" alt="Mobile App Design">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work5.title" data-i18n-fallback="Mobile App Design">Mobile App Design</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work5.desc" data-i18n-fallback="A wellness and mindfulness mobile application with an intuitive interface and calming visual language.">A wellness and mindfulness mobile application with an intuitive interface and calming visual language.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work5.tag1" data-i18n-fallback="Mobile Design">Mobile Design</span>
+              <span class="work-card-tag" data-i18n="portfolio.work5.tag2" data-i18n-fallback="App Design">App Design</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="work-card">
+          <div class="work-card-img">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop" alt="Motion & Animation">
+          </div>
+          <div class="work-card-body">
+            <h3 class="work-card-title" data-i18n="portfolio.work6.title" data-i18n-fallback="Motion & Animation">Motion & Animation</h3>
+            <p class="work-card-desc" data-i18n="portfolio.work6.desc" data-i18n-fallback="A series of animated brand stories and micro-interactions that bring products to life across digital channels.">A series of animated brand stories and micro-interactions that bring products to life across digital channels.</p>
+            <div class="work-card-tags">
+              <span class="work-card-tag" data-i18n="portfolio.work6.tag1" data-i18n-fallback="Motion Design">Motion Design</span>
+              <span class="work-card-tag" data-i18n="portfolio.work6.tag2" data-i18n-fallback="Animation">Animation</span>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="portfolio-grid-section">
-    <div class="portfolio-grid" id="portfolio-grid">
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=1'">
-        <img src="images/hero-flowers.jpg" alt="Brand Identity for Flora">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work1.title" data-i18n-fallback="Brand Identity for Flora">Brand Identity for Flora</h3>
-          <p data-i18n="portfolio.work1.desc" data-i18n-fallback="Luxury floral brand visual identity">Luxury floral brand visual identity</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=2'">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c5040bb?w=800&h=500&fit=crop" alt="Digital Experience Platform">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work2.title" data-i18n-fallback="Digital Experience Platform">Digital Experience Platform</h3>
-          <p data-i18n="portfolio.work2.desc" data-i18n-fallback="Tech startup web platform">Tech startup web platform</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=3'">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop" alt="Art Direction Campaign">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work3.title" data-i18n-fallback="Art Direction & Campaign">Art Direction & Campaign</h3>
-          <p data-i18n="portfolio.work3.desc" data-i18n-fallback="Fashion editorial campaign">Fashion editorial campaign</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=4'">
-        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" alt="E-Commerce Redesign">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work4.title" data-i18n-fallback="E-Commerce Redesign">E-Commerce Redesign</h3>
-          <p data-i18n="portfolio.work4.desc" data-i18n-fallback="Lifestyle platform UX overhaul">Lifestyle platform UX overhaul</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=5'">
-        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=500&fit=crop" alt="Mobile App Design">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work5.title" data-i18n-fallback="Mobile App Design">Mobile App Design</h3>
-          <p data-i18n="portfolio.work5.desc" data-i18n-fallback="Health & wellness application">Health & wellness application</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-      <div class="portfolio-item" onclick="location.href='work-detail.html?id=6'">
-        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop" alt="Motion & Animation">
-        <div class="portfolio-item-overlay">
-          <h3 data-i18n="portfolio.work6.title" data-i18n-fallback="Motion & Animation">Motion & Animation</h3>
-          <p data-i18n="portfolio.work6.desc" data-i18n-fallback="Dynamic motion graphics">Dynamic motion graphics</p>
-          <span class="cta" data-i18n="portfolio.cta" data-i18n-fallback="View Project →">View Project →</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <div id="lang-switcher" class="lang-switcher">
-      <div class="lang-current" onclick="toggleLangDropdown()">
-        <span class="lang-current-flag">🇨🇳</span>
-        <span class="lang-current-code">ZH</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="lang-dropdown">
-        <div class="lang-option" data-lang="zh" onclick="switchLanguage('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-label">中文</span></div>
-        <div class="lang-option" data-lang="en" onclick="switchLanguage('en')"><span class="lang-flag">🇬🇧</span><span class="lang-label">English</span></div>
-        <div class="lang-option" data-lang="es" onclick="switchLanguage('es')"><span class="lang-flag">🇪🇸</span><span class="lang-label">Español</span></div>
-        <div class="lang-option" data-lang="fr" onclick="switchLanguage('fr')"><span class="lang-flag">🇫🇷</span><span class="lang-label">Français</span></div>
-        <div class="lang-option" data-lang="de" onclick="switchLanguage('de')"><span class="lang-flag">🇩🇪</span><span class="lang-label">Deutsch</span></div>
-        <div class="lang-option" data-lang="ja" onclick="switchLanguage('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-label">日本語</span></div>
-        <div class="lang-option" data-lang="ko" onclick="switchLanguage('ko')"><span class="lang-flag">🇰🇷</span><span class="lang-label">한국어</span></div>
-        <div class="lang-option" data-lang="ru" onclick="switchLanguage('ru')"><span class="lang-flag">🇷🇺</span><span class="lang-label">Русский</span></div>
-      </div>
+    <div class="footer-socials">
+      <a href="#" data-i18n="portfolio.footer.github" data-i18n-fallback="GitHub">GitHub</a>
+      <a href="#" data-i18n="portfolio.footer.twitter" data-i18n-fallback="Twitter">Twitter</a>
+      <a href="#" data-i18n="portfolio.footer.dribbble" data-i18n-fallback="Dribbble">Dribbble</a>
+      <a href="#" data-i18n="portfolio.footer.email" data-i18n-fallback="Email">Email</a>
     </div>
-    <p data-i18n="portfolio.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">&copy; 2026 Yorlyn. All rights reserved.</p>
+    <p class="footer-copy" data-i18n="portfolio.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">© 2026 Yorlyn. All rights reserved.</p>
   </footer>
 
-  <script>
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    function tick() {
-      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(tick);
-    }
-    tick();
-    document.querySelectorAll('a, button, .portfolio-item').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-    });
-  </script>
   <script src="js/i18n.js"></script>
   <script>initI18n()</script>
 </body>
