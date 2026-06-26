@@ -100,6 +100,76 @@
       transition: all 0.3s ease;
     }
 
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Scroll reveal */
+    .animate {
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .animate.fade-up { transform: translateY(40px); }
+    .animate.fade-left { transform: translateX(-40px); }
+    .animate.fade-right { transform: translateX(40px); }
+    .animate.scale-in { transform: scale(0.9); }
+    .animate.visible {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* Page header stagger */
+    .page-header-label, .page-header-title, .page-header-desc {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .page-header-label { animation-delay: 0.2s; }
+    .page-header-title { animation-delay: 0.4s; }
+    .page-header-desc { animation-delay: 0.6s; }
+
+    /* Card hover */
+    .log-card {
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .log-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    /* Nav link underline */
+    .nav-links a {
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 2px; background: #1a3a5c; border-radius: 1px;
+      transition: width 0.4s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    /* Footer link hover */
+    .footer-socials a {
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .footer-socials a:hover {
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* Navbar scroll effect */
+    .navbar {
+      transition: box-shadow 0.3s ease;
+    }
+
     /* ===== PAGE HEADER ===== */
     .page-header {
       background: #f7f7f5;
@@ -317,24 +387,24 @@
   <!-- ABOUT SECTION -->
   <section class="about-section">
     <div class="about-container">
-      <div class="about-image-wrap">
+      <div class="about-image-wrap animate fade-right">
         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop" alt="Yorlyn Portrait" data-i18n="about.bio.img_alt" data-i18n-fallback="Yorlyn Portrait">
       </div>
-      <div class="about-text">
+      <div class="about-text animate fade-left">
         <h2 data-i18n="about.bio.title" data-i18n-fallback="About Me">About Me</h2>
         <p data-i18n="about.bio.p1" data-i18n-fallback="I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.">I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.</p>
         <p data-i18n="about.bio.p2" data-i18n-fallback="With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.">With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.</p>
         <p data-i18n="about.bio.p3" data-i18n-fallback="When I'm not designing, you'll find me exploring the city, experimenting with new tools, or writing about the intersection of design and technology.">When I'm not designing, you'll find me exploring the city, experimenting with new tools, or writing about the intersection of design and technology.</p>
         <div class="about-stats">
-          <div class="about-stat">
+          <div class="about-stat animate scale-in delay-1">
             <div class="about-stat-number" data-i18n="about.stat1.number" data-i18n-fallback="5+">5+</div>
             <div class="about-stat-label" data-i18n="about.stat1.label" data-i18n-fallback="Years Experience">Years Experience</div>
           </div>
-          <div class="about-stat">
+          <div class="about-stat animate scale-in delay-2">
             <div class="about-stat-number" data-i18n="about.stat2.number" data-i18n-fallback="50+">50+</div>
             <div class="about-stat-label" data-i18n="about.stat2.label" data-i18n-fallback="Projects Done">Projects Done</div>
           </div>
-          <div class="about-stat">
+          <div class="about-stat animate scale-in delay-3">
             <div class="about-stat-number" data-i18n="about.stat3.number" data-i18n-fallback="30+">30+</div>
             <div class="about-stat-label" data-i18n="about.stat3.label" data-i18n-fallback="Happy Clients">Happy Clients</div>
           </div>
@@ -351,19 +421,19 @@
         <h2 class="logs-title" data-i18n="about.logs.title" data-i18n-fallback="Latest Thoughts">Latest Thoughts</h2>
       </div>
       <div class="logs-grid">
-        <article class="log-card">
+        <article class="log-card animate fade-up delay-1">
           <p class="log-card-date" data-i18n="about.log1.date" data-i18n-fallback="23 JUN 2026">23 JUN 2026</p>
           <h3 class="log-card-title" data-i18n="about.log1.title" data-i18n-fallback="对AI的感悟">对AI的感悟</h3>
           <p class="log-card-excerpt" data-i18n="about.log1.excerpt" data-i18n-fallback="感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通。">感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度。只是懂得一些专业领域的皮毛而已，并没有说非常精通。</p>
           <span class="log-card-tag" data-i18n="about.log1.tag" data-i18n-fallback="#AI">#AI</span>
         </article>
-        <article class="log-card">
+        <article class="log-card animate fade-up delay-2">
           <p class="log-card-date" data-i18n="about.log2.date" data-i18n-fallback="20 JUN 2026">20 JUN 2026</p>
           <h3 class="log-card-title" data-i18n="about.log2.title" data-i18n-fallback="Claude code降智了">Claude code降智了</h3>
           <p class="log-card-excerpt" data-i18n="about.log2.excerpt" data-i18n-fallback="自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉，一个简单的外观修改命令，都做的一塌糊涂。">自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉，一个简单的外观修改命令，都做的一塌糊涂。</p>
           <span class="log-card-tag" data-i18n="about.log2.tag" data-i18n-fallback="#Claude">#Claude</span>
         </article>
-        <article class="log-card">
+        <article class="log-card animate fade-up delay-3">
           <p class="log-card-date" data-i18n="about.log3.date" data-i18n-fallback="15 JUN 2026">15 JUN 2026</p>
           <h3 class="log-card-title" data-i18n="about.log3.title" data-i18n-fallback="我的网站Yorlyn正式上线了">我的网站Yorlyn正式上线了</h3>
           <p class="log-card-excerpt" data-i18n="about.log3.excerpt" data-i18n-fallback="感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定。这不仅仅是一个作品集，更是我记录生活、分享想法的数字空间。">感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定。这不仅仅是一个作品集，更是我记录生活、分享想法的数字空间。</p>
@@ -383,6 +453,29 @@
     </div>
     <p class="footer-copy" data-i18n="about.footer.copyright" data-i18n-fallback="© 2026 Yorlyn. All rights reserved.">© 2026 Yorlyn. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.06)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
 
   <script src="js/i18n.js"></script>
   <script>initI18n()</script>

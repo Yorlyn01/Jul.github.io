@@ -100,6 +100,76 @@
       transition: all 0.3s ease;
     }
 
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Scroll reveal */
+    .animate {
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .animate.fade-up { transform: translateY(40px); }
+    .animate.fade-left { transform: translateX(-40px); }
+    .animate.fade-right { transform: translateX(40px); }
+    .animate.scale-in { transform: scale(0.9); }
+    .animate.visible {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* Page header stagger */
+    .page-header-label, .page-header-title, .page-header-desc {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .page-header-label { animation-delay: 0.2s; }
+    .page-header-title { animation-delay: 0.4s; }
+    .page-header-desc { animation-delay: 0.6s; }
+
+    /* Button hover */
+    .submit-btn {
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Nav link underline */
+    .nav-links a {
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 2px; background: #1a3a5c; border-radius: 1px;
+      transition: width 0.4s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    /* Footer link hover */
+    .footer-socials a {
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .footer-socials a:hover {
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* Navbar scroll effect */
+    .navbar {
+      transition: box-shadow 0.3s ease;
+    }
+
     /* ===== PAGE HEADER ===== */
     .page-header {
       background: #f7f7f5;
@@ -286,7 +356,7 @@
   <!-- CONTACT SECTION -->
   <section class="contact-section">
     <div class="contact-container">
-      <div class="contact-card">
+      <div class="contact-card animate fade-left delay-1">
         <h2 class="contact-info-title" data-i18n="contact.info.title" data-i18n-fallback="Start a Project">Start a Project</h2>
         <p class="contact-info-text" data-i18n="contact.info.p1" data-i18n-fallback="I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
         <div class="contact-details">
@@ -320,7 +390,7 @@
           </div>
         </div>
       </div>
-      <div class="contact-card">
+      <div class="contact-card animate fade-right delay-2">
         <div class="form-group">
           <label data-i18n="contact.form.name" data-i18n-fallback="Name">Name</label>
           <input type="text" data-i18n="contact.form.name_placeholder" data-i18n-fallback="Your name" placeholder="Your name">
@@ -355,5 +425,27 @@
 
   <script src="js/i18n.js"></script>
   <script>initI18n()</script>
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.06)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
