@@ -1,28 +1,16 @@
-// i18n module - 8-language support with IP-based auto-detection
+// i18n module - Chinese & English bilingual support
 
 let currentLocale = 'zh'
 let translations = {}
 
 const LANG_CONFIG = {
   zh: { code: 'zh', label: '中文', flag: '🇨🇳' },
-  en: { code: 'en', label: 'English', flag: '🇬🇧' },
-  es: { code: 'es', label: 'Español', flag: '🇪🇸' },
-  fr: { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  de: { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  ja: { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  ko: { code: 'ko', label: '한국어', flag: '🇰🇷' },
-  ru: { code: 'ru', label: 'Русский', flag: '🇷🇺' }
+  en: { code: 'en', label: 'English', flag: '🇬🇧' }
 }
 
 const COUNTRY_TO_LANG = {
   CN: 'zh', HK: 'zh', TW: 'zh',
-  US: 'en', GB: 'en', AU: 'en', CA: 'en', IE: 'en', NZ: 'en', ZA: 'en',
-  ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es', EC: 'es',
-  FR: 'fr', BE: 'fr', CH: 'fr', LU: 'fr', MC: 'fr',
-  DE: 'de', AT: 'de', LI: 'de',
-  JP: 'ja',
-  KR: 'ko',
-  RU: 'ru', BY: 'ru', KZ: 'ru', UA: 'ru'
+  US: 'en', GB: 'en', AU: 'en', CA: 'en', IE: 'en', NZ: 'en', ZA: 'en'
 }
 
 async function initI18n() {
@@ -69,7 +57,7 @@ function t(key, fallback = '') {
 }
 
 function applyTranslations() {
-  const langMap = { zh: 'zh-CN', en: 'en', es: 'es', fr: 'fr', de: 'de', ja: 'ja', ko: 'ko', ru: 'ru' }
+  const langMap = { zh: 'zh-CN', en: 'en' }
   document.documentElement.lang = langMap[currentLocale] || 'en'
   
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -147,7 +135,6 @@ function injectLangSwitcher() {
   `
   document.body.appendChild(div)
   
-  // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
     if (!div.contains(e.target)) div.classList.remove('open')
   })
