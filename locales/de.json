@@ -1,215 +1,227 @@
 {
-  "lang": "de",
-  "site": {
-    "title": "Yorlyn — Kreativer Entwickler & Designer",
-    "brand": "yorlyn.com",
-    "copyright": "© 2026 Yorlyn. Alle Rechte vorbehalten."
-  },
-  "nav": {
-    "home": "Startseite",
-    "about": "Tagebuch",
-    "portfolio": "Portfolio",
-    "contact": "Kontakt"
-  },
-  "index": {
-    "hello": "Hallo",
-    "hero_title": "Ich bin Yorlyn",
-    "hero_subtitle": "Kreativer Entwickler & Designer\nAus Shanghai.",
-    "hire_me": "Stell mich ein",
-    "intro": "Ich widme mich der Schaffung innovativer Lösungen, die inspirieren, die Marke, UI/UX und Webentwicklung verbinden und durch leidenschaftliches und fokussiertes Design nutzbare und raffinierte Produkte schaffen. Jeden Tag dokumentiere ich die Spuren des Lebens mit Code und Design.",
-    "view_portfolio": "Portfolio ansehen",
-    "admin_dashboard": "⚙ Admin-Dashboard",
-    "latest_works": "Neueste Arbeiten",
-    "no_works": "Noch keine Arbeiten. Besuche die Portfolio-Seite."
-  },
-  "about": {
-    "page_label": "Tagebuch",
-    "page_title": "Tagebuch",
-    "subtitle": "Gedanken, Bilder & Momente aus dem Alltag.",
-    "see_work": "Kontakt",
-    "section_about": "Über",
-    "about_title": "Zwischen Design & Code",
-    "about_text": "Ich bin ein leidenschaftlicher Schöpfer, Entwickler und Designer, fokussiert auf Web-Frontend-Entwicklung, UI/UX-Design und Markenvisuals. Ich glaube, gutes Design geht nicht nur um Erscheinung, sondern um eine Denkweise, die Probleme löst. Jede Codezeile, jedes Pixel, trägt Respekt und Streben nach Benutzererfahrung.",
-    "section_work": "Berufserfahrung",
-    "job1_title": "2022 — Heute · Freelance Designer & Entwickler",
-    "job1_desc": "Bereitstellung von Design-, Entwicklungs- und Beratungsdienstleistungen für mehrere Marken und persönliche Projekte.",
-    "job2_title": "2020 — 2022 · Tech-Unternehmen · Frontend-Ingenieur",
-    "job2_desc": "Verantwortlich für Produkt-Frontend-Architektur, Komponentenbibliotheksdesign und Benutzererfahrungsoptimierung.",
-    "section_skills": "Fähigkeiten",
-    "skills_design": "Design",
-    "skills_design_list": "Figma, Sketch, Adobe Illustrator, Photoshop",
-    "skills_frontend": "Frontend",
-    "skills_frontend_list": "HTML/CSS, JavaScript, React, Vue, Next.js, Three.js",
-    "skills_tools": "Werkzeuge",
-    "skills_tools_list": "Git, VS Code, Webpack, Vite, Tailwind CSS",
-    "skills_other": "Sonstiges",
-    "skills_other_list": "Node.js, Python, Supabase, Vercel",
-    "section_edu": "Bildung",
-    "edu_title": "2016 — 2020 · Universität · Informatik",
-    "edu_desc": "Hauptstudium Software Engineering, Nebenstudium Visuelles Design. Teilnahme an mehreren Open-Source-Projekten während des Studiums.",
-    "log1_title": "Ein Neuer Anfang",
-    "log1_text": "Heute habe ich meine persönliche Website neu gestaltet, den Inhalt der Über-mich-Seite auf die Kontaktseite verschoben und diesen Ort in mein Tagebuch verwandelt. Ich möchte den Alltag auf einfachere Weise aufzeichnen — einige zufällige Gedanken, unterwegs aufgenommene Fotos oder Dinge, die ich sehe. Ich hoffe, dass diese Ecke Spuren der Zeit halten kann.",
-    "log1_tag1": "#alltag",
-    "log1_tag2": "#design",
-    "log2_title": "Über Minimalismus",
-    "log2_text": "In letzter Zeit fühle ich mich zunehmend zum minimalistischen Design hingezogen. Keine Leere, sondern perfektes留白. Jedes Element hat einen Grund zu existieren, weder mehr noch weniger. Subtraktion im Design ist oft schwieriger als Addition. Man muss sich trauen, Dinge zu löschen, die \"gut aussehen, aber keinen Zweck erfüllen\".",
-    "log2_tag1": "#gedanken",
-    "log2_tag2": "#minimalismus",
-    "log3_title": "Regnerisches Shanghai",
-    "log3_text": "Es regnet seit drei Tagen. Die Stadt im Regen hat eine besondere Atmosphäre — der graue Himmel lässt die Straßenlaternen wärmer wirken. Vorbei an einem Café, das gedämpfte gelbe Licht und Menschen beim Lesen durch das Glas sehend, fühlte ich, dass das Leben in diesem Moment schön war.",
-    "log3_tag1": "#shanghai",
-    "log3_tag2": "#regen",
-    "log3_tag3": "#fotografie",
-    "log4_title": "Ein Kurzfilm",
-    "log4_text": "Ein visuelles Experiment mit Three.js. Über Licht, Schatten, Zeit und Fluss. Obwohl es nur ein paar Zeilen Code sind, bleibt das Gefühl der Kreation, wenn man sieht, wie es lebendig wird, bestehen.",
-    "log4_tag1": "#threejs",
-    "log4_tag2": "#visuelles-experiment",
-    "log4_tag3": "#code",
-    "login": "Anmelden",
-    "logout": "Abmelden",
-    "comments": "Kommentare",
-    "submit_comment": "Kommentar senden",
-    "auth_title": "Anmeldung",
-    "login_tab": "Anmelden",
-    "register_tab": "Registrieren",
-    "email": "Email",
-    "password": "Passwort",
-    "login_btn": "Anmelden",
-    "register_btn": "Registrieren",
-    "no_comments": "Noch keine Kommentare",
-    "comment_success": "Kommentar eingereicht! Er wird nach Genehmigung angezeigt.",
-    "log_launch": {
-      "title": "Yorlyn-Website heute gestartet",
-      "content": "Dies ist mein erster Blog-Eintrag. Danke an KI und die Kraft der Technologie. Ab heute wird diese kleine Ecke meine täglichen Gedanken und Kreationen aufzeichnen."
+  "home": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
     },
-    "log_claude_degrade": {
-      "title": "Claude Code ist so schlau",
-      "content": "Da Claudes Flabe 5 eingeschränkt wurde, habe ich das Gefühl, dass alle Modelle nicht mehr gut sind. Ich habe das Gefühl, getäuscht worden zu sein. Ein einfacher Befehl zur Änderung des Erscheinungsbilds ist ein völliges Durcheinander. Im Vergleich zum aktualisierten Codex ist es offensichtlich viel flüssiger, aber die alte Erinnerung ist, dass das Kontingent nicht ausreicht."
+    "hero": {
+      "label": "Creative Developer & Designer",
+      "title": "Yorlyn",
+      "subtitle": "Crafting digital experiences with passion & precision",
+      "desc": "I design and build thoughtful digital products that blend aesthetics with functionality. Every pixel matters, every interaction counts.",
+      "cta": "View My Work →",
+      "scroll": "Scroll"
     },
-    "log_ai_insight": {
-      "title": "Einblicke in KI",
-      "content": "Ich habe das Gefühl, dass die aktuelle KI in einigen Berufsfeldern immer noch nicht in der Lage ist, die Perfektion zu erreichen. Es verfügt nur über oberflächliche Kenntnisse in einigen Berufsfeldern und wird nicht als sehr kompetent bezeichnet. Nehmen Sie als Beispiel die Druckindustrie, in der ich derzeit tätig bin. Ich möchte eine professionelle Software für die Druckindustrie entwerfen, aber ich bekomme nur eine leere Hülle und sie hat noch nicht das Niveau einer industriellen Ausgabe erreicht. KI steckt also noch in den Kinderschuhen. Wie gelangen wir also zum Kern des Berufsfeldes? Ich denke, es kann lange dauern, und es erfordert, dass Menschen in verschiedenen Berufsfeldern KI-Software über einen langen Zeitraum verwenden, um wirklich professionelle Daten zu erhalten."
+    "works": {
+      "label": "Featured Work",
+      "title": "Selected Projects",
+      "view_all": "View All →"
+    },
+    "work1": {
+      "title": "Brand Identity for Flora",
+      "desc": "A complete visual identity system for a luxury floral brand, combining elegance with modern minimalism.",
+      "tag1": "Brand Design",
+      "tag2": "Visual Identity"
+    },
+    "work2": {
+      "title": "Digital Experience Platform",
+      "desc": "An immersive web platform for a tech startup, featuring interactive data visualizations and fluid animations.",
+      "tag1": "Web Design",
+      "tag2": "Development"
+    },
+    "work3": {
+      "title": "Art Direction & Campaign",
+      "desc": "Creative direction for a fashion editorial campaign, blending cinematic photography with bold typographic design.",
+      "tag1": "Art Direction",
+      "tag2": "Photography"
+    },
+    "about": {
+      "title": "About Me",
+      "p1": "I'm a creative developer and designer based in Shanghai, dedicated to creating beautiful, functional digital experiences that leave lasting impressions.",
+      "p2": "With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology to deliver solutions that truly resonate.",
+      "stat1": {
+        "number": "5+",
+        "label": "Years Experience"
+      },
+      "stat2": {
+        "number": "50+",
+        "label": "Projects Done"
+      },
+      "stat3": {
+        "number": "30+",
+        "label": "Happy Clients"
+      },
+      "img_alt": "Yorlyn Portrait"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "Email",
+      "copyright": "© 2026 Yorlyn. All rights reserved."
     }
   },
   "portfolio": {
-    "page_label": "Arbeit",
-    "page_title": "Portfolio",
-    "subtitle": "Ausgewählte Projekte und Fallstudien.",
-    "start_project": "Projekt starten",
-    "section_title": "Highlights",
-    "projects_title": "Meine Projekte",
-    "intro": "Nachfolgend sind einige Projekte aufgeführt, an denen ich beteiligt war, die Webentwicklung, UI-Design, Markenvisuals und kreative Experimente abdecken. Jedes Projekt repräsentiert eine Reise der Erkundung und des Lernens. Klicke auf eine Arbeit, um Details anzusehen, Kommentare zu hinterlassen und zu liken.",
-    "loading": "Arbeiten werden geladen..."
-  },
-  "contact": {
-    "page_label": "Kontakt",
-    "page_title": "Kontakt",
-    "subtitle": "Hast du ein Projekt im Kopf? Lass uns etwas gemeinsam schaffen.",
-    "view_portfolio": "Portfolio ansehen",
-    "section_title": "Kontaktinformationen",
-    "form_title": "Lass uns zusammenarbeiten",
-    "intro": "Ob es sich um ein Designprojekt, eine Entwicklungszusammenarbeit handelt, oder du einfach kreative Ideen austauschen möchtest, ich freue mich über deine Nachricht. Fülle das untenstehende Formular aus, oder kontaktiere mich direkt per E-Mail/Soziale Medien.",
-    "name": "Name",
-    "name_placeholder": "Dein Name",
-    "email": "E-Mail",
-    "email_placeholder": "deine@email.com",
-    "subject": "Betreff",
-    "subject_placeholder": "Projektanfrage / Zusammenarbeit / Hallo",
-    "message": "Nachricht",
-    "message_placeholder": "Erzähle mir von deinem Projekt...",
-    "send": "Nachricht senden",
-    "email_label": "E-Mail",
-    "location_label": "Standort",
-    "location": "Shanghai, China"
-  },
-  "work_detail": {
-    "title": "Arbeitsdetail",
-    "loading": "Wird geladen...",
-    "like": "Gefällt mir",
-    "back": "← Zurück zum Portfolio",
-    "comments": "Kommentare",
-    "comment_success": "Kommentar eingereicht! Er wird nach Admin-Genehmigung angezeigt.",
-    "comment_pending": "Wird gesendet...",
-    "name_placeholder": "Dein Name",
-    "email_placeholder": "E-Mail (nicht öffentlich)",
-    "content_placeholder": "Schreibe deinen Kommentar...",
-    "submit": "Absenden",
-    "no_comments": "Noch keine Kommentare. Sei der Erste, der kommentiert!",
-    "not_found": "Arbeit nicht gefunden",
-    "go_portfolio": "Bitte wähle eine Arbeit von der Portfolio-Seite aus, um Details anzusehen."
-  },
-  "admin": {
-    "title": "Admin-Dashboard",
-    "brand": "Yorlyn Admin",
-    "dashboard": "Dashboard",
-    "logout": "Abmelden",
-    "overview": "Übersicht",
-    "works": "Arbeiten",
-    "comments": "Kommentare",
-    "views": "Seitenaufrufe",
-    "password": "Passwort ändern",
-    "navigation": "Navigation",
-    "logs": "Protokollverwaltung",
-    "add_log": "Protokoll Hinzufügen",
-    "edit_log": "Protokoll Bearbeiten",
-    "save_log": "Protokoll Speichern",
-    "log_date": "Datum",
-    "log_title": "Titel",
-    "log_content": "Inhalt",
-    "log_media": "Medienlinks",
-    "log_status": "Status",
-    "add_work": "Arbeit hinzufügen",
-    "edit_work": "Arbeit bearbeiten",
-    "save_work": "Arbeit speichern",
-    "media": "Mediendatei",
-    "media_tip": "Unterstützt JPG, PNG, GIF, MP4, WebM, etc. · Max 300MB",
-    "or_url": "Oder URL eingeben",
-    "category": "Kategorie",
-    "tags": "Tags (kommagetrennt)",
-    "order": "Reihenfolge",
-    "recent_comments": "Neueste Kommentare",
-    "user": "Benutzer",
-    "work": "Arbeit",
-    "content": "Inhalt",
-    "status": "Status",
-    "action": "Aktion",
-    "approved": "Genehmigt",
-    "pending": "Ausstehend",
-    "approve_btn": "Genehmigen",
-    "delete_btn": "Löschen",
-    "page": "Seite",
-    "time": "Zeit",
-    "new_password": "Neues Passwort",
-    "password_min": "Mindestens 6 Zeichen",
-    "confirm_password": "Neues Passwort bestätigen",
-    "save_password": "Neues Passwort speichern",
-    "add_nav": "Navigationspunkt hinzufügen",
-    "edit_nav": "Navigationspunkt bearbeiten",
-    "display_text": "Anzeigetext",
-    "link_url": "Link-URL",
-    "show_nav": "In Navigation anzeigen",
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "text": "Text",
-    "link": "Link",
-    "show": "Anzeigen",
-    "hide": "Ausblenden",
-    "stats": {
-      "total_views": "Gesamtaufrufe",
-      "today_views": "Heutige Aufrufe",
-      "month_views": "30-Tage-Aufrufe",
-      "total_likes": "Gesamt Likes",
-      "total_comments": "Gesamtkommentare",
-      "pending_comments": "Ausstehende Kommentare",
-      "total_works": "Gesamtarbeiten"
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "header": {
+      "label": "Portfolio",
+      "title": "Selected Works",
+      "desc": "A collection of projects spanning brand identity, digital experiences, and creative campaigns."
+    },
+    "work1": {
+      "title": "Brand Identity for Flora",
+      "desc": "Luxury floral brand visual identity",
+      "tag1": "Brand Design",
+      "tag2": "Visual Identity"
+    },
+    "work2": {
+      "title": "Digital Experience Platform",
+      "desc": "Tech startup web platform",
+      "tag1": "Web Design",
+      "tag2": "Development"
+    },
+    "work3": {
+      "title": "Art Direction & Campaign",
+      "desc": "Fashion editorial campaign",
+      "tag1": "Art Direction",
+      "tag2": "Photography"
+    },
+    "work4": {
+      "title": "E-Commerce Redesign",
+      "desc": "Lifestyle platform UX overhaul",
+      "tag1": "UX Design",
+      "tag2": "E-Commerce"
+    },
+    "work5": {
+      "title": "Mobile App Design",
+      "desc": "Health & wellness application",
+      "tag1": "Mobile App",
+      "tag2": "UI Design"
+    },
+    "work6": {
+      "title": "Motion & Animation",
+      "desc": "Dynamic motion graphics",
+      "tag1": "Motion",
+      "tag2": "Animation"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "Email",
+      "copyright": "© 2026 Yorlyn. All rights reserved."
     }
   },
-  "admin_login": {
-    "title": "Admin-Dashboard",
-    "subtitle": "Bitte gib die Admin-Anmeldedaten ein",
-    "email": "E-Mail",
-    "password": "Passwort",
-    "login": "Anmelden",
-    "first_use": "Erstmalig? Bitte erstelle einen Benutzer in der Supabase-Konsole, oder verwende SQL, um ein Standard-Admin-Konto zu erstellen."
+  "contact": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "title": "Contact",
+    "header": {
+      "label": "Contact",
+      "title": "Let's Talk",
+      "desc": "Have a project in mind? I'd love to hear about it. Let's create something amazing together."
+    },
+    "info": {
+      "title": "Start a Project",
+      "p1": "I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.",
+      "email": "Email",
+      "email_value": "hello@yorlyn.com",
+      "github": "GitHub",
+      "github_value": "github.com/yorlyn",
+      "twitter": "Twitter",
+      "twitter_value": "@yorlyn",
+      "dribbble": "Dribbble",
+      "dribbble_value": "dribbble.com/yorlyn"
+    },
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Your name",
+      "email": "Email",
+      "email_placeholder": "your@email.com",
+      "subject": "Subject",
+      "subject_placeholder": "Project inquiry",
+      "message": "Message",
+      "message_placeholder": "Tell me about your project...",
+      "submit": "Send Message"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "Email",
+      "copyright": "© 2026 Yorlyn. All rights reserved."
+    }
+  },
+  "about": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "header": {
+      "label": "About",
+      "title": "Thoughts & Moments",
+      "desc": "Personal reflections, design thoughts, and daily updates."
+    },
+    "bio": {
+      "title": "About Me",
+      "p1": "I'm a creative developer and designer based in Shanghai, focused on creating beautiful, functional digital experiences.",
+      "p2": "With expertise in brand design, UI/UX, and web development, I bridge the gap between aesthetics and technology.",
+      "p3": "I believe good design is not just about appearance, but a way of thinking that solves problems.",
+      "img_alt": "Yorlyn Portrait"
+    },
+    "stat1": {
+      "number": "5+",
+      "label": "Years Experience"
+    },
+    "stat2": {
+      "number": "50+",
+      "label": "Projects Done"
+    },
+    "stat3": {
+      "number": "30+",
+      "label": "Happy Clients"
+    },
+    "logs": {
+      "label": "Daily Log",
+      "title": "Latest Thoughts"
+    },
+    "log1": {
+      "date": "June 23, 2026",
+      "title": "Insights on AI",
+      "excerpt": "I feel that current AI still cannot achieve perfection in professional knowledge. It only knows the superficial...",
+      "tag": "#AI"
+    },
+    "log2": {
+      "date": "June 20, 2026",
+      "title": "Claude Code Degraded",
+      "excerpt": "Since Claude's Flabe 5 was restricted, all models feel degraded. A simple appearance modification command is a mess...",
+      "tag": "#Tech"
+    },
+    "log3": {
+      "date": "June 15, 2026",
+      "title": "My Website is Live",
+      "excerpt": "Thanks to the power of technology, I completed this website alone. From design to development, all by myself...",
+      "tag": "#Life"
+    },
+    "footer": {
+      "copyright": "© 2026 Yorlyn. All rights reserved."
+    }
   }
 }

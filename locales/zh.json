@@ -1,219 +1,227 @@
 {
-  "lang": "zh",
-  "site": {
-    "title": "Yorlyn — 创意开发者 & 设计师",
-    "brand": "yorlyn.com",
-    "copyright": "© 2026 Yorlyn. All rights reserved."
-  },
-  "nav": {
-    "home": "Home",
-    "about": "Daily Log",
-    "portfolio": "Portfolio",
-    "contact": "Contact"
-  },
-  "index": {
-    "hello": "Hello",
-    "hero_title": "I'm Yorlyn",
-    "hero_subtitle": "来自上海的创意开发者 & 设计师",
-    "hire_me": "Hire Me",
-    "intro": "我致力于创造能够启发人心的创新解决方案，在品牌、UI/UX 与 Web 开发之间架起桥梁，通过热情与专注的设计打造可用且精致的产品。每一天，我都在用代码和设计记录生活的痕迹。",
-    "view_portfolio": "View Portfolio",
-    "admin_dashboard": "⚙ 管理后台",
-    "latest_works": "最新作品",
-    "no_works": "暂无作品，请访问作品集页面。"
-  },
-  "about": {
-    "page_label": "日志",
-    "page_title": "每日日志",
-    "subtitle": "感言、图片与生活中的点滴。",
-    "see_work": "联系我",
-    "section_about": "个人简介",
-    "about_title": "设计与代码之间",
-    "about_text": "我是一名热爱创造的开发者与设计师，专注于 Web 前端开发、UI/UX 设计与品牌视觉。我相信好的设计不仅仅是外观，更是解决问题的思维方式。每一行代码、每一个像素，都承载着对用户体验的尊重与追求。",
-    "section_work": "工作经历",
-    "job1_title": "2022 — 至今 · 自由职业设计师 & 开发者",
-    "job1_desc": "为多个品牌和个人项目提供设计、开发与咨询服务。",
-    "job2_title": "2020 — 2022 · 互联网公司 · 前端工程师",
-    "job2_desc": "负责产品前端架构、组件库设计与用户体验优化。",
-    "section_skills": "技能栈",
-    "skills_design": "设计",
-    "skills_design_list": "Figma, Sketch, Adobe Illustrator, Photoshop",
-    "skills_frontend": "前端",
-    "skills_frontend_list": "HTML/CSS, JavaScript, React, Vue, Next.js, Three.js",
-    "skills_tools": "工具",
-    "skills_tools_list": "Git, VS Code, Webpack, Vite, Tailwind CSS",
-    "skills_other": "其他",
-    "skills_other_list": "Node.js, Python, Supabase, Vercel",
-    "section_edu": "教育背景",
-    "edu_title": "2016 — 2020 · 大学 · 计算机科学与技术",
-    "edu_desc": "主修软件工程，辅修视觉设计。在校期间参与多个开源项目。",
-    "log1_title": "新的开始",
-    "log1_text": "今天重新设计了个人网站，把关于页面的内容移到了联系页面，这里变成了我的每日日志。我想用更简单的方式记录日常 — 一些随想、随手拍的照片、或者看到的好东西。希望这个角落能留住时间的痕迹。",
-    "log1_tag1": "#日常",
-    "log1_tag2": "#设计",
-    "log2_title": "关于极简",
-    "log2_text": "最近越来越喜欢极简的设计。不是空白，而是恰到好处的留白。每一个元素都有它存在的理由，不多也不少。在设计中做减法，往往比做加法更难。要敢于删掉那些\"看起来不错但没什么用\"的东西。",
-    "log2_tag1": "#随想",
-    "log2_tag2": "#极简",
-    "log3_title": "雨天的上海",
-    "log3_text": "连续下了三天雨。雨中的城市有一种特别的氛围，灰色的天空反而让街道上的灯光更加温暖。路过一家咖啡馆，透过玻璃窗看到里面昏黄的灯光和读书的人，那一刻觉得生活很美好。",
-    "log3_tag1": "#上海",
-    "log3_tag2": "#雨天",
-    "log3_tag3": "#摄影",
-    "log4_title": "一段短片",
-    "log4_text": "用 Three.js 做的一个视觉实验。关于光影、时间和流动的概念。虽然只是几行代码，但看到它动起来的时候，还是会有那种创造的满足感。",
-    "log4_tag1": "#Three.js",
-    "log4_tag2": "#视觉实验",
-    "log4_tag3": "#代码",
-    "login": "登录",
-    "logout": "退出",
-    "comments": "留言",
-    "submit_comment": "发送留言",
-    "auth_title": "用户登录",
-    "login_tab": "登录",
-    "register_tab": "注册",
-    "email": "邮箱",
-    "password": "密码",
-    "login_btn": "登录",
-    "register_btn": "注册",
-    "no_comments": "暂无留言",
-    "comment_success": "留言已提交，审核后显示！",
-    "log_example": {
-      "title": "示例日志",
-      "content": "这是示例日志内容。添加日志时填写 i18n_key 后，可在此处添加多语言翻译。"
+  "home": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "首页",
+      "about": "关于",
+      "portfolio": "作品集",
+      "contact": "联系"
     },
-    "log_launch": {
-      "title": "个人网站Yorlyn今天上线",
-      "content": "这是我的第一篇日志，感谢AI，感谢技术的力量。从今天起，这个小小的角落会记录我的日常、思考和创作。"
+    "hero": {
+      "label": "创意开发者 & 设计师",
+      "title": "Yorlyn",
+      "subtitle": "用热情与精准打造数字体验",
+      "desc": "我设计和构建融合美学与功能的数字产品。每个像素都重要，每次交互都珍贵。",
+      "cta": "查看我的作品 →",
+      "scroll": "滚动"
     },
-    "log_claude_degrade": {
-      "title": "Claude code降智了",
-      "content": "自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了，有种被降智的感觉，一个简单的外观修改命令，都做的一塌糊涂。对比升级后的Codex，明显会顺很多，但是就是老提示额度不够用。"
+    "works": {
+      "label": "精选作品",
+      "title": "Selected Projects",
+      "view_all": "查看全部 →"
     },
-    "log_ai_insight": {
-      "title": "对AI的感悟",
-      "content": "感觉现在的ai，对于专业领域的一些知识，还是没办法达到完美的程度，只是懂得一些专业领域的皮毛而已，并没有说非常精通。就拿我现在从事的印刷行业来说，我要设计一款印刷行业专业软件，但仅得到空壳，尚未达到工业级输出的程度。所以说现在AI还是刚刚起步。那怎样才能触及专业领域最核心的东西？我觉得可能还要一个很长的过程，需要各个专业领域的人员长期使用ai软件，才能获得真正的专业数据。"
+    "work1": {
+      "title": "Flora 品牌视觉",
+      "desc": "为高端花艺品牌打造完整的视觉识别系统，将优雅与现代极简主义完美融合。",
+      "tag1": "品牌设计",
+      "tag2": "视觉识别"
+    },
+    "work2": {
+      "title": "数字体验平台",
+      "desc": "为科技初创公司设计的沉浸式网页平台， featuring 交互式数据可视化和流畅动画。",
+      "tag1": "网页设计",
+      "tag2": "开发"
+    },
+    "work3": {
+      "title": "艺术指导 & 广告",
+      "desc": "时尚编辑广告活动的创意指导，将电影级摄影与大胆的排版设计相结合。",
+      "tag1": "艺术指导",
+      "tag2": "摄影"
+    },
+    "about": {
+      "title": "关于我",
+      "p1": "我是来自上海的创意开发者与设计师，致力于创造美丽、实用的数字体验，留下持久印象。",
+      "p2": "在品牌设计、UI/UX和网页开发方面拥有专业知识，我 bridging aesthetics 与 technology 之间的 gap，交付真正 resonating 的解决方案。",
+      "stat1": {
+        "number": "5+",
+        "label": "年经验"
+      },
+      "stat2": {
+        "number": "50+",
+        "label": "完成项目"
+      },
+      "stat3": {
+        "number": "30+",
+        "label": "满意客户"
+      },
+      "img_alt": "Yorlyn 肖像"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "邮件",
+      "copyright": "© 2026 Yorlyn. 保留所有权利。"
     }
   },
   "portfolio": {
-    "page_label": "Work",
-    "page_title": "Portfolio",
-    "subtitle": "Selected projects and case studies.",
-    "start_project": "Start a Project",
-    "section_title": "精选作品",
-    "projects_title": "我的项目",
-    "intro": "以下是我参与的一些项目，涵盖 Web 开发、UI 设计、品牌视觉与创意实验。每一个项目都代表着一段探索与学习的旅程。点击作品可以查看详情、留言和点赞。",
-    "loading": "加载作品中..."
-  },
-  "contact": {
-    "page_label": "Contact",
-    "page_title": "Get in Touch",
-    "subtitle": "Have a project in mind? Let's create something together.",
-    "view_portfolio": "View Portfolio",
-    "section_title": "联系方式",
-    "form_title": "开始合作",
-    "intro": "无论是设计项目、开发合作，还是单纯想交流创意，我都很乐意收到你的来信。填写下方表单，或直接通过邮件/社交媒体联系。",
-    "name": "Name",
-    "name_placeholder": "Your name",
-    "email": "Email",
-    "email_placeholder": "your@email.com",
-    "subject": "Subject",
-    "subject_placeholder": "Project inquiry / Collaboration / Hello",
-    "message": "Message",
-    "message_placeholder": "Tell me about your project...",
-    "send": "Send Message",
-    "email_label": "Email",
-    "location_label": "Location",
-    "location": "Shanghai, China"
-  },
-  "work_detail": {
-    "title": "作品详情",
-    "loading": "加载中...",
-    "like": "点赞",
-    "back": "← 返回作品集",
-    "comments": "留言板",
-    "comment_success": "留言提交成功！管理员审核通过后将显示。",
-    "comment_pending": "正在提交...",
-    "name_placeholder": "你的名字",
-    "email_placeholder": "邮箱（不公开）",
-    "content_placeholder": "写下你的留言...",
-    "submit": "提交留言",
-    "no_comments": "暂无留言，成为第一个留言的人吧！",
-    "not_found": "作品未找到",
-    "go_portfolio": "请从作品集页面选择一个作品查看详情。"
-  },
-  "admin": {
-    "title": "Admin Dashboard",
-    "brand": "Yorlyn 管理后台",
-    "dashboard": "Dashboard",
-    "logout": "退出登录",
-    "overview": "数据概览",
-    "works": "作品管理",
-    "comments": "留言管理",
-    "views": "浏览记录",
-    "password": "修改密码",
-    "navigation": "导航菜单",
-    "logs": "日志管理",
-    "add_log": "添加日志",
-    "edit_log": "编辑日志",
-    "save_log": "保存日志",
-    "log_date": "日期",
-    "log_title": "标题",
-    "log_content": "内容",
-    "log_media": "媒体链接",
-    "log_status": "状态",
-    "add_work": "添加作品",
-    "edit_work": "编辑作品",
-    "save_work": "保存作品",
-    "media": "媒体文件",
-    "media_tip": "支持 JPG, PNG, GIF, MP4, WebM 等格式 · 最大 300MB",
-    "or_url": "或输入 URL",
-    "category": "分类",
-    "tags": "标签 (逗号分隔)",
-    "order": "排序",
-    "recent_comments": "最近留言",
-    "user": "用户",
-    "work": "作品",
-    "content": "内容",
-    "status": "状态",
-    "action": "操作",
-    "approved": "已通过",
-    "pending": "待审核",
-    "approve_btn": "通过",
-    "delete_btn": "删除",
-    "page": "页面",
-    "time": "时间",
-    "new_password": "新密码",
-    "password_min": "至少 6 个字符",
-    "confirm_password": "确认新密码",
-    "save_password": "保存新密码",
-    "add_nav": "添加导航项",
-    "edit_nav": "编辑导航项",
-    "display_text": "显示文字",
-    "link_url": "链接地址",
-    "show_nav": "显示在导航中",
-    "save": "保存",
-    "cancel": "取消",
-    "text": "文字",
-    "link": "链接",
-    "show": "显示",
-    "hide": "隐藏",
-    "stats": {
-      "total_views": "总浏览量",
-      "today_views": "今日浏览",
-      "month_views": "30天浏览",
-      "total_likes": "总点赞",
-      "total_comments": "总留言",
-      "pending_comments": "待审核留言",
-      "total_works": "作品数量"
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "首页",
+      "about": "关于",
+      "portfolio": "作品集",
+      "contact": "联系"
+    },
+    "header": {
+      "label": "作品集",
+      "title": "Selected Works",
+      "desc": "涵盖品牌识别、数字体验和创意活动的项目精选。"
+    },
+    "work1": {
+      "title": "Flora 品牌视觉",
+      "desc": "高端花艺品牌视觉识别",
+      "tag1": "品牌设计",
+      "tag2": "视觉识别"
+    },
+    "work2": {
+      "title": "数字体验平台",
+      "desc": "科技初创公司网页平台",
+      "tag1": "网页设计",
+      "tag2": "开发"
+    },
+    "work3": {
+      "title": "艺术指导 & 广告",
+      "desc": "时尚编辑广告活动",
+      "tag1": "艺术指导",
+      "tag2": "摄影"
+    },
+    "work4": {
+      "title": "电商重新设计",
+      "desc": "生活方式平台UX全面改造",
+      "tag1": "UX设计",
+      "tag2": "电商"
+    },
+    "work5": {
+      "title": "移动应用设计",
+      "desc": "健康与养生应用",
+      "tag1": "移动应用",
+      "tag2": "UI设计"
+    },
+    "work6": {
+      "title": "动态与动画",
+      "desc": "动态图形与微交互",
+      "tag1": "动态",
+      "tag2": "动画"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "邮件",
+      "copyright": "© 2026 Yorlyn. 保留所有权利。"
     }
   },
-  "admin_login": {
-    "title": "管理后台",
-    "subtitle": "请输入管理员账号密码登录",
-    "email": "Email",
-    "password": "Password",
-    "login": "登录",
-    "first_use": "首次使用？请先在 Supabase 控制台创建用户，或使用 SQL 创建默认管理员账号。"
+  "contact": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "首页",
+      "about": "关于",
+      "portfolio": "作品集",
+      "contact": "联系"
+    },
+    "title": "联系",
+    "header": {
+      "label": "联系",
+      "title": "Let's Talk",
+      "desc": "有项目想法？我很想听听。让我们一起创造惊人的东西。"
+    },
+    "info": {
+      "title": "开始项目",
+      "p1": "我总是乐于讨论新项目、创意想法或成为您愿景的一部分的机会。",
+      "email": "邮箱",
+      "email_value": "hello@yorlyn.com",
+      "github": "GitHub",
+      "github_value": "github.com/yorlyn",
+      "twitter": "Twitter",
+      "twitter_value": "@yorlyn",
+      "dribbble": "Dribbble",
+      "dribbble_value": "dribbble.com/yorlyn"
+    },
+    "form": {
+      "name": "姓名",
+      "name_placeholder": "您的姓名",
+      "email": "邮箱",
+      "email_placeholder": "your@email.com",
+      "subject": "主题",
+      "subject_placeholder": "项目咨询",
+      "message": "留言",
+      "message_placeholder": "告诉我关于您的项目...",
+      "submit": "发送消息"
+    },
+    "footer": {
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "dribbble": "Dribbble",
+      "email": "邮件",
+      "copyright": "© 2026 Yorlyn. 保留所有权利。"
+    }
+  },
+  "about": {
+    "nav": {
+      "brand": "Yorlyn",
+      "home": "首页",
+      "about": "关于",
+      "portfolio": "作品集",
+      "contact": "联系"
+    },
+    "header": {
+      "label": "关于",
+      "title": "Thoughts & Moments",
+      "desc": "个人反思、设计思考和日常更新。"
+    },
+    "bio": {
+      "title": "关于我",
+      "p1": "我是来自上海的创意开发者与设计师，专注于创造美丽、实用的数字体验。",
+      "p2": "在品牌设计、UI/UX和网页开发方面拥有专业知识，我 bridging aesthetics 与 technology 之间的 gap。",
+      "p3": "我相信好的设计不仅仅是外观，更是解决问题的思维方式。",
+      "img_alt": "Yorlyn 肖像"
+    },
+    "stat1": {
+      "number": "5+",
+      "label": "年经验"
+    },
+    "stat2": {
+      "number": "50+",
+      "label": "完成项目"
+    },
+    "stat3": {
+      "number": "30+",
+      "label": "满意客户"
+    },
+    "logs": {
+      "label": "每日日志",
+      "title": "Latest Thoughts"
+    },
+    "log1": {
+      "date": "2026年6月23日",
+      "title": "对AI的感悟",
+      "excerpt": "感觉现在的AI，对于专业领域的一些知识，还是没办法达到完美的程度...",
+      "tag": "#AI"
+    },
+    "log2": {
+      "date": "2026年6月20日",
+      "title": "Claude code降智了",
+      "excerpt": "自从Claude的Flabe 5被限制以后，感觉所有的模型都不行了...",
+      "tag": "#Tech"
+    },
+    "log3": {
+      "date": "2026年6月15日",
+      "title": "我的网站正式上线",
+      "excerpt": "感谢科技的力量，让我独自完成这个网站。从设计到开发，全程一个人搞定...",
+      "tag": "#Life"
+    },
+    "footer": {
+      "copyright": "© 2026 Yorlyn. 保留所有权利。"
+    }
   }
 }
