@@ -1,0 +1,15 @@
+{
+  "trial": {
+    "status": "available",
+    "url": "https://trial.yorlyn.com/"
+  },
+  "formal": {
+    "webUrl": "https://app.yorlyn.com/",
+    "desktop": { "status": "comingSoon", "installPageUrl": null },
+    "mobile": { "status": "comingSoon", "installPageUrl": null }
+  },
+  "forum": {
+    "connection": "disconnected",
+    "provider": null
+  }
+}
